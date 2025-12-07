@@ -3,7 +3,10 @@
  * 백엔드 API와 통신하는 모든 함수를 정의합니다.
  */
 
-const API_BASE_URL = 'http://localhost:8000/api';
+// 환경에 따라 API URL 자동 선택
+const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:8000/api'
+    : 'https://hidden-talent-api.onrender.com/api';
 
 // 토큰 저장/조회
 function getToken() {
