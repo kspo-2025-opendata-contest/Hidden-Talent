@@ -2006,8 +2006,8 @@
                     shuttle_run_20m
                 });
 
-                // 결과 표시
-                displayDiagnosisResult(response);
+                // 결과 표시 (지역 정보 포함)
+                displayDiagnosisResult(response, region_sido || '서울특별시', region_sigungu || '송파구');
             } catch (error) {
                 alert(`진단 실패: ${error.message}`);
             } finally {
@@ -2016,7 +2016,14 @@
             }
         }
 
-        function displayDiagnosisResult(result) {
+        // 마지막 진단 결과 저장 (프로그램 추천용)
+        let lastDiagnosisResult = null;
+        let lastDiagnosisRegion = { sido: '', sigungu: '' };
+
+        function displayDiagnosisResult(result, regionSido, regionSigungu) {
+            // 저장
+            lastDiagnosisResult = result;
+            lastDiagnosisRegion = { sido: regionSido, sigungu: regionSigungu };
             const resultContainer = document.querySelector('#tab-diagnosis .bg-slate-900.rounded-2xl');
             if (!resultContainer) return;
 
@@ -2130,18 +2137,147 @@
                     `;
                 }
 
-                // 다음 단계 안내
+                // 맞춤형 프로그램 추천 섹션
+                const topSport = topScores[0]?.sport || '';
+                const topSportKo = SPORT_NAMES_KO[topSport] || topSport;
                 html += `
                     <div class="mt-6 pt-4 border-t border-slate-700">
-                        <p class="text-slate-300 text-sm mb-3">추천 종목의 프로그램을 찾아보세요!</p>
-                        <button onclick="navigateTo('matching')" class="w-full bg-brand-primary text-brand-900 font-bold py-3 rounded-lg hover:bg-lime-400 transition">
-                            내 주변 프로그램 찾기
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h5 class="text-lg font-bold text-white">맞춤 프로그램 추천</h5>
+                                <p class="text-slate-400 text-xs">${regionSido} ${regionSigungu} 기준 ${topSportKo} 관련 프로그램</p>
+                            </div>
+                            <div class="flex items-center gap-1 text-brand-primary text-xs">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                                <span>내 지역</span>
+                            </div>
+                        </div>
+                        <div id="recommended-programs-container" class="space-y-3">
+                            <div class="text-center py-4">
+                                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-primary mx-auto"></div>
+                                <p class="text-slate-400 text-sm mt-2">프로그램 검색 중...</p>
+                            </div>
+                        </div>
+                        <button onclick="navigateTo('matching')" class="w-full mt-4 bg-slate-800 text-slate-300 font-bold py-3 rounded-lg hover:bg-slate-700 transition border border-slate-700">
+                            더 많은 프로그램 보기
                         </button>
                     </div>
                 `;
+
+                // 프로그램 추천 로드 (비동기)
+                setTimeout(() => loadRecommendedPrograms(regionSido, regionSigungu, topSport), 100);
             }
 
             resultContainer.innerHTML = html;
+        }
+
+        // 종목명을 프로그램 검색 키워드로 변환
+        const SPORT_SEARCH_KEYWORDS = {
+            'soccer': '축구',
+            'basketball': '농구',
+            'volleyball': '배구',
+            'sprint': '육상',
+            'judo': '유도',
+            'swimming': '수영',
+            'baseball': '야구',
+            'taekwondo': '태권도',
+            'para_swimming': '수영',
+            'para_athletics': '육상',
+            'boccia': '보치아',
+            'goalball': '골볼',
+            'sitting_volleyball': '배구',
+            'wheelchair_basketball': '농구',
+            'wheelchair_tennis': '테니스',
+            'para_table_tennis': '탁구'
+        };
+
+        async function loadRecommendedPrograms(regionSido, regionSigungu, sport) {
+            const container = document.getElementById('recommended-programs-container');
+            if (!container) return;
+
+            try {
+                const keyword = SPORT_SEARCH_KEYWORDS[sport] || '';
+
+                // 1차: 지역 + 종목으로 검색
+                let programs = await SoominjaeAPI.getPrograms({
+                    region_sido: regionSido,
+                    region_sigungu: regionSigungu,
+                    keyword: keyword,
+                    limit: 5
+                });
+
+                // 결과 없으면 지역만으로 검색
+                if (programs.items.length === 0) {
+                    programs = await SoominjaeAPI.getPrograms({
+                        region_sido: regionSido,
+                        keyword: keyword,
+                        limit: 5
+                    });
+                }
+
+                // 여전히 없으면 전국에서 종목으로 검색
+                if (programs.items.length === 0) {
+                    programs = await SoominjaeAPI.getPrograms({
+                        keyword: keyword,
+                        limit: 5
+                    });
+                }
+
+                if (programs.items.length === 0) {
+                    container.innerHTML = `
+                        <div class="text-center py-4">
+                            <p class="text-slate-400 text-sm">해당 지역에 관련 프로그램이 없습니다.</p>
+                            <p class="text-slate-500 text-xs mt-1">다른 지역의 프로그램을 확인해보세요.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                let html = '';
+                programs.items.forEach((program, idx) => {
+                    const distance = (Math.random() * 5 + 0.5).toFixed(1); // 임시 거리
+                    html += `
+                        <div class="bg-slate-800/70 rounded-xl p-4 border border-slate-700 hover:border-brand-primary/50 transition cursor-pointer" onclick="showProgramDetail(${program.id})">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <span class="bg-brand-primary/20 text-brand-primary text-xs px-2 py-0.5 rounded">${program.program_type || '스포츠'}</span>
+                                        ${idx === 0 ? '<span class="bg-yellow-500/20 text-yellow-400 text-xs px-2 py-0.5 rounded">추천</span>' : ''}
+                                    </div>
+                                    <h6 class="text-white font-bold text-sm mb-1">${program.program_name || '프로그램'}</h6>
+                                    <p class="text-slate-400 text-xs mb-2">${program.facility_name || ''}</p>
+                                    <div class="flex items-center gap-3 text-xs text-slate-500">
+                                        <span class="flex items-center gap-1">
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                            </svg>
+                                            ${program.region_sigungu || program.region_sido || ''}
+                                        </span>
+                                        <span>${program.target_group || '청소년'}</span>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-brand-primary font-bold text-sm">${program.price ? program.price.toLocaleString() + '원' : '무료'}</p>
+                                    <p class="text-slate-500 text-xs">${program.price_type || ''}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                container.innerHTML = html;
+
+            } catch (error) {
+                console.error('프로그램 로드 실패:', error);
+                container.innerHTML = `
+                    <div class="text-center py-4">
+                        <p class="text-slate-400 text-sm">프로그램을 불러오는데 실패했습니다.</p>
+                    </div>
+                `;
+            }
         }
 
         // --- 5. Load Programs (매칭 탭) ---
