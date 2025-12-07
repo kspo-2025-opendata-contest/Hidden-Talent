@@ -306,63 +306,305 @@
                 <div class="relative hidden lg:block perspective-1000 group">
                     <!-- Abstract Decorative Shapes behind -->
                     <div class="absolute inset-0 bg-gradient-to-tr from-brand-primary to-brand-secondary opacity-20 blur-2xl rounded-full transform group-hover:scale-105 transition-transform duration-700"></div>
-                    
-                    <!-- Main Card with Blob Effect -->
-                    <div class="blob-card-wrapper shadow-2xl transform group-hover:rotate-0 transition-all duration-700 ease-out max-w-md mx-auto">
-                        <!-- Animated Blobs -->
-                        <div class="blob-element"></div>
-                        <div class="blob-element blob-element-2"></div>
 
-                        <!-- Background -->
-                        <div class="blob-card-bg"></div>
+                    <!-- Card Carousel Container -->
+                    <div class="relative" id="hero-card-carousel">
+                        <!-- Card Indicators -->
+                        <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2 z-20">
+                            <button onclick="showHeroCard(0)" class="hero-card-dot w-2 h-2 rounded-full bg-brand-primary transition-all" data-index="0"></button>
+                            <button onclick="showHeroCard(1)" class="hero-card-dot w-2 h-2 rounded-full bg-slate-600 transition-all" data-index="1"></button>
+                            <button onclick="showHeroCard(2)" class="hero-card-dot w-2 h-2 rounded-full bg-slate-600 transition-all" data-index="2"></button>
+                            <button onclick="showHeroCard(3)" class="hero-card-dot w-2 h-2 rounded-full bg-slate-600 transition-all" data-index="3"></button>
+                        </div>
 
-                        <!-- Card Content -->
-                        <div class="blob-card-content">
-                            <div class="flex justify-between items-center mb-6">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-brand-primary to-brand-secondary flex items-center justify-center text-brand-900 font-bold text-lg border-2 border-brand-primary">
-                                        <span>김</span>
-                                    </div>
-                                    <div>
-                                        <h3 class="text-white font-bold">김민수 (14세)</h3>
-                                        <p class="text-xs text-slate-400">서울 송파중학교 1학년</p>
-                                    </div>
-                                </div>
-                                <span class="bg-brand-primary/20 text-brand-primary text-xs font-bold px-2 py-1 rounded">진단 완료</span>
-                            </div>
+                        <!-- Card 1: 일반 학생 (서울 송파구) -->
+                        <div class="hero-card-item blob-card-wrapper shadow-2xl transform transition-all duration-700 ease-out max-w-md mx-auto" data-card="0">
+                            <!-- Animated Blobs -->
+                            <div class="blob-element"></div>
+                            <div class="blob-element blob-element-2"></div>
 
-                            <div class="space-y-4">
-                                <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-700">
-                                    <div class="flex justify-between items-end mb-2">
-                                        <span class="text-slate-300 text-sm">추천 종목 1순위</span>
-                                        <span class="text-brand-primary font-bold text-xl">단거리 육상</span>
-                                    </div>
-                                    <div class="w-full bg-slate-700 h-2 rounded-full overflow-hidden">
-                                        <div class="bg-brand-primary h-full rounded-full" style="width: 92%"></div>
-                                    </div>
-                                    <div class="flex justify-between mt-1">
-                                        <span class="text-xs text-slate-500">전국 상위</span>
-                                        <span class="text-xs text-white font-bold">5% (92점)</span>
-                                    </div>
-                                </div>
+                            <!-- Background -->
+                            <div class="blob-card-bg"></div>
 
-                                <div class="grid grid-cols-2 gap-3">
-                                    <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-700 text-center">
-                                        <div class="text-xs text-slate-400 mb-1">순발력</div>
-                                        <div class="text-brand-secondary font-display text-2xl font-bold">A+</div>
-                                    </div>
-                                    <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-700 text-center">
-                                        <div class="text-xs text-slate-400 mb-1">근지구력</div>
-                                        <div class="text-slate-200 font-display text-2xl font-bold">B+</div>
-                                    </div>
-                                </div>
-
-                                <div class="mt-4 pt-4 border-t border-slate-700">
-                                    <div class="flex items-center gap-3 text-sm text-slate-300">
-                                        <div class="w-8 h-8 rounded bg-slate-700 flex items-center justify-center">📍</div>
+                            <!-- Card Content -->
+                            <div class="blob-card-content">
+                                <div class="flex justify-between items-center mb-6">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-brand-primary to-brand-secondary flex items-center justify-center text-brand-900 font-bold text-lg border-2 border-brand-primary">
+                                            <span>김</span>
+                                        </div>
                                         <div>
-                                            <p class="font-bold text-white">송파구 육상 영재단</p>
-                                            <p class="text-xs text-slate-500">매칭 확률 높음 · 1.2km 거리</p>
+                                            <h3 class="text-white font-bold">김민수 (14세)</h3>
+                                            <p class="text-xs text-slate-400">서울 송파구 중학교 1학년</p>
+                                        </div>
+                                    </div>
+                                    <span class="bg-yellow-500/20 text-yellow-400 text-xs font-bold px-2 py-1 rounded">최우수</span>
+                                </div>
+
+                                <div class="space-y-4">
+                                    <div class="bg-slate-900/50 p-4 rounded-xl border border-yellow-500/30">
+                                        <div class="flex justify-between items-end mb-2">
+                                            <span class="text-slate-300 text-sm">1순위 추천 종목</span>
+                                            <span class="text-yellow-400 font-bold text-xl">단거리 육상</span>
+                                        </div>
+                                        <div class="w-full bg-slate-700 h-2 rounded-full overflow-hidden">
+                                            <div class="bg-gradient-to-r from-yellow-400 to-brand-primary h-full rounded-full" style="width: 92%"></div>
+                                        </div>
+                                        <div class="flex justify-between mt-1">
+                                            <span class="text-xs text-slate-500">등급</span>
+                                            <span class="text-xs text-yellow-400 font-bold">최우수 (상위 5%) 92점</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid grid-cols-3 gap-2">
+                                        <div class="bg-slate-900/50 p-2 rounded-lg border border-slate-700 text-center">
+                                            <div class="text-xs text-slate-400 mb-1">2순위</div>
+                                            <div class="text-brand-primary font-bold text-sm">배구</div>
+                                            <div class="text-xs text-slate-500">87점</div>
+                                        </div>
+                                        <div class="bg-slate-900/50 p-2 rounded-lg border border-slate-700 text-center">
+                                            <div class="text-xs text-slate-400 mb-1">3순위</div>
+                                            <div class="text-brand-secondary font-bold text-sm">농구</div>
+                                            <div class="text-xs text-slate-500">82점</div>
+                                        </div>
+                                        <div class="bg-slate-900/50 p-2 rounded-lg border border-slate-700 text-center">
+                                            <div class="text-xs text-slate-400 mb-1">4순위</div>
+                                            <div class="text-slate-300 font-bold text-sm">축구</div>
+                                            <div class="text-xs text-slate-500">78점</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-4 pt-4 border-t border-slate-700">
+                                        <p class="text-xs text-slate-400 mb-2">서울특별시 송파구 맞춤 추천 프로그램</p>
+                                        <div class="flex items-center gap-3 text-sm text-slate-300">
+                                            <div class="w-8 h-8 rounded bg-brand-primary/20 flex items-center justify-center">
+                                                <svg class="w-4 h-4 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
+                                            </div>
+                                            <div>
+                                                <p class="font-bold text-white">송파구 청소년 육상클럽</p>
+                                                <p class="text-xs text-green-400">내 지역 프로그램</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: 장애 학생 (시각장애) -->
+                        <div class="hero-card-item blob-card-wrapper shadow-2xl transform transition-all duration-700 ease-out max-w-md mx-auto absolute top-0 left-0 right-0 opacity-0 pointer-events-none" data-card="1">
+                            <!-- Animated Blobs -->
+                            <div class="blob-element" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6);"></div>
+                            <div class="blob-element blob-element-2" style="background: linear-gradient(135deg, #8b5cf6, #06b6d4);"></div>
+
+                            <!-- Background -->
+                            <div class="blob-card-bg"></div>
+
+                            <!-- Card Content -->
+                            <div class="blob-card-content">
+                                <div class="flex justify-between items-center mb-6">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-bold text-lg border-2 border-blue-400">
+                                            <span>이</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-white font-bold">이서연 (16세)</h3>
+                                            <p class="text-xs text-slate-400">경기 수원시 고등학교 1학년</p>
+                                            <span class="inline-block mt-1 bg-blue-500/20 text-blue-400 text-xs px-2 py-0.5 rounded">시각장애</span>
+                                        </div>
+                                    </div>
+                                    <span class="bg-yellow-500/20 text-yellow-400 text-xs font-bold px-2 py-1 rounded">최우수</span>
+                                </div>
+
+                                <div class="space-y-4">
+                                    <div class="bg-slate-900/50 p-4 rounded-xl border border-blue-500/30">
+                                        <div class="flex justify-between items-end mb-2">
+                                            <span class="text-slate-300 text-sm">1순위 추천 종목</span>
+                                            <span class="text-blue-400 font-bold text-xl">골볼</span>
+                                        </div>
+                                        <div class="w-full bg-slate-700 h-2 rounded-full overflow-hidden">
+                                            <div class="bg-gradient-to-r from-blue-400 to-purple-500 h-full rounded-full" style="width: 95%"></div>
+                                        </div>
+                                        <div class="flex justify-between mt-1">
+                                            <span class="text-xs text-slate-500">등급</span>
+                                            <span class="text-xs text-yellow-400 font-bold">최우수 (상위 3%) 95점</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid grid-cols-3 gap-2">
+                                        <div class="bg-slate-900/50 p-2 rounded-lg border border-slate-700 text-center">
+                                            <div class="text-xs text-slate-400 mb-1">2순위</div>
+                                            <div class="text-blue-400 font-bold text-sm">파라수영</div>
+                                            <div class="text-xs text-slate-500">89점</div>
+                                        </div>
+                                        <div class="bg-slate-900/50 p-2 rounded-lg border border-slate-700 text-center">
+                                            <div class="text-xs text-slate-400 mb-1">3순위</div>
+                                            <div class="text-purple-400 font-bold text-sm">파라육상</div>
+                                            <div class="text-xs text-slate-500">84점</div>
+                                        </div>
+                                        <div class="bg-slate-900/50 p-2 rounded-lg border border-slate-700 text-center">
+                                            <div class="text-xs text-slate-400 mb-1">4순위</div>
+                                            <div class="text-cyan-400 font-bold text-sm">유도</div>
+                                            <div class="text-xs text-slate-500">79점</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-4 pt-4 border-t border-slate-700">
+                                        <p class="text-xs text-slate-400 mb-2">경기도 수원시 맞춤 추천 프로그램</p>
+                                        <div class="flex items-center gap-3 text-sm text-slate-300">
+                                            <div class="w-8 h-8 rounded bg-blue-500/20 flex items-center justify-center">
+                                                <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
+                                            </div>
+                                            <div>
+                                                <p class="font-bold text-white">수원시 장애인체육회 골볼팀</p>
+                                                <p class="text-xs text-blue-400">장애인 스포츠 전문 프로그램</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: 일반 학생 (부산 해운대구) -->
+                        <div class="hero-card-item blob-card-wrapper shadow-2xl transform transition-all duration-700 ease-out max-w-md mx-auto absolute top-0 left-0 right-0 opacity-0 pointer-events-none" data-card="2">
+                            <!-- Animated Blobs -->
+                            <div class="blob-element" style="background: linear-gradient(135deg, #f97316, #eab308);"></div>
+                            <div class="blob-element blob-element-2" style="background: linear-gradient(135deg, #eab308, #84cc16);"></div>
+
+                            <!-- Background -->
+                            <div class="blob-card-bg"></div>
+
+                            <!-- Card Content -->
+                            <div class="blob-card-content">
+                                <div class="flex justify-between items-center mb-6">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-yellow-500 flex items-center justify-center text-white font-bold text-lg border-2 border-orange-400">
+                                            <span>박</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-white font-bold">박지훈 (12세)</h3>
+                                            <p class="text-xs text-slate-400">부산 해운대구 초등학교 5학년</p>
+                                        </div>
+                                    </div>
+                                    <span class="bg-green-500/20 text-green-400 text-xs font-bold px-2 py-1 rounded">우수</span>
+                                </div>
+
+                                <div class="space-y-4">
+                                    <div class="bg-slate-900/50 p-4 rounded-xl border border-green-500/30">
+                                        <div class="flex justify-between items-end mb-2">
+                                            <span class="text-slate-300 text-sm">1순위 추천 종목</span>
+                                            <span class="text-orange-400 font-bold text-xl">수영</span>
+                                        </div>
+                                        <div class="w-full bg-slate-700 h-2 rounded-full overflow-hidden">
+                                            <div class="bg-gradient-to-r from-orange-400 to-yellow-500 h-full rounded-full" style="width: 88%"></div>
+                                        </div>
+                                        <div class="flex justify-between mt-1">
+                                            <span class="text-xs text-slate-500">등급</span>
+                                            <span class="text-xs text-green-400 font-bold">우수 (상위 15%) 88점</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid grid-cols-3 gap-2">
+                                        <div class="bg-slate-900/50 p-2 rounded-lg border border-slate-700 text-center">
+                                            <div class="text-xs text-slate-400 mb-1">2순위</div>
+                                            <div class="text-orange-400 font-bold text-sm">체조</div>
+                                            <div class="text-xs text-slate-500">83점</div>
+                                        </div>
+                                        <div class="bg-slate-900/50 p-2 rounded-lg border border-slate-700 text-center">
+                                            <div class="text-xs text-slate-400 mb-1">3순위</div>
+                                            <div class="text-yellow-400 font-bold text-sm">배드민턴</div>
+                                            <div class="text-xs text-slate-500">79점</div>
+                                        </div>
+                                        <div class="bg-slate-900/50 p-2 rounded-lg border border-slate-700 text-center">
+                                            <div class="text-xs text-slate-400 mb-1">4순위</div>
+                                            <div class="text-slate-300 font-bold text-sm">탁구</div>
+                                            <div class="text-xs text-slate-500">75점</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-4 pt-4 border-t border-slate-700">
+                                        <p class="text-xs text-slate-400 mb-2">부산광역시 해운대구 맞춤 추천 프로그램</p>
+                                        <div class="flex items-center gap-3 text-sm text-slate-300">
+                                            <div class="w-8 h-8 rounded bg-orange-500/20 flex items-center justify-center">
+                                                <svg class="w-4 h-4 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
+                                            </div>
+                                            <div>
+                                                <p class="font-bold text-white">해운대 청소년 수영클럽</p>
+                                                <p class="text-xs text-green-400">내 지역 프로그램</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 4: 장애 학생 (지체장애) -->
+                        <div class="hero-card-item blob-card-wrapper shadow-2xl transform transition-all duration-700 ease-out max-w-md mx-auto absolute top-0 left-0 right-0 opacity-0 pointer-events-none" data-card="3">
+                            <!-- Animated Blobs -->
+                            <div class="blob-element" style="background: linear-gradient(135deg, #10b981, #14b8a6);"></div>
+                            <div class="blob-element blob-element-2" style="background: linear-gradient(135deg, #14b8a6, #06b6d4);"></div>
+
+                            <!-- Background -->
+                            <div class="blob-card-bg"></div>
+
+                            <!-- Card Content -->
+                            <div class="blob-card-content">
+                                <div class="flex justify-between items-center mb-6">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center text-white font-bold text-lg border-2 border-emerald-400">
+                                            <span>최</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-white font-bold">최준혁 (17세)</h3>
+                                            <p class="text-xs text-slate-400">대전 유성구 고등학교 2학년</p>
+                                            <span class="inline-block mt-1 bg-emerald-500/20 text-emerald-400 text-xs px-2 py-0.5 rounded">지체장애</span>
+                                        </div>
+                                    </div>
+                                    <span class="bg-yellow-500/20 text-yellow-400 text-xs font-bold px-2 py-1 rounded">최우수</span>
+                                </div>
+
+                                <div class="space-y-4">
+                                    <div class="bg-slate-900/50 p-4 rounded-xl border border-emerald-500/30">
+                                        <div class="flex justify-between items-end mb-2">
+                                            <span class="text-slate-300 text-sm">1순위 추천 종목</span>
+                                            <span class="text-emerald-400 font-bold text-xl">휠체어농구</span>
+                                        </div>
+                                        <div class="w-full bg-slate-700 h-2 rounded-full overflow-hidden">
+                                            <div class="bg-gradient-to-r from-emerald-400 to-teal-500 h-full rounded-full" style="width: 91%"></div>
+                                        </div>
+                                        <div class="flex justify-between mt-1">
+                                            <span class="text-xs text-slate-500">등급</span>
+                                            <span class="text-xs text-yellow-400 font-bold">최우수 (상위 6%) 91점</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid grid-cols-3 gap-2">
+                                        <div class="bg-slate-900/50 p-2 rounded-lg border border-slate-700 text-center">
+                                            <div class="text-xs text-slate-400 mb-1">2순위</div>
+                                            <div class="text-emerald-400 font-bold text-sm">파라수영</div>
+                                            <div class="text-xs text-slate-500">86점</div>
+                                        </div>
+                                        <div class="bg-slate-900/50 p-2 rounded-lg border border-slate-700 text-center">
+                                            <div class="text-xs text-slate-400 mb-1">3순위</div>
+                                            <div class="text-teal-400 font-bold text-sm">보치아</div>
+                                            <div class="text-xs text-slate-500">81점</div>
+                                        </div>
+                                        <div class="bg-slate-900/50 p-2 rounded-lg border border-slate-700 text-center">
+                                            <div class="text-xs text-slate-400 mb-1">4순위</div>
+                                            <div class="text-cyan-400 font-bold text-sm">휠체어테니스</div>
+                                            <div class="text-xs text-slate-500">77점</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-4 pt-4 border-t border-slate-700">
+                                        <p class="text-xs text-slate-400 mb-2">대전광역시 유성구 맞춤 추천 프로그램</p>
+                                        <div class="flex items-center gap-3 text-sm text-slate-300">
+                                            <div class="w-8 h-8 rounded bg-emerald-500/20 flex items-center justify-center">
+                                                <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
+                                            </div>
+                                            <div>
+                                                <p class="font-bold text-white">대전 장애인체육회 휠체어농구팀</p>
+                                                <p class="text-xs text-emerald-400">장애인 스포츠 전문 프로그램</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1054,13 +1296,14 @@
                             </div>
                         </div>
 
-                        <!-- 인사이트 섹션 -->
+                        <!-- 인사이트 섹션: 정책 격차 해소 분석 -->
                         <div class="bg-gradient-to-r from-brand-primary/10 to-brand-secondary/10 p-6 rounded-xl border border-brand-primary/30">
                             <h4 class="text-white font-bold mb-4 flex items-center gap-2">
                                 <svg class="w-5 h-5 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
-                                데이터 인사이트
+                                정책 격차 분석 - 체육 복지 사각지대 현황
                             </h4>
-                            <div class="grid md:grid-cols-3 gap-4" id="insights-container">
+                            <p class="text-slate-400 text-xs mb-4">수도권 인구밀도 특성을 고려한 지역별 체육 인프라 격차 분석</p>
+                            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4" id="insights-container">
                                 <div class="text-center py-4 text-slate-500 col-span-full">데이터 분석 중...</div>
                             </div>
                         </div>
@@ -1709,6 +1952,91 @@
             }
         }
 
+        // Hero Card Carousel
+        let currentHeroCard = 0;
+        let heroCardInterval = null;
+        let isTransitioning = false;
+
+        function showHeroCard(index) {
+            const cards = document.querySelectorAll('.hero-card-item');
+            const dots = document.querySelectorAll('.hero-card-dot');
+
+            if (cards.length === 0 || isTransitioning) return;
+            if (index === currentHeroCard) return;
+
+            isTransitioning = true;
+            const prevIndex = currentHeroCard;
+            currentHeroCard = index;
+
+            // 현재 카드 페이드 아웃 + 슬라이드
+            cards[prevIndex].style.transition = 'opacity 0.6s ease-in-out, transform 0.6s ease-in-out';
+            cards[prevIndex].style.opacity = '0';
+            cards[prevIndex].style.transform = 'translateX(-30px) scale(0.95)';
+
+            // 새 카드 준비 (오른쪽에서 시작)
+            cards[index].style.transition = 'none';
+            cards[index].style.opacity = '0';
+            cards[index].style.transform = 'translateX(30px) scale(0.95)';
+            cards[index].style.position = 'absolute';
+            cards[index].classList.remove('pointer-events-none');
+
+            // 약간의 딜레이 후 새 카드 페이드 인 + 슬라이드
+            setTimeout(() => {
+                cards[index].style.transition = 'opacity 0.6s ease-in-out, transform 0.6s ease-in-out';
+                cards[index].style.opacity = '1';
+                cards[index].style.transform = 'translateX(0) scale(1)';
+            }, 50);
+
+            // 전환 완료 후 처리
+            setTimeout(() => {
+                cards[prevIndex].classList.add('pointer-events-none');
+                cards[prevIndex].style.position = 'absolute';
+                cards[index].style.position = 'relative';
+                isTransitioning = false;
+            }, 650);
+
+            // 인디케이터 업데이트
+            dots.forEach((dot, i) => {
+                dot.style.transition = 'all 0.3s ease';
+                if (i === index) {
+                    dot.classList.remove('bg-slate-600');
+                    dot.classList.add('bg-brand-primary');
+                    dot.style.transform = 'scale(1.3)';
+                } else {
+                    dot.classList.add('bg-slate-600');
+                    dot.classList.remove('bg-brand-primary');
+                    dot.style.transform = 'scale(1)';
+                }
+            });
+        }
+
+        function startHeroCardAutoSlide() {
+            if (heroCardInterval) clearInterval(heroCardInterval);
+            heroCardInterval = setInterval(() => {
+                const cards = document.querySelectorAll('.hero-card-item');
+                const nextIndex = (currentHeroCard + 1) % cards.length;
+                showHeroCard(nextIndex);
+            }, 5000); // 5초마다 전환
+        }
+
+        // Initialize hero card carousel on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            // 첫 번째 카드 초기 상태 설정
+            const cards = document.querySelectorAll('.hero-card-item');
+            cards.forEach((card, i) => {
+                if (i === 0) {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateX(0) scale(1)';
+                    card.style.position = 'relative';
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateX(30px) scale(0.95)';
+                    card.style.position = 'absolute';
+                }
+            });
+            startHeroCardAutoSlide();
+        });
+
         function navigateTo(view, sectionId = null, updateHistory = true) {
             const landingView = document.getElementById('view-landing');
             const appView = document.getElementById('view-app');
@@ -2262,6 +2590,143 @@
                                 <div class="text-right">
                                     <p class="text-brand-primary font-bold text-sm">${program.price ? program.price.toLocaleString() + '원' : '무료'}</p>
                                     <p class="text-slate-500 text-xs">${program.price_type || ''}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                container.innerHTML = html;
+
+            } catch (error) {
+                console.error('프로그램 로드 실패:', error);
+                container.innerHTML = `
+                    <div class="text-center py-4">
+                        <p class="text-slate-400 text-sm">프로그램을 불러오는데 실패했습니다.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // 모달용 추천 프로그램 로드 (사용자 등록 지역 기반)
+        async function loadRecommendedProgramsForModal(regionSido, regionSigungu, sport) {
+            const container = document.getElementById('test-detail-programs-container');
+            const regionLabel = document.getElementById('test-detail-programs-region');
+            if (!container) return;
+
+            const keyword = SPORT_SEARCH_KEYWORDS[sport] || '';
+            const sportName = SPORT_NAMES_KO[sport] || sport;
+            let searchInfo = '';
+            let foundInUserRegion = false;
+
+            try {
+                let programs = { items: [] };
+
+                // 1단계: 사용자 등록 지역 + 종목으로 검색
+                if (regionSido) {
+                    programs = await SoominjaeAPI.getPrograms({
+                        region_sido: regionSido,
+                        region_sigungu: regionSigungu || undefined,
+                        keyword: keyword,
+                        limit: 5
+                    });
+
+                    if (programs.items.length > 0) {
+                        foundInUserRegion = true;
+                        searchInfo = `${regionSido} ${regionSigungu || ''} 지역의 ${sportName} 관련 프로그램`;
+                    }
+                }
+
+                // 2단계: 사용자 지역에서 종목 제외하고 검색
+                if (programs.items.length === 0 && regionSido) {
+                    programs = await SoominjaeAPI.getPrograms({
+                        region_sido: regionSido,
+                        limit: 5
+                    });
+
+                    if (programs.items.length > 0) {
+                        foundInUserRegion = true;
+                        searchInfo = `${regionSido} ${regionSigungu || ''} 지역의 체육 프로그램 (${sportName} 프로그램은 없음)`;
+                    }
+                }
+
+                // 3단계: 인근 지역에서 검색 (같은 광역시/도 내 다른 구)
+                if (programs.items.length === 0 && regionSido) {
+                    programs = await SoominjaeAPI.getPrograms({
+                        region_sido: regionSido,
+                        keyword: keyword,
+                        limit: 5
+                    });
+
+                    if (programs.items.length > 0) {
+                        searchInfo = `${regionSido} 내 다른 지역의 ${sportName} 프로그램 (${regionSigungu || '해당 지역'}에는 없음)`;
+                    }
+                }
+
+                // 4단계: 전국에서 종목으로 검색
+                if (programs.items.length === 0) {
+                    programs = await SoominjaeAPI.getPrograms({
+                        keyword: keyword,
+                        limit: 5
+                    });
+
+                    if (programs.items.length > 0) {
+                        const userRegionText = regionSido ? `${regionSido} ${regionSigungu || ''}` : '등록된 지역';
+                        searchInfo = `${userRegionText}에 ${sportName} 프로그램이 없어 전국에서 검색한 결과`;
+                    }
+                }
+
+                // 지역 정보 표시
+                if (regionLabel) {
+                    if (regionSido) {
+                        regionLabel.innerHTML = `
+                            <span class="inline-flex items-center gap-1">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                </svg>
+                                ${searchInfo || `${regionSido} ${regionSigungu || ''}`}
+                            </span>
+                        `;
+                    } else {
+                        regionLabel.innerHTML = `<span class="text-yellow-400">지역 정보가 등록되지 않았습니다. 프로필에서 지역을 등록하면 맞춤 프로그램을 추천받을 수 있습니다.</span>`;
+                    }
+                }
+
+                // 결과 없음
+                if (programs.items.length === 0) {
+                    container.innerHTML = `
+                        <div class="text-center py-4">
+                            <p class="text-slate-400 text-sm">관련 프로그램을 찾을 수 없습니다.</p>
+                            <button onclick="goToMatchingFromModal()" class="mt-2 text-brand-primary text-sm underline">프로그램 검색하기</button>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // 프로그램 목록 렌더링
+                let html = '';
+                programs.items.forEach((program, idx) => {
+                    const isUserRegion = foundInUserRegion &&
+                        program.region_sido === regionSido &&
+                        (!regionSigungu || program.region_sigungu === regionSigungu);
+
+                    html += `
+                        <div class="bg-slate-800/70 rounded-lg p-3 border border-slate-700 hover:border-brand-primary/50 transition cursor-pointer" onclick="showProgramDetail(${program.id})">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <span class="bg-brand-primary/20 text-brand-primary text-xs px-2 py-0.5 rounded">${program.program_type || '스포츠'}</span>
+                                        ${isUserRegion ? '<span class="bg-green-500/20 text-green-400 text-xs px-2 py-0.5 rounded">내 지역</span>' : ''}
+                                        ${idx === 0 ? '<span class="bg-yellow-500/20 text-yellow-400 text-xs px-2 py-0.5 rounded">추천</span>' : ''}
+                                    </div>
+                                    <h6 class="text-white font-bold text-sm mb-1">${program.program_name || '프로그램'}</h6>
+                                    <p class="text-slate-400 text-xs">${program.facility_name || ''}</p>
+                                    <div class="flex items-center gap-2 mt-1 text-xs text-slate-500">
+                                        <span>${program.region_sido || ''} ${program.region_sigungu || ''}</span>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-brand-primary font-bold text-sm">${program.price ? program.price.toLocaleString() + '원' : '무료'}</p>
                                 </div>
                             </div>
                         </div>
@@ -2877,52 +3342,97 @@
                     `).join('');
                 }
 
-                // 인사이트 생성
+                // 인사이트 생성 (정책 격차 해소 관점)
                 const insightsContainer = document.getElementById('insights-container');
                 if (insightsContainer && regions.regions) {
                     const totalFacilities = summary.facilities?.total || 0;
                     const totalSupport = summary.support?.total_recipients || 0;
                     const totalPrograms = summary.programs?.total || 0;
 
-                    // 인구 대비 시설 최하위 지역 찾기
+                    // 수도권/비수도권 분류
+                    const metropolitanAreas = ['서울특별시', '인천광역시', '경기도'];
+                    const metro = regions.regions.filter(r => metropolitanAreas.includes(r.region_sido));
+                    const nonMetro = regions.regions.filter(r => !metropolitanAreas.includes(r.region_sido));
+
+                    // 인구 대비 시설 비율 계산
                     const withRatio = regions.regions.map(r => ({
                         name: r.region_sido,
-                        ratio: r.population > 0 ? ((r.facility_count || 0) / r.population * 10000) : 0
+                        ratio: r.population > 0 ? ((r.facility_count || 0) / r.population * 10000) : 0,
+                        population: r.population || 0,
+                        facilityCount: r.facility_count || 0,
+                        programCount: r.program_count || 0,
+                        isMetro: metropolitanAreas.includes(r.region_sido)
                     })).sort((a, b) => a.ratio - b.ratio);
-                    const lowestRatio = withRatio[0];
-                    const highestRatio = withRatio[withRatio.length - 1];
 
-                    // 프로그램 수 최다 지역
-                    const sortedByProgram = [...regions.regions].sort((a, b) => (b.program_count || 0) - (a.program_count || 0));
-                    const topProgramRegion = sortedByProgram[0];
+                    // 비수도권 중 취약 지역 (수도권 제외하고 분석)
+                    const nonMetroRatio = withRatio.filter(r => !r.isMetro);
+                    const lowestNonMetro = nonMetroRatio[0];
+                    const highestNonMetro = nonMetroRatio[nonMetroRatio.length - 1];
+
+                    // 수도권 분석
+                    const metroRatio = withRatio.filter(r => r.isMetro);
+                    const avgMetroRatio = metroRatio.reduce((sum, r) => sum + r.ratio, 0) / (metroRatio.length || 1);
+                    const avgNonMetroRatio = nonMetroRatio.reduce((sum, r) => sum + r.ratio, 0) / (nonMetroRatio.length || 1);
+
+                    // 프로그램 대비 인구 비율 (프로그램 접근성)
+                    const programAccessibility = withRatio.map(r => ({
+                        ...r,
+                        programRatio: r.population > 0 ? (r.programCount / r.population * 10000) : 0
+                    })).sort((a, b) => a.programRatio - b.programRatio);
+
+                    const lowestProgramAccess = programAccessibility[0];
+
+                    // 격차 분석
+                    const gapRatio = avgNonMetroRatio > 0 ? (avgNonMetroRatio / avgMetroRatio).toFixed(2) : 0;
 
                     insightsContainer.innerHTML = `
+                        <div class="bg-slate-800/50 p-4 rounded-lg">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                                </div>
+                                <span class="text-sm font-bold text-white">지역 격차 분석</span>
+                            </div>
+                            <p class="text-slate-400 text-sm">
+                                비수도권 평균 체육시설 비율은 수도권의 <span class="text-purple-400 font-bold">${gapRatio}배</span>입니다.
+                                ${parseFloat(gapRatio) > 1 ? '비수도권이 상대적으로 여유롭습니다.' : '수도권의 인구밀도 특성을 고려해야 합니다.'}
+                            </p>
+                        </div>
                         <div class="bg-slate-800/50 p-4 rounded-lg">
                             <div class="flex items-center gap-2 mb-2">
                                 <div class="w-8 h-8 bg-red-500/20 rounded-lg flex items-center justify-center">
                                     <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
                                 </div>
-                                <span class="text-sm font-bold text-white">인프라 취약 지역</span>
+                                <span class="text-sm font-bold text-white">비수도권 취약 지역</span>
                             </div>
-                            <p class="text-slate-400 text-sm"><span class="text-red-400 font-bold">${lowestRatio?.name || '-'}</span>의 인구 대비 체육시설 비율이 가장 낮습니다 (1만명당 ${lowestRatio?.ratio.toFixed(1) || 0}개)</p>
+                            <p class="text-slate-400 text-sm">
+                                <span class="text-red-400 font-bold">${lowestNonMetro?.name || '-'}</span>이 비수도권 중 인프라 지원이 가장 시급합니다
+                                (1만명당 ${lowestNonMetro?.ratio.toFixed(1) || 0}개, 프로그램 ${(lowestNonMetro?.programCount || 0).toLocaleString()}개)
+                            </p>
+                        </div>
+                        <div class="bg-slate-800/50 p-4 rounded-lg">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-8 h-8 bg-yellow-500/20 rounded-lg flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                </div>
+                                <span class="text-sm font-bold text-white">프로그램 접근성 취약</span>
+                            </div>
+                            <p class="text-slate-400 text-sm">
+                                <span class="text-yellow-400 font-bold">${lowestProgramAccess?.name || '-'}</span>의 인구 대비 프로그램 수가 가장 적습니다
+                                (1만명당 ${lowestProgramAccess?.programRatio.toFixed(1) || 0}개)
+                            </p>
                         </div>
                         <div class="bg-slate-800/50 p-4 rounded-lg">
                             <div class="flex items-center gap-2 mb-2">
                                 <div class="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
                                     <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 </div>
-                                <span class="text-sm font-bold text-white">우수 인프라 지역</span>
+                                <span class="text-sm font-bold text-white">모범 사례 지역</span>
                             </div>
-                            <p class="text-slate-400 text-sm"><span class="text-green-400 font-bold">${highestRatio?.name || '-'}</span>의 인구 대비 체육시설 비율이 가장 높습니다 (1만명당 ${highestRatio?.ratio.toFixed(1) || 0}개)</p>
-                        </div>
-                        <div class="bg-slate-800/50 p-4 rounded-lg">
-                            <div class="flex items-center gap-2 mb-2">
-                                <div class="w-8 h-8 bg-brand-primary/20 rounded-lg flex items-center justify-center">
-                                    <svg class="w-4 h-4 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
-                                </div>
-                                <span class="text-sm font-bold text-white">프로그램 활성 지역</span>
-                            </div>
-                            <p class="text-slate-400 text-sm"><span class="text-brand-primary font-bold">${topProgramRegion?.region_sido || '-'}</span>에서 가장 많은 청소년 프로그램이 운영 중입니다 (${(topProgramRegion?.program_count || 0).toLocaleString()}개)</p>
+                            <p class="text-slate-400 text-sm">
+                                <span class="text-green-400 font-bold">${highestNonMetro?.name || '-'}</span>이 비수도권 중 인프라 투자 모범 사례입니다
+                                (1만명당 ${highestNonMetro?.ratio.toFixed(1) || 0}개)
+                            </p>
                         </div>
                     `;
                 }
@@ -3108,6 +3618,13 @@
                 } else {
                     commentSection.classList.add('hidden');
                 }
+
+                // 추천 프로그램 로드 (사용자 등록 지역 기반)
+                const topSport = scores[0]?.sport || 'soccer';
+                const userRegionSido = currentUser?.region_sido || '';
+                const userRegionSigungu = currentUser?.region_sigungu || '';
+
+                loadRecommendedProgramsForModal(userRegionSido, userRegionSigungu, topSport);
 
             } catch (error) {
                 alert('상세 정보를 불러올 수 없습니다: ' + error.message);
@@ -3315,6 +3832,18 @@
                     </h4>
                     <div class="bg-slate-800/50 rounded-xl p-4 border border-slate-700">
                         <p id="test-detail-comment" class="text-slate-300 text-sm leading-relaxed"></p>
+                    </div>
+                </div>
+
+                <!-- 추천 프로그램 -->
+                <div id="test-detail-programs-section" class="mt-6">
+                    <h4 class="text-white font-bold mb-3 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                        맞춤 추천 프로그램
+                    </h4>
+                    <p id="test-detail-programs-region" class="text-slate-400 text-xs mb-3"></p>
+                    <div id="test-detail-programs-container" class="space-y-2">
+                        <div class="text-center py-4 text-slate-500 text-sm">프로그램 검색 중...</div>
                     </div>
                 </div>
             </div>
