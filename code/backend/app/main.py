@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
-from app.routers import auth, talent, programs, facilities, dashboard, me
+from app.routers import auth, talent, programs, facilities, dashboard, me, inquiry
 
 
 app = FastAPI(
@@ -34,6 +34,7 @@ app.include_router(programs.router, prefix="/api/programs", tags=["Programs"])
 app.include_router(facilities.router, prefix="/api/facilities", tags=["Facilities"])
 app.include_router(dashboard.router, prefix="/api/dashboard", tags=["Dashboard"])
 app.include_router(me.router, prefix="/api/me", tags=["MyPage"])
+app.include_router(inquiry.router, tags=["Inquiry"])
 
 
 @app.get("/")

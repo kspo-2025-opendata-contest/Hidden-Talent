@@ -10,6 +10,7 @@ class UserRole(str, enum.Enum):
     parent = "parent"        # 학부모
     coach = "coach"          # 지도자
     official = "official"    # 기관 담당자
+    admin = "admin"          # 관리자
 
 
 class User(Base):

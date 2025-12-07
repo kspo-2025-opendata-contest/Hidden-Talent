@@ -6,6 +6,7 @@ from app.models.program import Program
 from app.models.coach import CoachStats
 from app.models.support import SupportStats
 from app.models.bookmark import Bookmark, Notification, TargetType
+from app.models.inquiry import Inquiry, InquiryStatus
 
 __all__ = [
     "Base",
@@ -16,4 +17,5 @@ __all__ = [
     "CoachStats",
     "SupportStats",
     "Bookmark", "Notification", "TargetType",
+    "Inquiry", "InquiryStatus",
 ]

@@ -251,6 +251,151 @@ async function apiMarkAllNotificationsRead() {
     });
 }
 
+// ============ Inquiry API ============
+
+async function apiCreateInquiry(data) {
+    // 문의 생성은 /api 프리픽스 없이 /api/inquiry로 직접 호출
+    const baseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:8000'
+        : 'https://hidden-talent-api.onrender.com';
+
+    const token = getToken();
+    const headers = {
+        'Content-Type': 'application/json',
+    };
+
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    const response = await fetch(`${baseUrl}/api/inquiry`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+        const error = await response.json().catch(() => ({ detail: '문의 등록 실패' }));
+        throw new Error(error.detail || '문의 등록 실패');
+    }
+
+    return response.json();
+}
+
+async function apiGetInquiries(params = {}) {
+    const baseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:8000'
+        : 'https://hidden-talent-api.onrender.com';
+
+    const query = new URLSearchParams(params).toString();
+    const token = getToken();
+
+    const response = await fetch(`${baseUrl}/api/inquiry?${query}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        const error = await response.json().catch(() => ({ detail: '문의 목록 조회 실패' }));
+        throw new Error(error.detail || '문의 목록 조회 실패');
+    }
+
+    return response.json();
+}
+
+async function apiGetInquiryDetail(inquiryId) {
+    const baseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:8000'
+        : 'https://hidden-talent-api.onrender.com';
+
+    const token = getToken();
+
+    const response = await fetch(`${baseUrl}/api/inquiry/${inquiryId}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        const error = await response.json().catch(() => ({ detail: '문의 조회 실패' }));
+        throw new Error(error.detail || '문의 조회 실패');
+    }
+
+    return response.json();
+}
+
+async function apiReplyInquiry(inquiryId, adminReply) {
+    const baseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:8000'
+        : 'https://hidden-talent-api.onrender.com';
+
+    const token = getToken();
+
+    const response = await fetch(`${baseUrl}/api/inquiry/${inquiryId}/reply`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ admin_reply: adminReply }),
+    });
+
+    if (!response.ok) {
+        const error = await response.json().catch(() => ({ detail: '답변 등록 실패' }));
+        throw new Error(error.detail || '답변 등록 실패');
+    }
+
+    return response.json();
+}
+
+async function apiGetInquiryStats() {
+    const baseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:8000'
+        : 'https://hidden-talent-api.onrender.com';
+
+    const token = getToken();
+
+    const response = await fetch(`${baseUrl}/api/inquiry/stats/summary`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        const error = await response.json().catch(() => ({ detail: '통계 조회 실패' }));
+        throw new Error(error.detail || '통계 조회 실패');
+    }
+
+    return response.json();
+}
+
+async function apiCloseInquiry(inquiryId) {
+    const baseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:8000'
+        : 'https://hidden-talent-api.onrender.com';
+
+    const token = getToken();
+
+    const response = await fetch(`${baseUrl}/api/inquiry/${inquiryId}/close`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        const error = await response.json().catch(() => ({ detail: '문의 종료 실패' }));
+        throw new Error(error.detail || '문의 종료 실패');
+    }
+
+    return response.json();
+}
+
 // Export for global use
 window.SoominjaeAPI = {
     // Auth
@@ -292,4 +437,12 @@ window.SoominjaeAPI = {
     getMyNotifications: apiGetMyNotifications,
     markNotificationRead: apiMarkNotificationRead,
     markAllNotificationsRead: apiMarkAllNotificationsRead,
+
+    // Inquiry (문의하기)
+    createInquiry: apiCreateInquiry,
+    getInquiries: apiGetInquiries,
+    getInquiryDetail: apiGetInquiryDetail,
+    replyInquiry: apiReplyInquiry,
+    getInquiryStats: apiGetInquiryStats,
+    closeInquiry: apiCloseInquiry,
 };

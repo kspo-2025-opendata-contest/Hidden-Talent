@@ -223,11 +223,14 @@
                     
                     <!-- Post-login State (Hidden by default) -->
                     <div id="nav-user-profile" class="hidden flex items-center space-x-4">
+                        <button id="nav-admin-btn" onclick="navigateTo('admin')" class="hidden px-3 py-1.5 bg-red-500/20 text-red-400 rounded-lg text-sm font-medium hover:bg-red-500/30 transition">
+                            관리자
+                        </button>
                         <button onclick="navigateTo('mypage')" class="flex items-center gap-2 text-slate-300 hover:text-white transition-colors">
                             <div class="w-8 h-8 rounded-full bg-gradient-to-br from-brand-primary to-brand-secondary flex items-center justify-center text-brand-900 font-bold text-sm" id="nav-profile-avatar">
                                 <span></span>
                             </div>
-                            <span class="text-sm font-bold">김민수님</span>
+                            <span class="text-sm font-bold" id="nav-user-name">김민수님</span>
                         </button>
                         <button onclick="handleLogout()" class="text-slate-400 hover:text-red-400 text-sm font-medium">
                             로그아웃
@@ -1687,6 +1690,115 @@
         </div>
     </main>
 
+    <!-- Admin Page View -->
+    <main id="view-admin" class="view-section pt-24 pb-12 min-h-screen bg-slate-900/95 relative">
+        <div class="absolute top-0 left-0 w-full h-full opacity-10 bg-hero-pattern pointer-events-none -z-10"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-3xl font-bold text-white flex items-center gap-3">
+                    <svg class="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                    관리자 대시보드
+                </h2>
+                <button onclick="navigateTo('home')" class="bg-slate-800 text-white px-4 py-2 rounded border border-slate-700 hover:border-brand-primary transition">홈으로</button>
+            </div>
+
+            <!-- Admin Stats -->
+            <div id="admin-stats" class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                <div class="bg-gradient-to-br from-blue-900/50 to-slate-900 p-5 rounded-xl border border-slate-700">
+                    <p class="text-slate-400 text-xs">전체 문의</p>
+                    <p class="text-3xl font-bold text-white mt-2" id="admin-stat-total">-</p>
+                </div>
+                <div class="bg-gradient-to-br from-yellow-900/50 to-slate-900 p-5 rounded-xl border border-slate-700">
+                    <p class="text-slate-400 text-xs">대기 중</p>
+                    <p class="text-3xl font-bold text-yellow-400 mt-2" id="admin-stat-pending">-</p>
+                </div>
+                <div class="bg-gradient-to-br from-green-900/50 to-slate-900 p-5 rounded-xl border border-slate-700">
+                    <p class="text-slate-400 text-xs">답변 완료</p>
+                    <p class="text-3xl font-bold text-green-400 mt-2" id="admin-stat-answered">-</p>
+                </div>
+                <div class="bg-gradient-to-br from-slate-800 to-slate-900 p-5 rounded-xl border border-slate-700">
+                    <p class="text-slate-400 text-xs">종료됨</p>
+                    <p class="text-3xl font-bold text-slate-400 mt-2" id="admin-stat-closed">-</p>
+                </div>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="flex gap-2 mb-6">
+                <button onclick="filterInquiries('all')" class="admin-filter-btn active px-4 py-2 rounded-lg text-sm font-medium bg-brand-primary text-brand-900" data-filter="all">전체</button>
+                <button onclick="filterInquiries('pending')" class="admin-filter-btn px-4 py-2 rounded-lg text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700" data-filter="pending">대기 중</button>
+                <button onclick="filterInquiries('answered')" class="admin-filter-btn px-4 py-2 rounded-lg text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700" data-filter="answered">답변 완료</button>
+                <button onclick="filterInquiries('closed')" class="admin-filter-btn px-4 py-2 rounded-lg text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700" data-filter="closed">종료</button>
+            </div>
+
+            <!-- Inquiry List -->
+            <div class="bg-slate-900 rounded-xl border border-slate-700 overflow-hidden">
+                <div class="p-4 border-b border-slate-700">
+                    <h3 class="text-white font-bold">문의 목록</h3>
+                </div>
+                <div id="admin-inquiry-list" class="divide-y divide-slate-700">
+                    <div class="p-8 text-center text-slate-500">로딩 중...</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Admin Inquiry Detail Modal -->
+    <div id="admin-inquiry-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 rounded-2xl border border-slate-700 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b border-slate-700 flex justify-between items-center">
+                <h3 class="text-xl font-bold text-white">문의 상세</h3>
+                <button onclick="closeAdminInquiryModal()" class="text-slate-400 hover:text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="p-6">
+                <div class="mb-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span id="modal-inquiry-status" class="px-2 py-1 rounded text-xs font-medium bg-yellow-500/20 text-yellow-400">대기 중</span>
+                        <span class="text-slate-500 text-sm" id="modal-inquiry-date">2024.01.01</span>
+                    </div>
+                    <h4 class="text-lg font-bold text-white mb-2" id="modal-inquiry-subject">문의 제목</h4>
+                    <div class="flex items-center gap-4 text-sm text-slate-400 mb-4">
+                        <span id="modal-inquiry-name">이름</span>
+                        <span id="modal-inquiry-email">email@example.com</span>
+                    </div>
+                    <div class="bg-slate-800 p-4 rounded-lg">
+                        <p class="text-slate-300 whitespace-pre-wrap" id="modal-inquiry-content">문의 내용</p>
+                    </div>
+                </div>
+
+                <!-- Admin Reply Section -->
+                <div id="modal-admin-reply-section">
+                    <div id="modal-existing-reply" class="hidden mb-6">
+                        <h5 class="text-white font-bold mb-2 flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            관리자 답변
+                        </h5>
+                        <div class="bg-green-900/20 p-4 rounded-lg border border-green-500/30">
+                            <p class="text-slate-300 whitespace-pre-wrap" id="modal-reply-content"></p>
+                            <p class="text-xs text-slate-500 mt-2" id="modal-reply-date"></p>
+                        </div>
+                    </div>
+
+                    <div id="modal-reply-form" class="hidden">
+                        <h5 class="text-white font-bold mb-2">답변 작성</h5>
+                        <textarea id="modal-reply-input" rows="4" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-3 text-white placeholder-slate-500 focus:border-brand-primary focus:outline-none" placeholder="답변 내용을 입력하세요..."></textarea>
+                        <div class="flex justify-end gap-2 mt-3">
+                            <button onclick="closeInquiry()" class="px-4 py-2 bg-slate-700 text-slate-300 rounded-lg hover:bg-slate-600 transition">문의 종료</button>
+                            <button onclick="submitReply()" class="px-4 py-2 bg-brand-primary text-brand-900 font-bold rounded-lg hover:bg-lime-400 transition">답변 등록</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- JavaScript logic -->
     <script>
@@ -1979,7 +2091,7 @@
                     navUserProfile.classList.remove('hidden');
                     navUserProfile.classList.add('flex');
                     // 사용자 이름 업데이트
-                    const nameSpan = navUserProfile.querySelector('span.text-sm');
+                    const nameSpan = document.getElementById('nav-user-name');
                     if(nameSpan) nameSpan.textContent = `${currentUser.name}님`;
 
                     // 네비게이션 아바타 업데이트 (이름 첫 글자)
@@ -1987,6 +2099,16 @@
                     if(navAvatar) {
                         const avatarSpan = navAvatar.querySelector('span');
                         if(avatarSpan) avatarSpan.textContent = currentUser.name.charAt(0);
+                    }
+
+                    // 관리자 버튼 표시/숨김
+                    const navAdminBtn = document.getElementById('nav-admin-btn');
+                    if(navAdminBtn) {
+                        if(currentUser.role === 'admin') {
+                            navAdminBtn.classList.remove('hidden');
+                        } else {
+                            navAdminBtn.classList.add('hidden');
+                        }
                     }
                 }
 
@@ -2147,6 +2269,7 @@
             const landingView = document.getElementById('view-landing');
             const appView = document.getElementById('view-app');
             const mypageView = document.getElementById('view-mypage');
+            const adminView = document.getElementById('view-admin');
             const mobileMenu = document.getElementById('mobile-menu');
 
             // Close mobile menu
@@ -2156,6 +2279,7 @@
             landingView.classList.remove('active');
             appView.classList.remove('active');
             if(mypageView) mypageView.classList.remove('active');
+            if(adminView) adminView.classList.remove('active');
 
             // Build hash for URL
             let hash = view;
@@ -2187,6 +2311,15 @@
                 mypageView.classList.add('active');
                 window.scrollTo(0, 0);
                 loadMyPage();
+            } else if (view === 'admin') {
+                if (!isLoggedIn || currentUser?.role !== 'admin') {
+                    alert('관리자 권한이 필요합니다.');
+                    navigateTo('home');
+                    return;
+                }
+                adminView.classList.add('active');
+                window.scrollTo(0, 0);
+                loadAdminPage();
             } else if (view === 'matching' || view === 'diagnosis' || view === 'dashboard') {
                 // 탭 이름으로 직접 이동하는 경우
                 appView.classList.add('active');
@@ -3797,6 +3930,184 @@
             }
         });
 
+        // --- 10. Admin Page Functions ---
+        let allInquiries = [];
+        let currentFilter = 'all';
+        let selectedInquiryId = null;
+
+        async function loadAdminPage() {
+            try {
+                // Load stats
+                const stats = await SoominjaeAPI.getInquiryStats();
+                document.getElementById('admin-stat-total').textContent = stats.total || 0;
+                document.getElementById('admin-stat-pending').textContent = stats.pending || 0;
+                document.getElementById('admin-stat-answered').textContent = stats.answered || 0;
+                document.getElementById('admin-stat-closed').textContent = stats.closed || 0;
+
+                // Load inquiries
+                const result = await SoominjaeAPI.getInquiries();
+                allInquiries = result.items || [];
+                renderInquiryList();
+            } catch (error) {
+                console.error('Admin page load error:', error);
+                document.getElementById('admin-inquiry-list').innerHTML =
+                    '<div class="p-8 text-center text-red-400">문의 목록을 불러오는데 실패했습니다.</div>';
+            }
+        }
+
+        function filterInquiries(filter) {
+            currentFilter = filter;
+
+            // Update button styles
+            document.querySelectorAll('.admin-filter-btn').forEach(btn => {
+                if (btn.dataset.filter === filter) {
+                    btn.classList.remove('bg-slate-800', 'text-slate-300');
+                    btn.classList.add('bg-brand-primary', 'text-brand-900');
+                } else {
+                    btn.classList.remove('bg-brand-primary', 'text-brand-900');
+                    btn.classList.add('bg-slate-800', 'text-slate-300');
+                }
+            });
+
+            renderInquiryList();
+        }
+
+        function renderInquiryList() {
+            const container = document.getElementById('admin-inquiry-list');
+            let filtered = allInquiries;
+
+            if (currentFilter !== 'all') {
+                filtered = allInquiries.filter(inq => inq.status === currentFilter);
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="p-8 text-center text-slate-500">문의가 없습니다.</div>';
+                return;
+            }
+
+            container.innerHTML = filtered.map(inq => {
+                const statusConfig = {
+                    pending: { text: '대기 중', class: 'bg-yellow-500/20 text-yellow-400' },
+                    answered: { text: '답변 완료', class: 'bg-green-500/20 text-green-400' },
+                    closed: { text: '종료', class: 'bg-slate-500/20 text-slate-400' }
+                };
+                const status = statusConfig[inq.status] || statusConfig.pending;
+                const date = new Date(inq.created_at).toLocaleDateString('ko-KR');
+
+                return `
+                    <div class="p-4 hover:bg-slate-800/50 cursor-pointer transition" onclick="openInquiryDetail(${inq.id})">
+                        <div class="flex items-start justify-between gap-4">
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="px-2 py-0.5 rounded text-xs font-medium ${status.class}">${status.text}</span>
+                                    <span class="text-slate-500 text-xs">${date}</span>
+                                </div>
+                                <h4 class="text-white font-medium truncate">${escapeHtml(inq.subject)}</h4>
+                                <p class="text-slate-400 text-sm mt-1">${escapeHtml(inq.name)} &lt;${escapeHtml(inq.email)}&gt;</p>
+                            </div>
+                            <svg class="w-5 h-5 text-slate-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        async function openInquiryDetail(id) {
+            selectedInquiryId = id;
+            try {
+                const inquiry = await SoominjaeAPI.getInquiryDetail(id);
+
+                const statusConfig = {
+                    pending: { text: '대기 중', class: 'bg-yellow-500/20 text-yellow-400' },
+                    answered: { text: '답변 완료', class: 'bg-green-500/20 text-green-400' },
+                    closed: { text: '종료', class: 'bg-slate-500/20 text-slate-400' }
+                };
+                const status = statusConfig[inquiry.status] || statusConfig.pending;
+                const date = new Date(inquiry.created_at).toLocaleDateString('ko-KR');
+
+                document.getElementById('modal-inquiry-status').textContent = status.text;
+                document.getElementById('modal-inquiry-status').className = `px-2 py-1 rounded text-xs font-medium ${status.class}`;
+                document.getElementById('modal-inquiry-date').textContent = date;
+                document.getElementById('modal-inquiry-subject').textContent = inquiry.subject;
+                document.getElementById('modal-inquiry-name').textContent = inquiry.name;
+                document.getElementById('modal-inquiry-email').textContent = inquiry.email;
+                document.getElementById('modal-inquiry-content').textContent = inquiry.content;
+
+                // Handle reply section
+                const existingReply = document.getElementById('modal-existing-reply');
+                const replyForm = document.getElementById('modal-reply-form');
+
+                if (inquiry.admin_reply) {
+                    existingReply.classList.remove('hidden');
+                    replyForm.classList.add('hidden');
+                    document.getElementById('modal-reply-content').textContent = inquiry.admin_reply;
+                    document.getElementById('modal-reply-date').textContent =
+                        inquiry.replied_at ? new Date(inquiry.replied_at).toLocaleDateString('ko-KR') + ' 답변' : '';
+                } else if (inquiry.status === 'closed') {
+                    existingReply.classList.add('hidden');
+                    replyForm.classList.add('hidden');
+                } else {
+                    existingReply.classList.add('hidden');
+                    replyForm.classList.remove('hidden');
+                    document.getElementById('modal-reply-input').value = '';
+                }
+
+                document.getElementById('admin-inquiry-modal').classList.remove('hidden');
+            } catch (error) {
+                console.error('Inquiry detail error:', error);
+                alert('문의 상세 정보를 불러오는데 실패했습니다.');
+            }
+        }
+
+        function closeAdminInquiryModal() {
+            document.getElementById('admin-inquiry-modal').classList.add('hidden');
+            selectedInquiryId = null;
+        }
+
+        async function submitReply() {
+            if (!selectedInquiryId) return;
+
+            const replyContent = document.getElementById('modal-reply-input').value.trim();
+            if (!replyContent) {
+                alert('답변 내용을 입력해주세요.');
+                return;
+            }
+
+            try {
+                await SoominjaeAPI.replyInquiry(selectedInquiryId, replyContent);
+                alert('답변이 등록되었습니다.');
+                closeAdminInquiryModal();
+                loadAdminPage();
+            } catch (error) {
+                console.error('Reply error:', error);
+                alert('답변 등록에 실패했습니다.');
+            }
+        }
+
+        async function closeInquiry() {
+            if (!selectedInquiryId) return;
+
+            if (!confirm('이 문의를 종료하시겠습니까?')) return;
+
+            try {
+                await SoominjaeAPI.closeInquiry(selectedInquiryId);
+                alert('문의가 종료되었습니다.');
+                closeAdminInquiryModal();
+                loadAdminPage();
+            } catch (error) {
+                console.error('Close inquiry error:', error);
+                alert('문의 종료에 실패했습니다.');
+            }
+        }
+
     </script>
 
     <!-- Profile Edit Modal -->
@@ -4042,40 +4353,36 @@
 
 <!-- Contact Modal -->
 <div id="contact-modal" class="fixed inset-0 bg-black/80 z-[9999] hidden items-center justify-center p-4">
-    <div class="bg-slate-900 rounded-2xl max-w-md w-full overflow-hidden">
+    <div class="bg-slate-900 rounded-2xl max-w-lg w-full overflow-hidden">
         <div class="p-6 border-b border-slate-700 flex justify-between items-center">
             <h2 class="text-xl font-bold text-white">문의하기</h2>
             <button onclick="closeContactModal()" class="text-slate-400 hover:text-white">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
-        <div class="p-6 text-slate-300 space-y-4">
-            <div class="flex items-center gap-4 p-4 bg-slate-800 rounded-xl">
-                <div class="w-12 h-12 bg-brand-primary/20 rounded-full flex items-center justify-center">
-                    <svg class="w-6 h-6 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                </div>
-                <div>
-                    <p class="text-xs text-slate-400">이메일</p>
-                    <p class="text-white font-medium">hidden.talent.project@gmail.com</p>
-                </div>
+        <form id="contact-form" class="p-6 space-y-4">
+            <div>
+                <label class="block text-slate-300 text-sm mb-2">이름 *</label>
+                <input type="text" id="contact-name" required class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-primary" placeholder="이름을 입력하세요">
             </div>
-
-            <div class="flex items-center gap-4 p-4 bg-slate-800 rounded-xl">
-                <div class="w-12 h-12 bg-brand-primary/20 rounded-full flex items-center justify-center">
-                    <svg class="w-6 h-6 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"></path></svg>
-                </div>
-                <div>
-                    <p class="text-xs text-slate-400">응답시간</p>
-                    <p class="text-white font-medium">평일 09:00 - 18:00</p>
-                </div>
+            <div>
+                <label class="block text-slate-300 text-sm mb-2">이메일 *</label>
+                <input type="email" id="contact-email" required class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-primary" placeholder="이메일을 입력하세요">
             </div>
-
-            <p class="text-sm text-slate-400 text-center">
-                서비스 이용 중 궁금한 점이나 건의사항이 있으시면<br>언제든지 이메일로 문의해 주세요.
-            </p>
-        </div>
-        <div class="p-4 border-t border-slate-700">
-            <button onclick="closeContactModal()" class="w-full bg-brand-primary text-brand-900 py-3 rounded-xl font-bold hover:bg-lime-400 transition">확인</button>
+            <div>
+                <label class="block text-slate-300 text-sm mb-2">제목 *</label>
+                <input type="text" id="contact-subject" required class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-primary" placeholder="문의 제목을 입력하세요">
+            </div>
+            <div>
+                <label class="block text-slate-300 text-sm mb-2">문의 내용 *</label>
+                <textarea id="contact-content" required rows="4" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-primary resize-none" placeholder="문의 내용을 상세히 작성해 주세요"></textarea>
+            </div>
+            <div id="contact-error" class="hidden text-red-400 text-sm"></div>
+            <div id="contact-success" class="hidden text-green-400 text-sm"></div>
+        </form>
+        <div class="p-4 border-t border-slate-700 flex gap-3">
+            <button onclick="closeContactModal()" class="flex-1 bg-slate-700 text-white py-3 rounded-xl font-bold hover:bg-slate-600 transition">취소</button>
+            <button onclick="submitContactForm()" id="contact-submit-btn" class="flex-1 bg-brand-primary text-brand-900 py-3 rounded-xl font-bold hover:bg-lime-400 transition">문의 등록</button>
         </div>
     </div>
 </div>
@@ -4105,6 +4412,47 @@
     function closeContactModal() {
         document.getElementById('contact-modal').classList.add('hidden');
         document.getElementById('contact-modal').classList.remove('flex');
+        // 폼 초기화
+        document.getElementById('contact-form').reset();
+        document.getElementById('contact-error').classList.add('hidden');
+        document.getElementById('contact-success').classList.add('hidden');
+    }
+
+    async function submitContactForm() {
+        const name = document.getElementById('contact-name').value.trim();
+        const email = document.getElementById('contact-email').value.trim();
+        const subject = document.getElementById('contact-subject').value.trim();
+        const content = document.getElementById('contact-content').value.trim();
+
+        const errorEl = document.getElementById('contact-error');
+        const successEl = document.getElementById('contact-success');
+        const submitBtn = document.getElementById('contact-submit-btn');
+
+        errorEl.classList.add('hidden');
+        successEl.classList.add('hidden');
+
+        if (!name || !email || !subject || !content) {
+            errorEl.textContent = '모든 필드를 입력해주세요.';
+            errorEl.classList.remove('hidden');
+            return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = '등록 중...';
+
+        try {
+            await window.SoominjaeAPI.createInquiry({ name, email, subject, content });
+            successEl.textContent = '문의가 성공적으로 등록되었습니다. 답변은 이메일로 전송됩니다.';
+            successEl.classList.remove('hidden');
+            document.getElementById('contact-form').reset();
+            setTimeout(() => closeContactModal(), 2000);
+        } catch (err) {
+            errorEl.textContent = err.message || '문의 등록에 실패했습니다.';
+            errorEl.classList.remove('hidden');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = '문의 등록';
+        }
     }
 </script>
 
