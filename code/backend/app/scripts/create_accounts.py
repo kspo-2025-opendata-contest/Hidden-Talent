@@ -25,7 +25,7 @@ def create_accounts():
             user = User(
                 name="테스트 사용자",
                 email=user_email,
-                password_hash=hash_password("user1234"),
+                password_hash=hash_password("User1234!"),
                 role=UserRole.student,
                 school_or_org="숨인재 중학교",
                 region_sido="서울특별시",
@@ -43,7 +43,7 @@ def create_accounts():
             admin = User(
                 name="관리자",
                 email=admin_email,
-                password_hash=hash_password("admin1234"),
+                password_hash=hash_password("Admin1234!"),
                 role=UserRole.admin,
                 school_or_org="숨인재 관리자",
                 region_sido="서울특별시",
@@ -56,8 +56,8 @@ def create_accounts():
 
         db.commit()
         print("\n=== Account Information ===")
-        print("일반 사용자: user@suminjae.com / user1234")
-        print("관리자: admin@suminjae.com / admin1234")
+        print("일반 사용자: user@suminjae.com / User1234!")
+        print("관리자: admin@suminjae.com / Admin1234!")
         print("===========================")
 
     except Exception as e:
