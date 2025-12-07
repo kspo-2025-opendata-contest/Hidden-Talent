@@ -1,0 +1,3197 @@
+
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>숨인재 – 청소년 스포츠 재능 발굴 플랫폼</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Teko:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                        display: ['"Teko"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            900: '#0B1120', // Deep Navy
+                            800: '#151F32',
+                            700: '#1E293B',
+                            accent: '#D9F99D', // Lime 200
+                            primary: '#84CC16', // Lime 500
+                            secondary: '#14B8A6', // Teal 500
+                        }
+                    },
+                    backgroundImage: {
+                        'hero-pattern': "url('https://www.transparenttextures.com/patterns/cubes.png')",
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles */
+        body {
+            background-color: #0B1120;
+            color: #F1F5F9;
+        }
+        
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #84CC16 0%, #14B8A6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tab-active {
+            border-bottom: 2px solid #84CC16;
+            color: #84CC16;
+            background-color: rgba(132, 204, 22, 0.1);
+        }
+
+        .tab-inactive {
+            color: #94A3B8;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab-inactive:hover {
+            color: #E2E8F0;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Hide scrollbar for clean horizontal scroll */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Custom select arrow */
+        .custom-select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394A3B8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.5rem center;
+            background-size: 1rem;
+        }
+        
+        /* Animation utilities */
+        .fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* View transition */
+        .view-section {
+            display: none;
+        }
+        .view-section.active {
+            display: block;
+        }
+
+        /* Animated Blob Card Effect */
+        .blob-card-wrapper {
+            position: relative;
+            border-radius: 1rem;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .blob-card-bg {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            right: 3px;
+            bottom: 3px;
+            z-index: 2;
+            background: rgba(30, 41, 59, 0.98);
+            backdrop-filter: blur(24px);
+            border-radius: 0.875rem;
+            overflow: hidden;
+        }
+
+        .blob-card-content {
+            position: relative;
+            z-index: 3;
+            padding: 1.5rem;
+        }
+
+        .blob-element {
+            position: absolute;
+            z-index: 1;
+            top: 50%;
+            left: 50%;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #84CC16 0%, #14B8A6 100%);
+            opacity: 0.8;
+            filter: blur(20px);
+            animation: blob-bounce 6s infinite ease;
+        }
+
+        .blob-element-2 {
+            background: linear-gradient(135deg, #14B8A6 0%, #84CC16 100%);
+            animation-delay: -3s;
+            width: 180px;
+            height: 180px;
+        }
+
+        @keyframes blob-bounce {
+            0% {
+                transform: translate(-100%, -100%) translate3d(0, 0, 0);
+            }
+            25% {
+                transform: translate(-100%, -100%) translate3d(100%, 0, 0);
+            }
+            50% {
+                transform: translate(-100%, -100%) translate3d(100%, 100%, 0);
+            }
+            75% {
+                transform: translate(-100%, -100%) translate3d(0, 100%, 0);
+            }
+            100% {
+                transform: translate(-100%, -100%) translate3d(0, 0, 0);
+            }
+        }
+    </style>
+<link rel="stylesheet" href="/index.css">
+    <script src="/api.js"></script>
+</head>
+<body class="antialiased overflow-x-hidden min-h-screen flex flex-col">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-panel transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center gap-3 cursor-pointer" onclick="navigateTo('home')">
+                    <!-- Image Logo (User Provided) -->
+                    <img src="logo.jpeg" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='flex';" alt="숨인재 로고" class="h-10 w-10 object-cover rounded-xl">
+                    
+                    <!-- Fallback Logo (Only shows if image fails) -->
+                    <div id="logo-fallback" class="hidden w-8 h-8 bg-gradient-to-br from-brand-primary to-brand-secondary rounded-lg items-center justify-center font-bold text-brand-900 text-xl font-display">S</div>
+                    
+                    <span class="font-bold text-xl tracking-tight text-white">숨인재</span>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8 text-sm font-medium">
+                        <button onclick="navigateTo('home', 'about')" class="text-slate-300 hover:text-brand-primary transition-colors">서비스 소개</button>
+                        <button onclick="navigateTo('app')" class="text-slate-300 hover:text-brand-primary transition-colors flex items-center gap-1">
+                            핵심 기능
+                        </button>
+                        <button onclick="navigateTo('home', 'flows')" class="text-slate-300 hover:text-brand-primary transition-colors">사용 흐름</button>
+                        <button onclick="navigateTo('home', 'data')" class="text-slate-300 hover:text-brand-primary transition-colors">데이터 소개</button>
+                        <button onclick="navigateTo('home', 'faq')" class="text-slate-300 hover:text-brand-primary transition-colors">FAQ</button>
+                    </div>
+                </div>
+
+                <!-- CTA / Auth Buttons -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <!-- Pre-login State -->
+                    <div id="nav-auth-buttons" class="flex items-center space-x-4">
+                        <button onclick="navigateTo('home', 'auth')" class="text-slate-300 hover:text-white font-medium text-sm">로그인</button>
+                        <button onclick="navigateTo('home', 'auth')" class="bg-brand-primary hover:bg-lime-500 text-brand-900 px-4 py-2 rounded-lg font-bold text-sm transition-transform transform hover:scale-105 shadow-lg shadow-lime-900/50">
+                            회원가입
+                        </button>
+                    </div>
+                    
+                    <!-- Post-login State (Hidden by default) -->
+                    <div id="nav-user-profile" class="hidden flex items-center space-x-4">
+                        <button onclick="navigateTo('mypage')" class="flex items-center gap-2 text-slate-300 hover:text-white transition-colors">
+                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-brand-primary to-brand-secondary flex items-center justify-center text-brand-900 font-bold text-sm" id="nav-profile-avatar">
+                                <span></span>
+                            </div>
+                            <span class="text-sm font-bold">김민수님</span>
+                        </button>
+                        <button onclick="handleLogout()" class="text-slate-400 hover:text-red-400 text-sm font-medium">
+                            로그아웃
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="-mr-2 flex md:hidden">
+                    <button onclick="toggleMobileMenu()" class="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none">
+                        <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="hidden md:hidden bg-brand-900 border-b border-slate-800" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <button onclick="navigateTo('home', 'about')" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-slate-800">서비스 소개</button>
+                <button onclick="navigateTo('app')" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-slate-800">핵심 기능</button>
+                <button onclick="navigateTo('home', 'flows')" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-slate-800">사용 흐름</button>
+                
+                <!-- Mobile Auth -->
+                <div id="mobile-auth-buttons">
+                    <button onclick="navigateTo('home', 'auth')" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-brand-primary hover:bg-slate-800">회원가입 / 로그인</button>
+                </div>
+                <div id="mobile-user-profile" class="hidden border-t border-slate-800 mt-2 pt-2">
+                    <button onclick="navigateTo('mypage')" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-white hover:bg-slate-800">마이페이지</button>
+                    <button onclick="handleLogout()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-red-400 hover:bg-slate-800">로그아웃</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- VIEW: LANDING PAGE -->
+    <main id="view-landing" class="view-section active">
+        
+        <!-- Hero Section -->
+        <header id="about" class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+            <!-- Background Elements -->
+            <div class="absolute top-0 left-0 w-full h-full opacity-20 bg-hero-pattern pointer-events-none"></div>
+            <div class="absolute top-1/4 right-0 w-96 h-96 bg-brand-primary/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute bottom-0 left-1/4 w-72 h-72 bg-brand-secondary/20 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Text Content -->
+                <div class="text-center lg:text-left">
+                    <div class="inline-block px-3 py-1 mb-6 text-xs font-bold tracking-wider text-brand-primary uppercase bg-brand-primary/10 rounded-full border border-brand-primary/20">
+                        Data-Driven Sports Talent Discovery
+                    </div>
+                    <h1 class="text-4xl lg:text-5xl font-extrabold text-white leading-relaxed mb-6">
+                        숨겨진 <span class="gradient-text">스포츠 인재</span>,<br>
+                        <span class="block mt-2">공공데이터로</span>
+                        <span class="block mt-2">찾아드립니다.</span>
+                    </h1>
+                    <p class="text-lg text-slate-400 mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                        국민체력측정 데이터와 지역 체육 인프라 정보를 결합해,<br class="hidden lg:block">
+                        청소년의 잠재된 종목별 재능을 과학적으로 진단하고<br class="hidden lg:block">
+                        가장 가까운 육성 경로까지 연결해 주는 플랫폼입니다.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <button onclick="navigateTo('app', 'tab-diagnosis')" class="bg-brand-primary hover:bg-lime-400 text-brand-900 font-bold px-8 py-4 rounded-xl transition-all shadow-lg shadow-lime-900/40 text-lg">
+                            내 재능 진단 시작하기
+                        </button>
+                        <button onclick="navigateTo('app', 'tab-dashboard')" class="glass-panel text-white hover:bg-slate-800 font-medium px-8 py-4 rounded-xl transition-all border border-slate-700 hover:border-brand-secondary text-lg">
+                            기관용 대시보드 보기
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Hero Visual (Card Mockup) -->
+                <div class="relative hidden lg:block perspective-1000 group">
+                    <!-- Abstract Decorative Shapes behind -->
+                    <div class="absolute inset-0 bg-gradient-to-tr from-brand-primary to-brand-secondary opacity-20 blur-2xl rounded-full transform group-hover:scale-105 transition-transform duration-700"></div>
+                    
+                    <!-- Main Card with Blob Effect -->
+                    <div class="blob-card-wrapper shadow-2xl transform group-hover:rotate-0 transition-all duration-700 ease-out max-w-md mx-auto">
+                        <!-- Animated Blobs -->
+                        <div class="blob-element"></div>
+                        <div class="blob-element blob-element-2"></div>
+
+                        <!-- Background -->
+                        <div class="blob-card-bg"></div>
+
+                        <!-- Card Content -->
+                        <div class="blob-card-content">
+                            <div class="flex justify-between items-center mb-6">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-brand-primary to-brand-secondary flex items-center justify-center text-brand-900 font-bold text-lg border-2 border-brand-primary">
+                                        <span>김</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-white font-bold">김민수 (14세)</h3>
+                                        <p class="text-xs text-slate-400">서울 송파중학교 1학년</p>
+                                    </div>
+                                </div>
+                                <span class="bg-brand-primary/20 text-brand-primary text-xs font-bold px-2 py-1 rounded">진단 완료</span>
+                            </div>
+
+                            <div class="space-y-4">
+                                <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-700">
+                                    <div class="flex justify-between items-end mb-2">
+                                        <span class="text-slate-300 text-sm">추천 종목 1순위</span>
+                                        <span class="text-brand-primary font-bold text-xl">단거리 육상</span>
+                                    </div>
+                                    <div class="w-full bg-slate-700 h-2 rounded-full overflow-hidden">
+                                        <div class="bg-brand-primary h-full rounded-full" style="width: 92%"></div>
+                                    </div>
+                                    <div class="flex justify-between mt-1">
+                                        <span class="text-xs text-slate-500">전국 상위</span>
+                                        <span class="text-xs text-white font-bold">5% (92점)</span>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-700 text-center">
+                                        <div class="text-xs text-slate-400 mb-1">순발력</div>
+                                        <div class="text-brand-secondary font-display text-2xl font-bold">A+</div>
+                                    </div>
+                                    <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-700 text-center">
+                                        <div class="text-xs text-slate-400 mb-1">근지구력</div>
+                                        <div class="text-slate-200 font-display text-2xl font-bold">B+</div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 pt-4 border-t border-slate-700">
+                                    <div class="flex items-center gap-3 text-sm text-slate-300">
+                                        <div class="w-8 h-8 rounded bg-slate-700 flex items-center justify-center">📍</div>
+                                        <div>
+                                            <p class="font-bold text-white">송파구 육상 영재단</p>
+                                            <p class="text-xs text-slate-500">매칭 확률 높음 · 1.2km 거리</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Problem Section -->
+        <section class="py-20 bg-brand-800 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-brand-primary font-bold tracking-wide uppercase text-sm mb-2">Problem</h2>
+                    <h3 class="text-3xl lg:text-4xl font-bold text-white">왜 <span class="text-white">'숨인재'</span>가 필요한가?</h3>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Card 1 -->
+                    <div class="bg-brand-900 p-8 rounded-2xl border border-slate-700 hover:border-brand-primary transition-colors group">
+                        <div class="w-14 h-14 bg-slate-800 rounded-lg flex items-center justify-center mb-6 group-hover:bg-brand-primary transition-colors">
+                            <svg class="w-8 h-8 text-brand-primary group-hover:text-brand-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                        </div>
+                        <h4 class="text-xl font-bold text-white mb-3">지역·환경적 불균형</h4>
+                        <p class="text-slate-400 leading-relaxed">
+                            스포츠 재능 발굴 기회가 수도권 및 체육 명문학교에 집중되어 있습니다. 지방 소도시나 체육 비인기 학교의 학생들은 재능이 있어도 발견되기 어렵습니다.
+                        </p>
+                    </div>
+                    
+                    <!-- Card 2 -->
+                    <div class="bg-brand-900 p-8 rounded-2xl border border-slate-700 hover:border-brand-primary transition-colors group">
+                        <div class="w-14 h-14 bg-slate-800 rounded-lg flex items-center justify-center mb-6 group-hover:bg-brand-primary transition-colors">
+                            <svg class="w-8 h-8 text-brand-primary group-hover:text-brand-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                        </div>
+                        <h4 class="text-xl font-bold text-white mb-3">데이터 미활용</h4>
+                        <p class="text-slate-400 leading-relaxed">
+                            학교 현장에서 매년 체력측정(PAPS 등)이 이루어지지만, 단순 기록용으로 남을 뿐 학생의 진로 탐색이나 스포츠 적성 발견에는 활용되지 못하고 있습니다.
+                        </p>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="bg-brand-900 p-8 rounded-2xl border border-slate-700 hover:border-brand-primary transition-colors group">
+                        <div class="w-14 h-14 bg-slate-800 rounded-lg flex items-center justify-center mb-6 group-hover:bg-brand-primary transition-colors">
+                            <svg class="w-8 h-8 text-brand-primary group-hover:text-brand-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                        </div>
+                        <h4 class="text-xl font-bold text-white mb-3">육성 파이프라인 부재</h4>
+                        <p class="text-slate-400 leading-relaxed">
+                            "운동 신경이 좋다"는 것을 알아도, 정확히 어떤 종목에 적합한지, 우리 동네 어디서 배울 수 있는지, 어떤 지원을 받을 수 있는지 정보가 부족합니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solution Steps -->
+        <section class="py-20 bg-brand-900">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-brand-primary font-bold tracking-wide uppercase text-sm mb-2">Solution</h2>
+                    <h3 class="text-3xl lg:text-4xl font-bold text-white">공정한 발굴부터 육성까지, One-Stop</h3>
+                </div>
+
+                <div class="relative">
+                    <!-- Connecting Line (Desktop) -->
+                    <div class="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-slate-800 -translate-y-1/2 z-0"></div>
+
+                    <div class="grid md:grid-cols-3 gap-12 relative z-10">
+                        <!-- Step 1 -->
+                        <div class="text-center bg-brand-900 p-4">
+                            <div class="w-20 h-20 mx-auto bg-slate-800 border-4 border-brand-900 rounded-full flex items-center justify-center mb-4 text-2xl font-bold text-brand-primary shadow-lg shadow-black">1</div>
+                            <h4 class="text-xl font-bold text-white mb-2">데이터 기반 진단</h4>
+                            <p class="text-sm text-slate-400">국민체력100 및 학생 건강체력평가<br>데이터를 활용한 종목별 적합도 분석</p>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="text-center bg-brand-900 p-4">
+                            <div class="w-20 h-20 mx-auto bg-brand-primary border-4 border-brand-900 rounded-full flex items-center justify-center mb-4 text-2xl font-bold text-brand-900 shadow-lg shadow-lime-900/50">2</div>
+                            <h4 class="text-xl font-bold text-white mb-2">맞춤형 인프라 매칭</h4>
+                            <p class="text-sm text-slate-400">거주지 인근의 공공체육시설,<br>전문 지도자, 클럽 자동 추천</p>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="text-center bg-brand-900 p-4">
+                            <div class="w-20 h-20 mx-auto bg-slate-800 border-4 border-brand-900 rounded-full flex items-center justify-center mb-4 text-2xl font-bold text-brand-primary shadow-lg shadow-black">3</div>
+                            <h4 class="text-xl font-bold text-white mb-2">정책 격차 해소</h4>
+                            <p class="text-sm text-slate-400">재능-지원 분포 데이터를 시각화하여<br>지자체의 체육 복지 사각지대 해소</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- User Flows -->
+        <section id="flows" class="py-20 bg-brand-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h3 class="text-3xl font-bold text-white">누가, 어떻게 사용하나요?</h3>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- User 1 -->
+                    <div class="bg-slate-900 p-6 rounded-xl border-t-4 border-brand-primary">
+                        <h4 class="text-lg font-bold text-white mb-4">학생/학부모</h4>
+                        <ol class="relative border-l border-slate-700 ml-2 space-y-6">
+                            <li class="ml-6">
+                                <span class="absolute -left-1.5 flex h-3 w-3 items-center justify-center rounded-full bg-brand-primary ring-4 ring-slate-900"></span>
+                                <h5 class="text-slate-200 text-sm font-bold">체력 데이터 입력</h5>
+                                <p class="text-xs text-slate-500">학교 측정값 또는 자체 입력</p>
+                            </li>
+                            <li class="ml-6">
+                                <span class="absolute -left-1.5 flex h-3 w-3 items-center justify-center rounded-full bg-slate-600 ring-4 ring-slate-900"></span>
+                                <h5 class="text-slate-200 text-sm font-bold">재능 종목 발견</h5>
+                                <p class="text-xs text-slate-500">AI 분석 리포트 확인</p>
+                            </li>
+                            <li class="ml-6">
+                                <span class="absolute -left-1.5 flex h-3 w-3 items-center justify-center rounded-full bg-slate-600 ring-4 ring-slate-900"></span>
+                                <h5 class="text-slate-200 text-sm font-bold">육성 프로그램 참여</h5>
+                                <p class="text-xs text-slate-500">내 주변 시설/지도자 매칭</p>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <!-- User 2 -->
+                    <div class="bg-slate-900 p-6 rounded-xl border-t-4 border-brand-secondary">
+                        <h4 class="text-lg font-bold text-white mb-4">스포츠 지도자</h4>
+                        <ol class="relative border-l border-slate-700 ml-2 space-y-6">
+                            <li class="ml-6">
+                                <span class="absolute -left-1.5 flex h-3 w-3 items-center justify-center rounded-full bg-brand-secondary ring-4 ring-slate-900"></span>
+                                <h5 class="text-slate-200 text-sm font-bold">지역 인재풀 확인</h5>
+                                <p class="text-xs text-slate-500">우리 지역 재능 분포 조회</p>
+                            </li>
+                            <li class="ml-6">
+                                <span class="absolute -left-1.5 flex h-3 w-3 items-center justify-center rounded-full bg-slate-600 ring-4 ring-slate-900"></span>
+                                <h5 class="text-slate-200 text-sm font-bold">클럽 홍보/모집</h5>
+                                <p class="text-xs text-slate-500">프로그램 등록 및 학생 매칭</p>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <!-- User 3 -->
+                    <div class="bg-slate-900 p-6 rounded-xl border-t-4 border-slate-500">
+                        <h4 class="text-lg font-bold text-white mb-4">지자체 담당자</h4>
+                        <ol class="relative border-l border-slate-700 ml-2 space-y-6">
+                            <li class="ml-6">
+                                <span class="absolute -left-1.5 flex h-3 w-3 items-center justify-center rounded-full bg-slate-500 ring-4 ring-slate-900"></span>
+                                <h5 class="text-slate-200 text-sm font-bold">정책 대시보드</h5>
+                                <p class="text-xs text-slate-500">재능-지원 불균형 데이터 분석</p>
+                            </li>
+                            <li class="ml-6">
+                                <span class="absolute -left-1.5 flex h-3 w-3 items-center justify-center rounded-full bg-slate-600 ring-4 ring-slate-900"></span>
+                                <h5 class="text-slate-200 text-sm font-bold">예산 효율화</h5>
+                                <p class="text-xs text-slate-500">필요한 곳에 맞춤형 지원 설계</p>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Section -->
+        <section id="data" class="py-20 bg-brand-900">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-slate-800 rounded-2xl p-8 border border-slate-700">
+                    <div class="mb-8">
+                        <h3 class="text-2xl font-bold text-white">공공데이터 기반 프로젝트</h3>
+                        <p class="text-slate-400 text-sm mt-1">국민체육진흥공단 및 공공데이터포털 제공 데이터 활용</p>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm text-slate-400">
+                            <thead class="bg-slate-700/50 text-slate-200 uppercase font-bold text-xs">
+                                <tr>
+                                    <th class="px-6 py-3">데이터명</th>
+                                    <th class="px-6 py-3">활용 목적</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-700">
+                                <tr>
+                                    <td class="px-6 py-4 font-medium text-white">체력측정 및 운동처방 종합 데이터</td>
+                                    <td class="px-6 py-4">연령별 체력 백분위 산출 및 종목별 재능 점수화 알고리즘</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-medium text-white">체육지도자 연도별 자격취득현황 데이터</td>
+                                    <td class="px-6 py-4">연도별 지도자 자격 현황 분석 및 통계</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-medium text-white">지역별 공공체육시설 보급현황 정보</td>
+                                    <td class="px-6 py-4">시·군·구별 시설 분포 및 인프라 소외지역 파악</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-medium text-white">청소년 유아동 이용가능 체육시설 프로그램 정보</td>
+                                    <td class="px-6 py-4">종목별, 지역별 프로그램 매칭 및 추천</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-medium text-white">지역별 스포츠강좌이용권 활용 정보</td>
+                                    <td class="px-6 py-4">재능 보유자 대비 복지 혜택 도달률(격차) 분석</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Auth Section (로그인 안 된 상태에서만 표시) -->
+        <section id="auth" class="py-20 bg-brand-800">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-slate-900 rounded-2xl shadow-2xl overflow-hidden border border-slate-700 flex flex-col md:flex-row min-h-[500px]">
+                    
+                    <!-- Left: Info -->
+                    <div class="md:w-5/12 bg-gradient-to-br from-brand-800 to-brand-900 p-8 flex flex-col justify-between border-b md:border-b-0 md:border-r border-slate-700">
+                        <div>
+                            <h3 class="text-2xl font-bold text-white mb-2">숨인재 시작하기</h3>
+                            <p class="text-slate-400 text-sm mb-6">지금 가입하고 당신의 숨겨진 재능을 발견하세요.</p>
+                            <ul class="space-y-3 text-sm text-slate-300">
+                                <li class="flex items-center gap-2">✓ AI 기반 재능 진단 무료</li>
+                                <li class="flex items-center gap-2">✓ 맞춤형 훈련 프로그램 추천</li>
+                                <li class="flex items-center gap-2">✓ 지역별 장학 혜택 알림</li>
+                            </ul>
+                        </div>
+                        <div class="mt-8 text-xs text-slate-500">
+                            &copy; 2024 숨인재 Project.
+                        </div>
+                    </div>
+
+                    <!-- Right: Forms -->
+                    <div class="md:w-7/12 p-8 bg-slate-900 relative">
+                        <!-- Toggle -->
+                        <div class="flex border-b border-slate-700 mb-6">
+                            <button onclick="toggleAuth('login')" id="btn-login-tab" class="w-1/2 pb-3 text-brand-primary border-b-2 border-brand-primary font-bold">로그인</button>
+                            <button onclick="toggleAuth('signup')" id="btn-signup-tab" class="w-1/2 pb-3 text-slate-500 hover:text-white transition">회원가입</button>
+                        </div>
+
+                        <!-- Login Form -->
+                        <form id="form-login" onsubmit="handleLogin(event)" class="space-y-4 block fade-in">
+                            <div>
+                                <label class="block text-slate-400 text-xs mb-1">이메일</label>
+                                <input type="email" value="demo@soominjae.com" class="w-full bg-slate-800 border border-slate-600 rounded p-3 text-white focus:ring-1 focus:ring-brand-primary outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-slate-400 text-xs mb-1">비밀번호</label>
+                                <input type="password" value="password" class="w-full bg-slate-800 border border-slate-600 rounded p-3 text-white focus:ring-1 focus:ring-brand-primary outline-none">
+                            </div>
+                            <button type="submit" class="w-full bg-brand-primary text-brand-900 font-bold py-3 rounded hover:bg-lime-400 transition">로그인</button>
+                            <p class="text-xs text-slate-500 text-center mt-2">테스트용 계정으로 바로 로그인됩니다.</p>
+                        </form>
+
+                        <!-- Signup Form -->
+                        <form id="form-signup" onsubmit="handleSignup(event)" class="space-y-3 hidden fade-in">
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-slate-400 text-xs mb-1">이름</label>
+                                    <input type="text" id="signup-name" class="w-full bg-slate-800 border border-slate-600 rounded p-3 text-white focus:ring-1 focus:ring-brand-primary outline-none" required minlength="2" placeholder="홍길동">
+                                </div>
+                                <div>
+                                    <label class="block text-slate-400 text-xs mb-1">회원 유형</label>
+                                    <select id="signup-role" class="w-full bg-slate-800 border border-slate-600 rounded p-3 text-white focus:ring-1 focus:ring-brand-primary outline-none">
+                                        <option value="student">학생/학부모</option>
+                                        <option value="coach">지도자</option>
+                                        <option value="official">기관 담당자</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-slate-400 text-xs mb-1">이메일</label>
+                                <input type="email" id="signup-email" class="w-full bg-slate-800 border border-slate-600 rounded p-3 text-white focus:ring-1 focus:ring-brand-primary outline-none" required placeholder="example@email.com" onblur="checkEmailAvailability()">
+                                <p id="signup-email-status" class="text-xs mt-1 hidden"></p>
+                            </div>
+                            <div>
+                                <label class="block text-slate-400 text-xs mb-1">비밀번호</label>
+                                <input type="password" id="signup-password" class="w-full bg-slate-800 border border-slate-600 rounded p-3 text-white focus:ring-1 focus:ring-brand-primary outline-none" required placeholder="8자 이상, 대/소문자, 숫자, 특수문자" oninput="checkPasswordStrength()">
+                                <p id="signup-password-status" class="text-xs mt-1 hidden"></p>
+                            </div>
+                            <button type="submit" id="signup-submit" class="w-full bg-slate-700 text-white font-bold py-3 rounded hover:bg-slate-600 transition border border-slate-500 hover:border-brand-primary">가입하기</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq" class="py-20 bg-brand-900">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-white text-center mb-10">자주 묻는 질문</h2>
+                <div class="space-y-4">
+                    <details class="bg-slate-800 rounded-lg group">
+                        <summary class="list-none flex justify-between items-center p-5 cursor-pointer text-white font-medium">
+                            이 서비스는 엘리트 선수를 위한 건가요?
+                            <span class="transition group-open:rotate-180">
+                                <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                            </span>
+                        </summary>
+                        <div class="text-slate-400 px-5 pb-5 text-sm leading-relaxed">
+                            아니요, 숨인재는 일반 학생들을 위한 서비스입니다. 학교 체력장(PAPS) 데이터나 간단한 측정만으로도 자신의 숨겨진 운동 재능을 발견하고, 취미나 진로로 발전시킬 수 있도록 돕습니다.
+                        </div>
+                    </details>
+                    <details class="bg-slate-800 rounded-lg group">
+                        <summary class="list-none flex justify-between items-center p-5 cursor-pointer text-white font-medium">
+                            데이터는 어떻게 연동되나요?
+                            <span class="transition group-open:rotate-180">
+                                <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                            </span>
+                        </summary>
+                        <div class="text-slate-400 px-5 pb-5 text-sm leading-relaxed">
+                            현재는 직접 데이터를 입력하는 방식이며, 향후 교육행정정보시스템(NEIS) 또는 국민체력100 API와 연동하여 자동으로 데이터를 불러올 수 있도록 개발 중입니다.
+                        </div>
+                    </details>
+                    <details class="bg-slate-800 rounded-lg group">
+                        <summary class="list-none flex justify-between items-center p-5 cursor-pointer text-white font-medium">
+                            장애 학생도 이용 가능한가요?
+                            <span class="transition group-open:rotate-180">
+                                <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                            </span>
+                        </summary>
+                        <div class="text-slate-400 px-5 pb-5 text-sm leading-relaxed">
+                            네, 장애 학생을 위한 별도의 체력 측정 기준(장애인 체력인증센터 데이터 기준)을 적용하여, 패럴림픽 종목 등 적합한 운동 프로그램을 매칭해 드립니다.
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-black py-12 border-t border-slate-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0 text-center md:text-left">
+                    <div class="flex items-center justify-center md:justify-start gap-2 mb-2">
+                        <!-- Tiny Footer Logo -->
+                        <img src="logo.jpeg" alt="숨인재 로고" class="h-6 w-6 object-cover rounded-lg">
+                        <span class="font-bold text-white text-lg">숨인재</span>
+                    </div>
+                    <p class="text-slate-500 text-sm">공공데이터 기반 청소년 스포츠 재능 발굴 플랫폼</p>
+                </div>
+                <div class="flex gap-6 text-sm text-slate-500">
+                    <a href="#" class="hover:text-white transition">이용약관</a>
+                    <a href="#" class="hover:text-white transition">개인정보처리방침</a>
+                    <a href="#" class="hover:text-white transition">문의하기</a>
+                </div>
+            </div>
+        </footer>
+    </main> <!-- End Landing View -->
+
+    <!-- VIEW: APP / FEATURES (Service Features Preview) -->
+    <main id="view-app" class="view-section pt-24 pb-12 min-h-screen bg-slate-900/95 relative">
+        <div class="absolute top-0 left-0 w-full h-full opacity-10 bg-hero-pattern pointer-events-none -z-10"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h2 class="text-2xl font-bold text-white">서비스 기능</h2>
+                    <p class="text-slate-400 text-sm">체력 측정부터 매칭, 정책 분석까지</p>
+                </div>
+                <!-- App Mode Tab Navigation (Top Bar Style) -->
+                 <div class="hidden md:flex bg-slate-800 p-1 rounded-lg">
+                    <button class="tab-btn px-4 py-2 text-sm font-medium rounded-md transition-all text-brand-900 bg-brand-primary shadow" data-target="tab-diagnosis">재능 진단</button>
+                    <button class="tab-btn px-4 py-2 text-sm font-medium rounded-md transition-all text-slate-400 hover:text-white" data-target="tab-matching">매칭</button>
+                    <button class="tab-btn px-4 py-2 text-sm font-medium rounded-md transition-all text-slate-400 hover:text-white" data-target="tab-dashboard">대시보드</button>
+                    <button class="tab-btn px-4 py-2 text-sm font-medium rounded-md transition-all text-slate-400 hover:text-white" data-target="tab-mypage-demo">마이페이지 (예시)</button>
+                </div>
+            </div>
+
+            <!-- Mobile App Tab Nav -->
+            <div class="md:hidden overflow-x-auto no-scrollbar mb-6 flex space-x-2 pb-2">
+                 <button class="tab-btn whitespace-nowrap px-4 py-2 text-sm font-medium rounded-full bg-brand-primary text-brand-900" data-target="tab-diagnosis">재능 진단</button>
+                 <button class="tab-btn whitespace-nowrap px-4 py-2 text-sm font-medium rounded-full bg-slate-800 text-slate-300 border border-slate-700" data-target="tab-matching">매칭</button>
+                 <button class="tab-btn whitespace-nowrap px-4 py-2 text-sm font-medium rounded-full bg-slate-800 text-slate-300 border border-slate-700" data-target="tab-dashboard">대시보드</button>
+                 <button class="tab-btn whitespace-nowrap px-4 py-2 text-sm font-medium rounded-full bg-slate-800 text-slate-300 border border-slate-700" data-target="tab-mypage-demo">마이페이지 (예시)</button>
+            </div>
+
+            <!-- App Content Area -->
+            <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-slate-700 shadow-2xl min-h-[600px]">
+                
+                 <!-- 1. Diagnosis Tab -->
+                <div id="tab-diagnosis" class="tab-content fade-in block">
+                    <div class="grid lg:grid-cols-2 gap-10">
+                        <!-- Input Form -->
+                        <div class="space-y-6">
+                            <div class="mb-6">
+                                <h3 class="text-2xl font-bold text-white mb-2">체력 데이터 입력</h3>
+                                <p class="text-slate-400 text-sm">최근 측정한 체력 데이터를 입력하면 AI가 적합한 스포츠 종목을 분석해줍니다.</p>
+                            </div>
+                            <form id="diagnosis-form" onsubmit="handleDiagnosis(event)" class="space-y-4">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-slate-400 text-xs mb-1">나이</label>
+                                        <input type="number" value="14" class="w-full bg-slate-700 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-brand-primary">
+                                    </div>
+                                    <div>
+                                        <label class="block text-slate-400 text-xs mb-1">성별</label>
+                                        <select class="w-full bg-slate-700 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-brand-primary">
+                                            <option>남성</option>
+                                            <option>여성</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-slate-400 text-xs mb-1">지역 (시/군/구)</label>
+                                    <select class="w-full bg-slate-700 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-brand-primary">
+                                        <option>서울시 송파구</option>
+                                        <option>경기도 성남시</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-slate-400 text-xs mb-1">장애 유형 (해당시 선택)</label>
+                                    <select id="disability-type" class="w-full bg-slate-700 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-brand-primary custom-select">
+                                        <option value="">비장애 (일반)</option>
+                                        <option value="physical">지체장애</option>
+                                        <option value="visual">시각장애</option>
+                                        <option value="hearing">청각장애</option>
+                                        <option value="intellectual">지적장애</option>
+                                    </select>
+                                </div>
+                                <hr class="border-slate-700 my-4">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-slate-400 text-xs mb-1">악력 (kg)</label>
+                                        <input type="number" placeholder="예: 32" class="w-full bg-slate-700 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-brand-primary">
+                                    </div>
+                                    <div>
+                                        <label class="block text-slate-400 text-xs mb-1">윗몸일으키기 (회/분)</label>
+                                        <input type="number" placeholder="예: 45" class="w-full bg-slate-700 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-brand-primary">
+                                    </div>
+                                    <div>
+                                        <label class="block text-slate-400 text-xs mb-1">제자리멀리뛰기 (cm)</label>
+                                        <input type="number" placeholder="예: 210" class="w-full bg-slate-700 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-brand-primary">
+                                    </div>
+                                    <div>
+                                        <label class="block text-slate-400 text-xs mb-1">왕복오래달리기 (회)</label>
+                                        <input type="number" placeholder="예: 60" class="w-full bg-slate-700 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-brand-primary">
+                                    </div>
+                                </div>
+                                <button type="submit" class="w-full bg-brand-primary text-brand-900 font-bold py-4 rounded-lg hover:bg-lime-400 transition mt-4">
+                                    결과 분석하기
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Result Preview -->
+                        <div class="bg-slate-900 rounded-2xl p-6 border border-slate-700 relative overflow-hidden">
+                            <div class="absolute top-0 right-0 p-4 opacity-50">
+                                <span class="text-6xl text-slate-800 font-display font-bold">SAMPLE</span>
+                            </div>
+                            <h4 class="text-xl font-bold text-white mb-6">분석 결과 예시</h4>
+                            
+                            <!-- Stat Card 1 -->
+                            <div class="bg-brand-800/50 rounded-xl p-4 mb-4 border border-slate-600 flex items-center justify-between">
+                                <div>
+                                    <span class="text-brand-secondary text-xs font-bold uppercase tracking-wider">Top Recommendation</span>
+                                    <h5 class="text-2xl font-bold text-white mt-1">배구 (Volleyball)</h5>
+                                    <p class="text-slate-400 text-sm mt-1">점프력과 순발력이 상위 3% 수준입니다.</p>
+                                </div>
+                                <div class="text-right">
+                                    <span class="block text-4xl font-bold text-brand-primary font-display">94</span>
+                                    <span class="text-xs text-slate-400">POINTS</span>
+                                </div>
+                            </div>
+
+                            <!-- Stat Card 2 -->
+                            <div class="bg-slate-800/50 rounded-xl p-4 mb-4 border border-slate-700 flex items-center justify-between opacity-70">
+                                <div>
+                                    <h5 class="text-xl font-bold text-white">육상 (단거리)</h5>
+                                </div>
+                                <div class="text-right">
+                                    <span class="block text-3xl font-bold text-white font-display">88</span>
+                                </div>
+                            </div>
+
+                             <!-- Stat Card 3 -->
+                             <div class="bg-slate-800/50 rounded-xl p-4 border border-slate-700 flex items-center justify-between opacity-70">
+                                <div>
+                                    <h5 class="text-xl font-bold text-white">테니스</h5>
+                                </div>
+                                <div class="text-right">
+                                    <span class="block text-3xl font-bold text-white font-display">82</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Matching Tab -->
+                <div id="tab-matching" class="tab-content hidden fade-in">
+                    <div class="flex flex-col h-full">
+                        <!-- Header -->
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+                            <div>
+                                <h3 class="text-2xl font-bold text-white">프로그램 매칭</h3>
+                                <p class="text-slate-400 text-sm" id="program-count-text">전국 청소년/유아동 스포츠 프로그램</p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="relative">
+                                    <input type="text" id="program-search" placeholder="프로그램명, 시설명 검색..."
+                                        class="bg-slate-800 text-white pl-10 pr-4 py-2 rounded-lg border border-slate-600 focus:border-brand-primary focus:outline-none w-64">
+                                    <svg class="w-5 h-5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                    </svg>
+                                </div>
+                                <button onclick="searchPrograms()" class="bg-brand-primary text-brand-900 px-4 py-2 rounded-lg font-semibold hover:bg-brand-secondary transition">
+                                    검색
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Filters -->
+                        <div class="bg-slate-900 rounded-xl p-4 mb-6 border border-slate-700">
+                            <div class="flex flex-wrap gap-4 items-end">
+                                <div class="flex-1 min-w-[150px]">
+                                    <label class="block text-xs text-slate-400 mb-1">시/도</label>
+                                    <select id="filter-sido" onchange="loadSigunguOptions()" class="custom-select w-full bg-slate-800 text-white px-3 py-2 rounded-lg border border-slate-600 focus:border-brand-primary focus:outline-none text-sm">
+                                        <option value="">전체</option>
+                                    </select>
+                                </div>
+                                <div class="flex-1 min-w-[150px]">
+                                    <label class="block text-xs text-slate-400 mb-1">시/군/구</label>
+                                    <select id="filter-sigungu" class="custom-select w-full bg-slate-800 text-white px-3 py-2 rounded-lg border border-slate-600 focus:border-brand-primary focus:outline-none text-sm">
+                                        <option value="">전체</option>
+                                    </select>
+                                </div>
+                                <div class="flex-1 min-w-[150px]">
+                                    <label class="block text-xs text-slate-400 mb-1">업종</label>
+                                    <select id="filter-industry" class="custom-select w-full bg-slate-800 text-white px-3 py-2 rounded-lg border border-slate-600 focus:border-brand-primary focus:outline-none text-sm">
+                                        <option value="">전체</option>
+                                        <option value="수영장">수영장</option>
+                                        <option value="체육관">체육관</option>
+                                        <option value="테니스장">테니스장</option>
+                                        <option value="축구장">축구장</option>
+                                        <option value="골프연습장">골프연습장</option>
+                                        <option value="태권도장">태권도장</option>
+                                        <option value="당구장">당구장</option>
+                                        <option value="볼링장">볼링장</option>
+                                    </select>
+                                </div>
+                                <div class="flex-1 min-w-[150px]">
+                                    <label class="block text-xs text-slate-400 mb-1">대상</label>
+                                    <select id="filter-target" class="custom-select w-full bg-slate-800 text-white px-3 py-2 rounded-lg border border-slate-600 focus:border-brand-primary focus:outline-none text-sm">
+                                        <option value="">전체</option>
+                                        <option value="유아">유아</option>
+                                        <option value="어린이">어린이</option>
+                                        <option value="초등">초등학생</option>
+                                        <option value="청소년">청소년</option>
+                                        <option value="성인">성인</option>
+                                    </select>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button onclick="applyProgramFilters()" class="bg-brand-primary text-brand-900 px-4 py-2 rounded-lg font-semibold hover:bg-brand-secondary transition">
+                                        필터 적용
+                                    </button>
+                                    <button onclick="resetProgramFilters()" class="bg-slate-700 text-white px-4 py-2 rounded-lg hover:bg-slate-600 transition">
+                                        초기화
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Active Filters Tags -->
+                        <div id="active-filters" class="flex flex-wrap gap-2 mb-4 hidden">
+                        </div>
+
+                        <!-- Programs Grid -->
+                        <div id="programs-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <!-- 로딩 시 동적으로 채워짐 -->
+                        </div>
+
+                        <!-- Pagination -->
+                        <div id="programs-pagination" class="flex justify-center items-center gap-2 mt-8">
+                        </div>
+
+                        <!-- Stats Summary -->
+                        <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 text-center">
+                                <p class="text-2xl font-bold text-brand-primary" id="stat-total-programs">-</p>
+                                <p class="text-xs text-slate-400">전체 프로그램</p>
+                            </div>
+                            <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 text-center">
+                                <p class="text-2xl font-bold text-brand-secondary" id="stat-total-regions">-</p>
+                                <p class="text-xs text-slate-400">운영 지역</p>
+                            </div>
+                            <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 text-center">
+                                <p class="text-2xl font-bold text-white" id="stat-industries">-</p>
+                                <p class="text-xs text-slate-400">업종 분류</p>
+                            </div>
+                            <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 text-center">
+                                <p class="text-2xl font-bold text-green-400" id="stat-youth-programs">-</p>
+                                <p class="text-xs text-slate-400">청소년 대상</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Dashboard Tab -->
+                <div id="tab-dashboard" class="tab-content hidden fade-in">
+                    <div class="space-y-6">
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <h3 class="text-2xl font-bold text-white">지역별 스포츠 인프라 현황 분석</h3>
+                                <p class="text-slate-400 text-sm" id="dashboard-base-date">공공데이터 기반 지역 스포츠 인프라 분석</p>
+                            </div>
+                        </div>
+
+                        <!-- Top Stats - 4 cards -->
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="dashboard-stats">
+                            <div class="bg-slate-900 p-4 rounded-xl border border-slate-700">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="w-8 h-8 bg-brand-primary/20 rounded-lg flex items-center justify-center">
+                                        <svg class="w-4 h-4 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                                    </div>
+                                    <p class="text-xs text-slate-400">전국 공공체육시설</p>
+                                </div>
+                                <p class="text-2xl font-bold text-white" id="stat-facilities">-</p>
+                                <p class="text-xs text-slate-500 mt-1" id="stat-facilities-regions">- 지역</p>
+                            </div>
+                            <div class="bg-slate-900 p-4 rounded-xl border border-slate-700">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="w-8 h-8 bg-brand-secondary/20 rounded-lg flex items-center justify-center">
+                                        <svg class="w-4 h-4 text-brand-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    </div>
+                                    <p class="text-xs text-slate-400">스포츠강좌이용권 수혜자</p>
+                                </div>
+                                <p class="text-2xl font-bold text-brand-secondary" id="stat-support">-</p>
+                                <p class="text-xs text-slate-500 mt-1" id="stat-support-year">- 기준</p>
+                            </div>
+                            <div class="bg-slate-900 p-4 rounded-xl border border-slate-700">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                                        <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                                    </div>
+                                    <p class="text-xs text-slate-400">체육지도자 자격 취득</p>
+                                </div>
+                                <p class="text-2xl font-bold text-purple-400" id="stat-coaches">-</p>
+                                <p class="text-xs text-slate-500 mt-1" id="stat-coaches-year">- 기준</p>
+                            </div>
+                            <div class="bg-slate-900 p-4 rounded-xl border border-slate-700">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="w-8 h-8 bg-orange-500/20 rounded-lg flex items-center justify-center">
+                                        <svg class="w-4 h-4 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                                    </div>
+                                    <p class="text-xs text-slate-400">등록 프로그램</p>
+                                </div>
+                                <p class="text-2xl font-bold text-orange-400" id="stat-programs">-</p>
+                                <p class="text-xs text-slate-500 mt-1">청소년/유아 대상</p>
+                            </div>
+                        </div>
+
+                        <!-- 지역별 인프라 현황 -->
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <!-- 지역별 시설 수 차트 -->
+                            <div class="bg-slate-900 p-6 rounded-xl border border-slate-700">
+                                <h4 class="text-white font-bold mb-4 flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                                    시도별 공공체육시설 현황
+                                </h4>
+                                <div class="space-y-2 max-h-80 overflow-y-auto pr-2" id="region-facility-chart">
+                                    <div class="text-center py-8 text-slate-500">로딩 중...</div>
+                                </div>
+                            </div>
+
+                            <!-- 인구 대비 시설 비율 -->
+                            <div class="bg-slate-900 p-6 rounded-xl border border-slate-700">
+                                <h4 class="text-white font-bold mb-4 flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-brand-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                    인구 1만명당 체육시설 수
+                                </h4>
+                                <div class="space-y-2 max-h-80 overflow-y-auto pr-2" id="region-ratio-chart">
+                                    <div class="text-center py-8 text-slate-500">로딩 중...</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 스포츠강좌이용권 수혜 현황 -->
+                        <div class="bg-slate-900 p-6 rounded-xl border border-slate-700">
+                            <h4 class="text-white font-bold mb-4 flex items-center gap-2">
+                                <svg class="w-5 h-5 text-brand-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                                시도별 스포츠강좌이용권 수혜자 현황
+                            </h4>
+                            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3" id="support-recipients-grid">
+                                <div class="text-center py-8 text-slate-500 col-span-full">로딩 중...</div>
+                            </div>
+                        </div>
+
+                        <!-- 체육지도자 자격 현황 -->
+                        <div class="bg-slate-900 p-6 rounded-xl border border-slate-700">
+                            <h4 class="text-white font-bold mb-4 flex items-center gap-2">
+                                <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
+                                체육지도자 자격 유형별 현황 (최근 연도)
+                            </h4>
+                            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4" id="coach-types-grid">
+                                <div class="text-center py-8 text-slate-500 col-span-full">로딩 중...</div>
+                            </div>
+                        </div>
+
+                        <!-- 인사이트 섹션 -->
+                        <div class="bg-gradient-to-r from-brand-primary/10 to-brand-secondary/10 p-6 rounded-xl border border-brand-primary/30">
+                            <h4 class="text-white font-bold mb-4 flex items-center gap-2">
+                                <svg class="w-5 h-5 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                                데이터 인사이트
+                            </h4>
+                            <div class="grid md:grid-cols-3 gap-4" id="insights-container">
+                                <div class="text-center py-4 text-slate-500 col-span-full">데이터 분석 중...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. MyPage Tab (Demo) -->
+                <div id="tab-mypage-demo" class="tab-content hidden fade-in">
+                    <div class="grid md:grid-cols-3 gap-6">
+                         <!-- Overlay for demo notice -->
+                         <div class="md:col-span-3 text-center mb-4 bg-brand-primary/10 p-3 rounded-lg border border-brand-primary/30">
+                            <span class="text-brand-primary text-sm font-bold">이것은 예시 화면입니다. 실제 마이페이지는 로그인 후 이용할 수 있습니다.</span>
+                         </div>
+
+                        <!-- Profile Section -->
+                        <div class="md:col-span-1 space-y-4">
+                            <!-- Profile Card -->
+                            <div class="bg-slate-900 p-6 rounded-xl border border-slate-700 text-center">
+                                <div class="w-24 h-24 bg-gradient-to-br from-brand-primary to-brand-secondary rounded-full mx-auto mb-4 border-4 border-brand-primary flex items-center justify-center text-brand-900 font-bold text-4xl">
+                                     <span>홍</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-white">홍길동</h3>
+                                <p class="text-brand-secondary font-medium text-sm">학생 회원</p>
+                                <p class="text-slate-400 text-sm mt-1">서울중학교 2학년</p>
+                                <p class="text-slate-500 text-xs mt-1">서울특별시 강남구</p>
+                                <div class="mt-4 flex justify-center gap-2 flex-wrap">
+                                    <span class="px-2 py-1 bg-brand-primary/10 border border-brand-primary/30 rounded text-xs text-brand-primary">#배구</span>
+                                    <span class="px-2 py-1 bg-brand-secondary/10 border border-brand-secondary/30 rounded text-xs text-brand-secondary">#농구</span>
+                                </div>
+                            </div>
+
+                            <!-- Stats Summary -->
+                            <div class="bg-slate-900 p-5 rounded-xl border border-slate-700">
+                                <h4 class="text-white font-bold mb-4 text-sm">활동 요약</h4>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div class="text-center p-3 bg-slate-800 rounded-lg">
+                                        <div class="text-2xl font-bold text-brand-primary">5</div>
+                                        <div class="text-xs text-slate-400">진단 횟수</div>
+                                    </div>
+                                    <div class="text-center p-3 bg-slate-800 rounded-lg">
+                                        <div class="text-2xl font-bold text-brand-secondary">3</div>
+                                        <div class="text-xs text-slate-400">북마크</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Notification -->
+                            <div class="bg-slate-900 p-5 rounded-xl border border-slate-700">
+                                <h4 class="text-white font-bold mb-3 text-sm flex items-center gap-2">
+                                    <svg class="w-4 h-4 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                                    알림
+                                    <span class="ml-auto bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full">2</span>
+                                </h4>
+                                <div class="space-y-2">
+                                    <div class="p-3 bg-slate-800 rounded-lg text-xs border-l-2 border-brand-primary">
+                                        <p class="text-white font-medium">새 프로그램 추천!</p>
+                                        <p class="text-slate-400 mt-1">강남 청소년 배구 교실이 모집 중입니다.</p>
+                                    </div>
+                                    <div class="p-3 bg-slate-800 rounded-lg text-xs border-l-2 border-brand-secondary">
+                                        <p class="text-white font-medium">진단 기록 업데이트</p>
+                                        <p class="text-slate-400 mt-1">새 체력 측정 결과가 저장되었습니다.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Main Content -->
+                        <div class="md:col-span-2 space-y-6">
+                            <!-- Recent Diagnosis -->
+                            <div class="bg-slate-900 p-6 rounded-xl border border-slate-700">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h4 class="text-white font-bold flex items-center gap-2">
+                                        <svg class="w-5 h-5 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                                        최근 진단 결과
+                                    </h4>
+                                    <span class="text-xs text-slate-400">2024.12.01 측정</span>
+                                </div>
+
+                                <!-- Top Sport -->
+                                <div class="bg-gradient-to-r from-brand-primary/20 to-brand-secondary/20 p-5 rounded-xl border border-brand-primary/30 mb-4">
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <span class="text-brand-primary text-xs font-bold uppercase">1순위 추천</span>
+                                            <h5 class="text-2xl font-bold text-white mt-1">배구</h5>
+                                            <p class="text-slate-400 text-sm mt-1">점프력과 민첩성이 탁월합니다!</p>
+                                        </div>
+                                        <div class="text-right">
+                                            <span class="text-5xl font-bold text-brand-primary font-display">92</span>
+                                            <span class="text-xs text-slate-400 block">점</span>
+                                        </div>
+                                    </div>
+                                    <div class="mt-4 pt-4 border-t border-slate-700">
+                                        <div class="flex justify-between text-xs text-slate-400 mb-1">
+                                            <span>전국 상위</span>
+                                            <span class="text-white font-bold">5%</span>
+                                        </div>
+                                        <div class="w-full bg-slate-700 h-2 rounded-full">
+                                            <div class="bg-brand-primary h-full rounded-full" style="width: 95%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Other Sports -->
+                                <div class="grid grid-cols-3 gap-3">
+                                    <div class="bg-slate-800 p-4 rounded-lg text-center">
+                                        <span class="text-xs text-slate-400">2순위</span>
+                                        <h5 class="text-white font-bold mt-1">농구</h5>
+                                        <span class="text-brand-secondary font-bold">87점</span>
+                                    </div>
+                                    <div class="bg-slate-800 p-4 rounded-lg text-center">
+                                        <span class="text-xs text-slate-400">3순위</span>
+                                        <h5 class="text-white font-bold mt-1">핸드볼</h5>
+                                        <span class="text-slate-300 font-bold">82점</span>
+                                    </div>
+                                    <div class="bg-slate-800 p-4 rounded-lg text-center">
+                                        <span class="text-xs text-slate-400">4순위</span>
+                                        <h5 class="text-white font-bold mt-1">육상</h5>
+                                        <span class="text-slate-400 font-bold">78점</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Physical Stats -->
+                            <div class="bg-slate-900 p-6 rounded-xl border border-slate-700">
+                                <h4 class="text-white font-bold mb-4 flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-brand-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                    체력 요소 분석
+                                </h4>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    <div class="bg-slate-800 p-4 rounded-lg text-center">
+                                        <div class="text-brand-primary font-display text-3xl font-bold">A+</div>
+                                        <div class="text-xs text-slate-400 mt-1">순발력</div>
+                                        <div class="text-xs text-brand-primary mt-1">상위 3%</div>
+                                    </div>
+                                    <div class="bg-slate-800 p-4 rounded-lg text-center">
+                                        <div class="text-brand-secondary font-display text-3xl font-bold">A</div>
+                                        <div class="text-xs text-slate-400 mt-1">유연성</div>
+                                        <div class="text-xs text-brand-secondary mt-1">상위 8%</div>
+                                    </div>
+                                    <div class="bg-slate-800 p-4 rounded-lg text-center">
+                                        <div class="text-white font-display text-3xl font-bold">B+</div>
+                                        <div class="text-xs text-slate-400 mt-1">근력</div>
+                                        <div class="text-xs text-slate-300 mt-1">상위 15%</div>
+                                    </div>
+                                    <div class="bg-slate-800 p-4 rounded-lg text-center">
+                                        <div class="text-slate-300 font-display text-3xl font-bold">B</div>
+                                        <div class="text-xs text-slate-400 mt-1">지구력</div>
+                                        <div class="text-xs text-slate-400 mt-1">상위 25%</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bookmarks -->
+                            <div class="bg-slate-900 p-6 rounded-xl border border-slate-700">
+                                <h4 class="text-white font-bold mb-4 flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 24 24"><path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path></svg>
+                                    북마크한 프로그램
+                                </h4>
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between p-4 bg-slate-800 rounded-lg">
+                                        <div>
+                                            <h5 class="text-white font-bold">강남 청소년 배구 교실</h5>
+                                            <p class="text-xs text-slate-400 mt-1">서울특별시 강남구 · 매주 토요일</p>
+                                        </div>
+                                        <span class="px-2 py-1 bg-green-500/10 text-green-400 text-xs rounded">모집중</span>
+                                    </div>
+                                    <div class="flex items-center justify-between p-4 bg-slate-800 rounded-lg">
+                                        <div>
+                                            <h5 class="text-white font-bold">서초 농구 아카데미</h5>
+                                            <p class="text-xs text-slate-400 mt-1">서울특별시 서초구 · 주 2회</p>
+                                        </div>
+                                        <span class="px-2 py-1 bg-yellow-500/10 text-yellow-400 text-xs rounded">마감임박</span>
+                                    </div>
+                                    <div class="flex items-center justify-between p-4 bg-slate-800 rounded-lg">
+                                        <div>
+                                            <h5 class="text-white font-bold">송파 육상 트레이닝</h5>
+                                            <p class="text-xs text-slate-400 mt-1">서울특별시 송파구 · 평일 오후</p>
+                                        </div>
+                                        <span class="px-2 py-1 bg-slate-500/10 text-slate-400 text-xs rounded">종료</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- VIEW: REAL MY PAGE (Authenticated) -->
+    <main id="view-mypage" class="view-section pt-24 pb-12 min-h-screen bg-slate-900/95 relative">
+        <div class="absolute top-0 left-0 w-full h-full opacity-10 bg-hero-pattern pointer-events-none -z-10"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-3xl font-bold text-white">마이페이지</h2>
+                <div class="flex gap-2">
+                    <button onclick="openProfileModal()" class="bg-slate-800 text-white px-4 py-2 rounded border border-slate-700 hover:border-brand-primary transition">프로필 수정</button>
+                    <button onclick="handleLogout()" class="bg-red-500/10 text-red-500 px-4 py-2 rounded border border-red-500/20 hover:bg-red-500/20 transition">로그아웃</button>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Profile -->
+                <div class="md:col-span-1 space-y-4">
+                    <div class="bg-slate-900 p-6 rounded-xl border border-slate-700 text-center">
+                        <div class="w-28 h-28 bg-gradient-to-br from-brand-primary to-brand-secondary rounded-full mx-auto mb-4 border-4 border-brand-primary flex items-center justify-center text-brand-900 font-bold text-5xl relative group" id="mypage-profile-avatar">
+                             <span></span>
+                             <div class="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition cursor-pointer text-xs text-white">사진 변경</div>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white" id="mypage-profile-name">김민수</h3>
+                        <p class="text-brand-secondary font-medium text-sm">학생 회원</p>
+                        <p class="text-slate-400 text-sm mt-1">송파중학교 1학년 · 서울 송파구</p>
+                        <div class="mt-4 flex justify-center gap-2 flex-wrap">
+                            <span class="px-2 py-1 bg-brand-primary/10 border border-brand-primary/30 rounded text-xs text-brand-primary">#단거리육상</span>
+                            <span class="px-2 py-1 bg-brand-secondary/10 border border-brand-secondary/30 rounded text-xs text-brand-secondary">#배구</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-slate-900 p-6 rounded-xl border border-slate-700">
+                        <h4 class="text-white font-bold mb-3 text-sm flex items-center gap-2">
+                            <svg class="w-4 h-4 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                            알림 센터
+                        </h4>
+                        <div class="space-y-3">
+                            <div class="p-3 bg-slate-800 rounded-lg text-xs text-slate-300 border-l-2 border-brand-primary relative">
+                                <span class="absolute top-2 right-2 w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+                                <p class="font-bold text-white mb-1">매칭 추천</p>
+                                추천하신 '송파 배구 클럽' 신규 모집이 시작되었습니다.
+                            </div>
+                            <div class="p-3 bg-slate-800 rounded-lg text-xs text-slate-300 border-l-2 border-transparent">
+                                <p class="font-bold text-slate-400 mb-1">시스템</p>
+                                새로운 체력 측정 기록이 업데이트 되었습니다. (2024.05.20)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Content -->
+                <div class="md:col-span-2 space-y-6">
+                    <!-- Stats Summary -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-gradient-to-br from-brand-900 to-slate-900 p-5 rounded-xl border border-slate-700">
+                            <p class="text-slate-400 text-xs">나의 최고 재능 점수</p>
+                            <p class="text-3xl font-bold text-white mt-2">94<span class="text-sm text-slate-500 font-normal ml-1">점 / 배구</span></p>
+                        </div>
+                        <div class="bg-gradient-to-br from-brand-900 to-slate-900 p-5 rounded-xl border border-slate-700">
+                            <p class="text-slate-400 text-xs">관심 프로그램</p>
+                            <p class="text-3xl font-bold text-white mt-2">3<span class="text-sm text-slate-500 font-normal ml-1">개</span></p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900 p-6 rounded-xl border border-slate-700">
+                        <div class="flex justify-between items-center mb-4">
+                             <h4 class="text-white font-bold">최근 진단 리포트</h4>
+                             <button class="text-xs text-slate-400 hover:text-white">전체보기</button>
+                        </div>
+                        <div class="flex justify-between items-center bg-slate-800 p-4 rounded-lg mb-2 hover:bg-slate-750 transition cursor-pointer border border-transparent hover:border-brand-primary/50">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded bg-brand-primary/20 flex items-center justify-center text-brand-primary font-bold">10월</div>
+                                <div>
+                                    <p class="text-white font-bold">정기 체력 측정</p>
+                                    <p class="text-xs text-slate-400">종합 점수 89점 (상위 8%) · 배구 적합도 상승</p>
+                                </div>
+                            </div>
+                            <button class="text-brand-primary text-sm font-bold px-3 py-1 rounded bg-brand-primary/10">상세보기</button>
+                        </div>
+                        <div class="flex justify-between items-center bg-slate-800 p-4 rounded-lg mb-2 hover:bg-slate-750 transition cursor-pointer border border-transparent hover:border-slate-600">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded bg-slate-700 flex items-center justify-center text-slate-400 font-bold">5월</div>
+                                <div>
+                                    <p class="text-slate-300 font-bold">학교 PAPS 측정</p>
+                                    <p class="text-xs text-slate-500">종합 점수 82점 (상위 15%)</p>
+                                </div>
+                            </div>
+                            <button class="text-slate-500 text-sm font-bold px-3 py-1">상세보기</button>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-slate-900 p-6 rounded-xl border border-slate-700">
+                        <h4 class="text-white font-bold mb-4 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 24 24"><path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path></svg>
+                            내 북마크 (관심 프로그램)
+                        </h4>
+                        <div id="mypage-bookmarks-list" class="space-y-2">
+                            <p class="text-slate-500 text-sm">로딩 중...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <!-- JavaScript logic -->
+    <script>
+        // Global State
+        let isLoggedIn = false;
+        let currentUser = null;
+        let userBookmarks = []; // 사용자 북마크 목록 (program_id들)
+
+        // 종목명 한글 매핑
+        const SPORT_NAMES_KO = {
+            soccer: '축구',
+            basketball: '농구',
+            volleyball: '배구',
+            baseball: '야구',
+            track_sprint: '육상(단거리)',
+            track_long: '육상(장거리)',
+            swimming: '수영',
+            tennis: '테니스',
+            sprint: '단거리 육상',
+            judo: '유도',
+            taekwondo: '태권도',
+            // 패럴림픽 종목
+            para_swimming: '패럴림픽 수영',
+            para_athletics: '패럴림픽 육상',
+            boccia: '보치아',
+            goalball: '골볼',
+            sitting_volleyball: '좌식배구',
+            wheelchair_basketball: '휠체어 농구',
+            wheelchair_tennis: '휠체어 테니스',
+            para_table_tennis: '패럴림픽 탁구'
+        };
+
+        // 등급 정보 (한글명, 설명, 색상)
+        const GRADE_INFO = {
+            excellent: {
+                name: '최우수',
+                percentile: '상위 5%',
+                description: '해당 종목에서 뛰어난 재능을 보유하고 있습니다. 전문적인 훈련을 통해 선수 수준까지 성장할 가능성이 높습니다.',
+                color: 'text-yellow-400',
+                bgColor: 'bg-yellow-500/20',
+                borderColor: 'border-yellow-500/50'
+            },
+            high: {
+                name: '우수',
+                percentile: '상위 15%',
+                description: '평균 이상의 좋은 재능을 가지고 있습니다. 체계적인 훈련으로 실력을 크게 향상시킬 수 있습니다.',
+                color: 'text-brand-primary',
+                bgColor: 'bg-brand-primary/20',
+                borderColor: 'border-brand-primary/50'
+            },
+            above_average: {
+                name: '평균 이상',
+                percentile: '상위 35%',
+                description: '기본적인 적성이 있습니다. 꾸준한 연습을 통해 취미 또는 생활체육으로 즐기기에 좋습니다.',
+                color: 'text-brand-secondary',
+                bgColor: 'bg-brand-secondary/20',
+                borderColor: 'border-brand-secondary/50'
+            },
+            average: {
+                name: '평균',
+                percentile: '상위 55%',
+                description: '보통 수준의 적성입니다. 관심이 있다면 기초부터 차근차근 배워보세요.',
+                color: 'text-blue-400',
+                bgColor: 'bg-blue-500/20',
+                borderColor: 'border-blue-500/50'
+            },
+            below_average: {
+                name: '평균 이하',
+                percentile: '하위',
+                description: '현재 체력 데이터 기준으로는 다른 종목을 추천드립니다. 다른 종목에서 재능을 발견해보세요!',
+                color: 'text-slate-400',
+                bgColor: 'bg-slate-500/20',
+                borderColor: 'border-slate-500/50'
+            }
+        };
+
+        // 등급 한글 매핑 (하위호환)
+        const GRADE_NAMES_KO = {
+            excellent: '최우수',
+            high: '우수',
+            above_average: '평균 이상',
+            average: '평균',
+            below_average: '평균 이하'
+        };
+
+        // 종목별 상세 정보 (특성, 필요 체력, 추천 이유)
+        const SPORT_INFO = {
+            soccer: {
+                description: '팀워크와 전략이 중요한 구기 종목',
+                requirements: '심폐지구력, 순발력, 하체 근력',
+                whyGood: '왕복오래달리기와 제자리멀리뛰기 능력이 우수하여 경기 중 지속적인 활동과 빠른 방향 전환에 유리합니다.'
+            },
+            basketball: {
+                description: '점프력과 민첩성이 필요한 실내 구기 종목',
+                requirements: '점프력, 순발력, 상체 근력',
+                whyGood: '제자리멀리뛰기와 악력이 좋아 슛, 리바운드, 드리블에 필요한 신체 능력을 갖추고 있습니다.'
+            },
+            volleyball: {
+                description: '높은 점프력과 순발력이 필요한 네트 스포츠',
+                requirements: '점프력, 상체 근력, 유연성',
+                whyGood: '뛰어난 점프력과 상체 근력으로 스파이크와 블로킹에 적합한 신체 조건을 갖추고 있습니다.'
+            },
+            sprint: {
+                description: '순간적인 폭발력이 필요한 단거리 육상',
+                requirements: '순발력, 하체 근력, 반응속도',
+                whyGood: '제자리멀리뛰기와 순발력 테스트에서 우수한 결과를 보여 빠른 스타트와 가속에 유리합니다.'
+            },
+            judo: {
+                description: '상대를 제압하는 기술과 힘이 필요한 격투기',
+                requirements: '악력, 근지구력, 유연성',
+                whyGood: '강한 악력과 코어 근력이 상대를 잡고 기술을 구사하는 데 큰 장점이 됩니다.'
+            },
+            swimming: {
+                description: '전신 근력과 심폐지구력이 필요한 수중 스포츠',
+                requirements: '심폐지구력, 전신 근력, 유연성',
+                whyGood: '심폐지구력과 유연성이 좋아 효율적인 영법 습득과 장거리 수영에 적합합니다.'
+            },
+            baseball: {
+                description: '투구와 타격에 상체 근력이 중요한 구기 종목',
+                requirements: '악력, 상체 근력, 순발력',
+                whyGood: '강한 악력과 상체 근력이 공을 던지고 치는 데 필요한 힘을 제공합니다.'
+            },
+            taekwondo: {
+                description: '발차기와 유연성이 핵심인 한국 전통 무술',
+                requirements: '유연성, 순발력, 하체 근력',
+                whyGood: '좌전굴 유연성과 하체 근력이 높은 발차기와 빠른 동작에 유리합니다.'
+            },
+            // 패럴림픽 종목
+            para_swimming: {
+                description: '장애 유형에 맞는 영법으로 경기하는 수중 스포츠',
+                requirements: '심폐지구력, 상체 근력, 유연성',
+                whyGood: '수중에서 체중 부담 없이 전신 운동이 가능하며, 심폐 기능 향상에 효과적입니다.'
+            },
+            para_athletics: {
+                description: '다양한 육상 종목을 장애 유형에 맞게 경기',
+                requirements: '심폐지구력, 근력, 지구력',
+                whyGood: '기초 체력이 우수하여 육상의 다양한 종목에서 잠재력을 발휘할 수 있습니다.'
+            },
+            boccia: {
+                description: '정밀한 투구 능력이 필요한 전략 스포츠',
+                requirements: '집중력, 상체 조절력, 악력',
+                whyGood: '손의 섬세한 조절력과 집중력이 공을 정확히 던지는 데 유리합니다.'
+            },
+            goalball: {
+                description: '청각에 의존해 공을 막는 시각장애인 팀 스포츠',
+                requirements: '청각 집중력, 반사신경, 전신 근력',
+                whyGood: '균형 잡힌 체력과 반사신경이 빠른 반응과 수비에 적합합니다.'
+            },
+            wheelchair_basketball: {
+                description: '휠체어를 이용한 팀 구기 스포츠',
+                requirements: '상체 근력, 악력, 지구력',
+                whyGood: '강한 상체 근력과 악력이 휠체어 조작과 슈팅에 필수적입니다.'
+            },
+            wheelchair_tennis: {
+                description: '휠체어로 이동하며 라켓을 다루는 네트 스포츠',
+                requirements: '상체 근력, 악력, 순발력',
+                whyGood: '빠른 휠체어 조작과 강한 스윙을 위한 상체 근력이 우수합니다.'
+            },
+            para_table_tennis: {
+                description: '좌식 또는 입식으로 경기하는 탁구',
+                requirements: '반사신경, 악력, 상체 조절력',
+                whyGood: '빠른 반응속도와 손목 스냅이 랠리에서 유리합니다.'
+            }
+        };
+
+        // --- 1. Tab Switching Logic (Scoped to App View) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetId = btn.getAttribute('data-target');
+
+                    // Reset buttons
+                    document.querySelectorAll('.tab-btn').forEach(b => {
+                        b.classList.remove('bg-brand-primary', 'text-brand-900', 'shadow');
+                        b.classList.add('bg-slate-800', 'text-slate-300', 'hover:text-white', 'border', 'border-slate-700');
+
+                        // Desktop styling fix
+                        if(b.parentElement.classList.contains('hidden')) {
+                             b.classList.remove('border', 'border-slate-700', 'bg-slate-800');
+                             b.classList.add('text-slate-400');
+                        }
+                    });
+
+                    // Activate button
+                    document.querySelectorAll(`.tab-btn[data-target="${targetId}"]`).forEach(activeBtn => {
+                        activeBtn.classList.remove('bg-slate-800', 'text-slate-300', 'hover:text-white', 'border', 'border-slate-700', 'text-slate-400');
+                        activeBtn.classList.add('bg-brand-primary', 'text-brand-900', 'shadow');
+                    });
+
+                    // Update content
+                    tabContents.forEach(content => {
+                        content.classList.add('hidden');
+                        if(content.id === targetId) {
+                            content.classList.remove('hidden');
+                            void content.offsetWidth; // Trigger reflow
+
+                            // 탭 변경 시 데이터 로드
+                            if(targetId === 'tab-matching') initProgramsTab();
+                            if(targetId === 'tab-dashboard') loadDashboard();
+                        }
+                    });
+                });
+            });
+
+            // Set initial tab
+            const initialTab = document.querySelector('.tab-btn[data-target="tab-diagnosis"]');
+            if(initialTab) initialTab.click();
+
+            // 저장된 토큰 확인하여 로그인 상태 복원
+            checkAuthStatus().then(() => {
+                // URL 해시에서 페이지 상태 복원
+                restoreFromHash();
+            });
+
+            // 지역 목록 로드
+            loadRegions();
+
+            // 브라우저 뒤로가기/앞으로가기 처리
+            window.addEventListener('popstate', (event) => {
+                if (event.state && event.state.view) {
+                    navigateTo(event.state.view, event.state.sectionId, false);
+                } else {
+                    restoreFromHash();
+                }
+            });
+        });
+
+        // URL 해시에서 페이지 상태 복원
+        function restoreFromHash() {
+            const hash = window.location.hash.slice(1); // '#' 제거
+            if (!hash || hash === '') {
+                // 해시가 없으면 홈으로, 초기 상태 설정
+                history.replaceState({ view: 'home', sectionId: null }, '', '#home');
+                navigateTo('home', null, false);
+                return;
+            }
+
+            const parts = hash.split('/');
+            const view = parts[0];
+            const sectionId = parts[1] || null;
+
+            // 마이페이지는 로그인 필요
+            if (view === 'mypage' && !isLoggedIn) {
+                history.replaceState({ view: 'home', sectionId: null }, '', '#home');
+                navigateTo('home', null, false);
+                return;
+            }
+
+            // 현재 상태를 replaceState로 설정 (초기 로드 시)
+            history.replaceState({ view, sectionId }, '', '#' + hash);
+            navigateTo(view, sectionId, false);
+        }
+
+        // --- 2. Auth Status Check ---
+        async function checkAuthStatus() {
+            const token = SoominjaeAPI.getToken();
+            if (token) {
+                try {
+                    const user = await SoominjaeAPI.getMe();
+                    currentUser = user;
+                    isLoggedIn = true;
+                    await loadUserBookmarks(); // 북마크 로드
+                    updateAuthUI();
+                } catch (e) {
+                    // 토큰이 만료됨
+                    SoominjaeAPI.logout();
+                    isLoggedIn = false;
+                    userBookmarks = [];
+                    updateAuthUI();
+                }
+            } else {
+                updateAuthUI();
+            }
+        }
+
+        // --- 3. Auth & Navigation Logic ---
+        function updateAuthUI() {
+            const navAuthBtns = document.getElementById('nav-auth-buttons');
+            const navUserProfile = document.getElementById('nav-user-profile');
+            const mobileAuthBtns = document.getElementById('mobile-auth-buttons');
+            const mobileUserProfile = document.getElementById('mobile-user-profile');
+            const authSection = document.getElementById('auth');
+
+            if (isLoggedIn && currentUser) {
+                if(navAuthBtns) navAuthBtns.classList.add('hidden');
+                if(navUserProfile) {
+                    navUserProfile.classList.remove('hidden');
+                    navUserProfile.classList.add('flex');
+                    // 사용자 이름 업데이트
+                    const nameSpan = navUserProfile.querySelector('span.text-sm');
+                    if(nameSpan) nameSpan.textContent = `${currentUser.name}님`;
+
+                    // 네비게이션 아바타 업데이트 (이름 첫 글자)
+                    const navAvatar = document.getElementById('nav-profile-avatar');
+                    if(navAvatar) {
+                        const avatarSpan = navAvatar.querySelector('span');
+                        if(avatarSpan) avatarSpan.textContent = currentUser.name.charAt(0);
+                    }
+                }
+
+                if(mobileAuthBtns) mobileAuthBtns.classList.add('hidden');
+                if(mobileUserProfile) mobileUserProfile.classList.remove('hidden');
+
+                // 마이페이지 아바타 업데이트
+                const mypageAvatar = document.getElementById('mypage-profile-avatar');
+                if(mypageAvatar) {
+                    const avatarSpan = mypageAvatar.querySelector('span');
+                    if(avatarSpan) avatarSpan.textContent = currentUser.name.charAt(0);
+                }
+                const mypageName = document.getElementById('mypage-profile-name');
+                if(mypageName) mypageName.textContent = currentUser.name;
+
+                // Auth 섹션 숨김 (로그인 상태에서는 불필요)
+                if(authSection) authSection.style.display = 'none';
+            } else {
+                if(navAuthBtns) navAuthBtns.classList.remove('hidden');
+                if(navUserProfile) {
+                    navUserProfile.classList.add('hidden');
+                    navUserProfile.classList.remove('flex');
+                }
+
+                if(mobileAuthBtns) mobileAuthBtns.classList.remove('hidden');
+                if(mobileUserProfile) mobileUserProfile.classList.add('hidden');
+
+                // Auth 섹션 표시 (비로그인 상태)
+                if(authSection) authSection.style.display = 'block';
+            }
+        }
+
+        function toggleAuth(type) {
+            const loginForm = document.getElementById('form-login');
+            const signupForm = document.getElementById('form-signup');
+            const loginBtn = document.getElementById('btn-login-tab');
+            const signupBtn = document.getElementById('btn-signup-tab');
+
+            if (type === 'login') {
+                loginForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+                loginBtn.classList.add('text-brand-primary', 'border-brand-primary');
+                loginBtn.classList.remove('text-slate-500');
+                signupBtn.classList.remove('text-brand-primary', 'border-brand-primary');
+                signupBtn.classList.add('text-slate-500');
+            } else {
+                loginForm.classList.add('hidden');
+                signupForm.classList.remove('hidden');
+                signupBtn.classList.add('text-brand-primary', 'border-brand-primary');
+                signupBtn.classList.remove('text-slate-500');
+                loginBtn.classList.remove('text-brand-primary', 'border-brand-primary');
+                loginBtn.classList.add('text-slate-500');
+            }
+        }
+
+        function navigateTo(view, sectionId = null, updateHistory = true) {
+            const landingView = document.getElementById('view-landing');
+            const appView = document.getElementById('view-app');
+            const mypageView = document.getElementById('view-mypage');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            // Close mobile menu
+            if(mobileMenu) mobileMenu.classList.add('hidden');
+
+            // Hide all views first
+            landingView.classList.remove('active');
+            appView.classList.remove('active');
+            if(mypageView) mypageView.classList.remove('active');
+
+            // Build hash for URL
+            let hash = view;
+            if (sectionId) hash += '/' + sectionId;
+
+            // Show target view
+            if (view === 'home') {
+                landingView.classList.add('active');
+                window.scrollTo(0, 0);
+                if (sectionId) {
+                    setTimeout(() => {
+                        const element = document.getElementById(sectionId);
+                        if (element) element.scrollIntoView({ behavior: 'smooth' });
+                    }, 10);
+                }
+            } else if (view === 'app') {
+                appView.classList.add('active');
+                window.scrollTo(0, 0);
+                if (sectionId) {
+                    const tabBtn = document.querySelector(`.tab-btn[data-target="${sectionId}"]`);
+                    if(tabBtn) tabBtn.click();
+                }
+            } else if (view === 'mypage') {
+                if (!isLoggedIn) {
+                    alert('로그인이 필요한 서비스입니다.');
+                    navigateTo('home', 'auth');
+                    return;
+                }
+                mypageView.classList.add('active');
+                window.scrollTo(0, 0);
+                loadMyPage();
+            } else if (view === 'matching' || view === 'diagnosis' || view === 'dashboard') {
+                // 탭 이름으로 직접 이동하는 경우
+                appView.classList.add('active');
+                window.scrollTo(0, 0);
+                const tabBtn = document.querySelector(`.tab-btn[data-target="tab-${view}"]`);
+                if(tabBtn) tabBtn.click();
+            }
+
+            // Update browser history (히스토리 API)
+            if (updateHistory) {
+                const newUrl = '#' + hash;
+                if (window.location.hash !== newUrl) {
+                    history.pushState({ view, sectionId }, '', newUrl);
+                }
+            }
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        // --- 4. Form Handling (API 연동) ---
+
+        // 이메일 중복 확인
+        let emailValid = false;
+        async function checkEmailAvailability() {
+            const emailInput = document.getElementById('signup-email');
+            const statusEl = document.getElementById('signup-email-status');
+            const email = emailInput.value.trim();
+
+            if (!email || !email.includes('@')) {
+                statusEl.classList.add('hidden');
+                emailValid = false;
+                return;
+            }
+
+            try {
+                const result = await SoominjaeAPI.checkEmail(email);
+                statusEl.classList.remove('hidden');
+                if (result.available) {
+                    statusEl.textContent = result.message;
+                    statusEl.className = 'text-xs mt-1 text-green-400';
+                    emailValid = true;
+                } else {
+                    statusEl.textContent = result.message;
+                    statusEl.className = 'text-xs mt-1 text-red-400';
+                    emailValid = false;
+                }
+            } catch (error) {
+                statusEl.textContent = '이메일 확인 중 오류가 발생했습니다.';
+                statusEl.className = 'text-xs mt-1 text-red-400';
+                emailValid = false;
+            }
+        }
+
+        // 비밀번호 강도 확인
+        let passwordValid = false;
+        function checkPasswordStrength() {
+            const passwordInput = document.getElementById('signup-password');
+            const statusEl = document.getElementById('signup-password-status');
+            const password = passwordInput.value;
+
+            if (!password) {
+                statusEl.classList.add('hidden');
+                passwordValid = false;
+                return;
+            }
+
+            const result = SoominjaeAPI.validatePassword(password);
+            statusEl.classList.remove('hidden');
+            if (result.valid) {
+                statusEl.textContent = result.message;
+                statusEl.className = 'text-xs mt-1 text-green-400';
+                passwordValid = true;
+            } else {
+                statusEl.textContent = result.message;
+                statusEl.className = 'text-xs mt-1 text-yellow-400';
+                passwordValid = false;
+            }
+        }
+
+        async function handleSignup(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('signup-name').value.trim();
+            const role = document.getElementById('signup-role').value;
+            const email = document.getElementById('signup-email').value.trim();
+            const password = document.getElementById('signup-password').value;
+
+            if (!name || !email || !password) {
+                alert('모든 필드를 입력해주세요.');
+                return;
+            }
+
+            if (name.length < 2) {
+                alert('이름은 2자 이상이어야 합니다.');
+                return;
+            }
+
+            // 비밀번호 요건 체크
+            const pwResult = SoominjaeAPI.validatePassword(password);
+            if (!pwResult.valid) {
+                alert(`비밀번호 요건: ${pwResult.message}`);
+                return;
+            }
+
+            try {
+                const response = await SoominjaeAPI.signup({
+                    name,
+                    email,
+                    password,
+                    role
+                });
+
+                currentUser = response.user;
+                isLoggedIn = true;
+                updateAuthUI();
+                alert(`환영합니다, ${currentUser.name}님!`);
+                navigateTo('mypage');
+            } catch (error) {
+                alert(`회원가입 실패: ${error.message}`);
+            }
+        }
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            const form = event.target;
+            const email = form.querySelector('input[type="email"]').value;
+            const password = form.querySelector('input[type="password"]').value;
+
+            try {
+                const response = await SoominjaeAPI.login(email, password);
+                currentUser = response.user;
+                isLoggedIn = true;
+                await loadUserBookmarks(); // 북마크 로드
+                updateAuthUI();
+                navigateTo('mypage');
+            } catch (error) {
+                alert(`로그인 실패: ${error.message}`);
+            }
+        }
+
+        function handleLogout() {
+            if(confirm("로그아웃 하시겠습니까?")) {
+                SoominjaeAPI.logout();
+                isLoggedIn = false;
+                currentUser = null;
+                updateAuthUI();
+                navigateTo('home');
+            }
+        }
+
+        // 프로필 모달 관련
+        function openProfileModal() {
+            const modal = document.getElementById('profile-modal');
+            if (!modal) return;
+
+            // 현재 사용자 정보로 폼 채우기
+            if (currentUser) {
+                document.getElementById('profile-name').value = currentUser.name || '';
+                document.getElementById('profile-org').value = currentUser.school_or_org || '';
+                document.getElementById('profile-sido').value = currentUser.region_sido || '';
+                document.getElementById('profile-sigungu').value = currentUser.region_sigungu || '';
+            }
+
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeProfileModal() {
+            const modal = document.getElementById('profile-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        }
+
+        async function handleProfileUpdate(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('profile-name').value.trim();
+            const school_or_org = document.getElementById('profile-org').value.trim();
+            const region_sido = document.getElementById('profile-sido').value;
+            const region_sigungu = document.getElementById('profile-sigungu').value.trim();
+
+            if (!name || name.length < 2) {
+                alert('이름은 2자 이상이어야 합니다.');
+                return;
+            }
+
+            try {
+                const response = await SoominjaeAPI.updateProfile({
+                    name,
+                    school_or_org: school_or_org || null,
+                    region_sido: region_sido || null,
+                    region_sigungu: region_sigungu || null,
+                });
+
+                // 현재 사용자 정보 업데이트
+                currentUser = { ...currentUser, ...response };
+                updateAuthUI();
+                loadMyPage();
+                closeProfileModal();
+                alert('프로필이 수정되었습니다.');
+            } catch (error) {
+                alert(`프로필 수정 실패: ${error.message}`);
+            }
+        }
+
+        async function handleDiagnosis(event) {
+            event.preventDefault();
+            const form = event.target;
+            const inputs = form.querySelectorAll('input, select');
+
+            // 폼 데이터 추출
+            const age = parseInt(inputs[0].value) || 14;
+            const gender = inputs[1].value === '남성' ? 'M' : 'F';
+            const regionSelect = inputs[2];
+            const regionText = regionSelect.value;
+            const [region_sido, region_sigungu] = regionText.split(' ');
+
+            // 장애 유형
+            const disabilitySelect = document.getElementById('disability-type');
+            const disability_type = disabilitySelect ? disabilitySelect.value : '';
+
+            const grip_strength = parseFloat(inputs[4].value) || null;
+            const sit_ups = parseInt(inputs[5].value) || null;
+            const standing_long_jump = parseInt(inputs[6].value) || null;
+            const shuttle_run_20m = parseInt(inputs[7].value) || null;
+
+            // 최소 하나 이상의 체력 데이터 필요
+            if (!grip_strength && !sit_ups && !standing_long_jump && !shuttle_run_20m) {
+                alert('최소 하나 이상의 체력 데이터를 입력해주세요.');
+                return;
+            }
+
+            const submitBtn = form.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = '분석 중...';
+
+            try {
+                const response = await SoominjaeAPI.talentDiagnosis({
+                    age,
+                    gender,
+                    region_sido: region_sido || '서울특별시',
+                    region_sigungu: region_sigungu || '송파구',
+                    disability_type: disability_type || null,
+                    grip_strength,
+                    sit_ups,
+                    standing_long_jump,
+                    shuttle_run_20m
+                });
+
+                // 결과 표시
+                displayDiagnosisResult(response);
+            } catch (error) {
+                alert(`진단 실패: ${error.message}`);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = '결과 분석하기';
+            }
+        }
+
+        function displayDiagnosisResult(result) {
+            const resultContainer = document.querySelector('#tab-diagnosis .bg-slate-900.rounded-2xl');
+            if (!resultContainer) return;
+
+            const scores = result.scores || [];
+            const topScores = scores.slice(0, 3);
+
+            let html = `
+                <h4 class="text-xl font-bold text-white mb-2">재능 진단 결과</h4>
+                <p class="text-slate-400 text-sm mb-6">입력하신 체력 데이터를 기반으로 분석한 종목별 재능입니다.</p>
+            `;
+
+            if (topScores.length === 0) {
+                html += `<p class="text-slate-400">체력 데이터가 부족하여 분석할 수 없습니다.</p>`;
+            } else {
+                // 1위 종목 - 가장 상세하게
+                const top = topScores[0];
+                const topGrade = GRADE_INFO[top.grade_level] || GRADE_INFO['average'];
+                const topSportInfo = SPORT_INFO[top.sport] || {};
+
+                html += `
+                    <div class="mb-6">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="bg-brand-primary text-brand-900 text-xs font-bold px-2 py-1 rounded">1위 추천</span>
+                            <span class="${topGrade.color} text-xs font-bold">${topGrade.name} (${topGrade.percentile})</span>
+                        </div>
+                        <div class="${topGrade.bgColor} ${topGrade.borderColor} border rounded-xl p-5">
+                            <div class="flex items-start justify-between mb-4">
+                                <div>
+                                    <h5 class="text-2xl font-bold text-white">${SPORT_NAMES_KO[top.sport] || top.sport}</h5>
+                                    <p class="text-slate-400 text-sm mt-1">${topSportInfo.description || ''}</p>
+                                </div>
+                                <div class="text-right flex items-baseline gap-1">
+                                    <span class="text-4xl font-bold ${topGrade.color} font-display">${top.score.toFixed(0)}</span>
+                                    <span class="text-sm text-slate-400">점</span>
+                                </div>
+                            </div>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-4 h-4 ${topGrade.color} mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                    <div>
+                                        <span class="text-slate-300 font-medium">추천 이유:</span>
+                                        <span class="text-slate-400"> ${topSportInfo.whyGood || topGrade.description}</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-4 h-4 text-slate-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                    </svg>
+                                    <div>
+                                        <span class="text-slate-300 font-medium">필요 체력:</span>
+                                        <span class="text-slate-400"> ${topSportInfo.requirements || '-'}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // 2위, 3위 종목
+                if (topScores.length > 1) {
+                    html += `<div class="space-y-3">`;
+                    for (let i = 1; i < topScores.length; i++) {
+                        const s = topScores[i];
+                        const grade = GRADE_INFO[s.grade_level] || GRADE_INFO['average'];
+                        const sportInfo = SPORT_INFO[s.sport] || {};
+
+                        html += `
+                            <div class="bg-slate-800/50 rounded-xl p-4 border border-slate-700">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center gap-2">
+                                        <span class="bg-slate-700 text-slate-300 text-xs font-bold px-2 py-0.5 rounded">${i + 1}위</span>
+                                        <h5 class="text-lg font-bold text-white">${SPORT_NAMES_KO[s.sport] || s.sport}</h5>
+                                    </div>
+                                    <div class="flex items-baseline gap-2">
+                                        <span class="${grade.color} text-xs font-medium">${grade.name}</span>
+                                        <span class="text-2xl font-bold ${grade.color} font-display">${s.score.toFixed(0)}</span>
+                                        <span class="text-xs text-slate-400">점</span>
+                                    </div>
+                                </div>
+                                <p class="text-slate-500 text-xs">${sportInfo.description || ''}</p>
+                                <p class="text-slate-400 text-xs mt-1">${sportInfo.whyGood || grade.description}</p>
+                            </div>
+                        `;
+                    }
+                    html += `</div>`;
+                }
+
+                // 등급 해석 안내
+                html += `
+                    <div class="mt-6 p-4 bg-slate-800/30 rounded-xl border border-slate-700">
+                        <p class="text-xs text-slate-400 font-medium mb-2">등급 해석</p>
+                        <div class="grid grid-cols-5 gap-1 text-center text-xs">
+                            <div><span class="text-yellow-400 font-bold">최우수</span><br><span class="text-slate-500">상위5%</span></div>
+                            <div><span class="text-brand-primary font-bold">우수</span><br><span class="text-slate-500">상위15%</span></div>
+                            <div><span class="text-brand-secondary font-bold">평균이상</span><br><span class="text-slate-500">상위35%</span></div>
+                            <div><span class="text-blue-400 font-bold">평균</span><br><span class="text-slate-500">상위55%</span></div>
+                            <div><span class="text-slate-400 font-bold">평균이하</span><br><span class="text-slate-500">하위</span></div>
+                        </div>
+                    </div>
+                `;
+
+                // AI 코멘트
+                if (result.comment) {
+                    html += `
+                        <div class="mt-4 p-4 bg-brand-primary/10 border border-brand-primary/30 rounded-xl">
+                            <p class="text-xs text-brand-primary font-bold mb-2">AI 분석 코멘트</p>
+                            <p class="text-slate-300 text-sm leading-relaxed">${result.comment}</p>
+                        </div>
+                    `;
+                }
+
+                // 다음 단계 안내
+                html += `
+                    <div class="mt-6 pt-4 border-t border-slate-700">
+                        <p class="text-slate-300 text-sm mb-3">추천 종목의 프로그램을 찾아보세요!</p>
+                        <button onclick="navigateTo('matching')" class="w-full bg-brand-primary text-brand-900 font-bold py-3 rounded-lg hover:bg-lime-400 transition">
+                            내 주변 프로그램 찾기
+                        </button>
+                    </div>
+                `;
+            }
+
+            resultContainer.innerHTML = html;
+        }
+
+        // --- 5. Load Programs (매칭 탭) ---
+        let programRegionsData = {};
+        let currentProgramPage = 1;
+        let currentProgramFilters = {};
+        let currentProgramId = null;
+
+        async function initProgramsTab() {
+            // 지역 데이터 로드
+            try {
+                programRegionsData = await SoominjaeAPI.getProgramRegions();
+                const sidoSelect = document.getElementById('filter-sido');
+                if (sidoSelect) {
+                    sidoSelect.innerHTML = '<option value="">전체</option>';
+                    Object.keys(programRegionsData).sort().forEach(sido => {
+                        sidoSelect.innerHTML += `<option value="${sido}">${sido}</option>`;
+                    });
+                }
+            } catch (e) {
+                console.error('지역 데이터 로드 실패:', e);
+            }
+
+            // 프로그램 로드
+            loadPrograms();
+        }
+
+        function loadSigunguOptions() {
+            const sidoSelect = document.getElementById('filter-sido');
+            const sigunguSelect = document.getElementById('filter-sigungu');
+            const selectedSido = sidoSelect.value;
+
+            sigunguSelect.innerHTML = '<option value="">전체</option>';
+            if (selectedSido && programRegionsData[selectedSido]) {
+                programRegionsData[selectedSido].forEach(sigungu => {
+                    sigunguSelect.innerHTML += `<option value="${sigungu}">${sigungu}</option>`;
+                });
+            }
+        }
+
+        function applyProgramFilters() {
+            currentProgramFilters = {
+                region_sido: document.getElementById('filter-sido').value,
+                region_sigungu: document.getElementById('filter-sigungu').value,
+                industry_name: document.getElementById('filter-industry').value,
+                target_group: document.getElementById('filter-target').value,
+                keyword: document.getElementById('program-search').value
+            };
+            currentProgramPage = 1;
+            loadPrograms();
+            updateActiveFilters();
+        }
+
+        function resetProgramFilters() {
+            document.getElementById('filter-sido').value = '';
+            document.getElementById('filter-sigungu').value = '';
+            document.getElementById('filter-industry').value = '';
+            document.getElementById('filter-target').value = '';
+            document.getElementById('program-search').value = '';
+            loadSigunguOptions();
+            currentProgramFilters = {};
+            currentProgramPage = 1;
+            loadPrograms();
+            updateActiveFilters();
+        }
+
+        function searchPrograms() {
+            applyProgramFilters();
+        }
+
+        function updateActiveFilters() {
+            const container = document.getElementById('active-filters');
+            const filters = [];
+
+            if (currentProgramFilters.region_sido) filters.push({ label: currentProgramFilters.region_sido, key: 'region_sido' });
+            if (currentProgramFilters.region_sigungu) filters.push({ label: currentProgramFilters.region_sigungu, key: 'region_sigungu' });
+            if (currentProgramFilters.industry_name) filters.push({ label: currentProgramFilters.industry_name, key: 'industry_name' });
+            if (currentProgramFilters.target_group) filters.push({ label: currentProgramFilters.target_group, key: 'target_group' });
+            if (currentProgramFilters.keyword) filters.push({ label: `"${currentProgramFilters.keyword}"`, key: 'keyword' });
+
+            if (filters.length === 0) {
+                container.classList.add('hidden');
+                return;
+            }
+
+            container.classList.remove('hidden');
+            container.innerHTML = filters.map(f => `
+                <span class="bg-brand-primary/20 text-brand-primary px-3 py-1 rounded-full text-sm flex items-center gap-2">
+                    ${f.label}
+                    <button onclick="removeFilter('${f.key}')" class="hover:text-white">&times;</button>
+                </span>
+            `).join('');
+        }
+
+        function removeFilter(key) {
+            currentProgramFilters[key] = '';
+            if (key === 'region_sido') {
+                document.getElementById('filter-sido').value = '';
+                loadSigunguOptions();
+            } else if (key === 'region_sigungu') {
+                document.getElementById('filter-sigungu').value = '';
+            } else if (key === 'industry_name') {
+                document.getElementById('filter-industry').value = '';
+            } else if (key === 'target_group') {
+                document.getElementById('filter-target').value = '';
+            } else if (key === 'keyword') {
+                document.getElementById('program-search').value = '';
+            }
+            loadPrograms();
+            updateActiveFilters();
+        }
+
+        async function loadPrograms() {
+            const container = document.getElementById('programs-grid');
+            if (!container) return;
+
+            container.innerHTML = `
+                <div class="col-span-full text-center py-12">
+                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-primary mx-auto"></div>
+                    <p class="text-slate-400 mt-4">프로그램 로딩 중...</p>
+                </div>
+            `;
+
+            try {
+                const params = { page: currentProgramPage, limit: 12 };
+                Object.keys(currentProgramFilters).forEach(key => {
+                    if (currentProgramFilters[key]) params[key] = currentProgramFilters[key];
+                });
+
+                const response = await SoominjaeAPI.getPrograms(params);
+                const programs = response.items || [];
+                const total = response.total || 0;
+
+                // 헤더 텍스트 업데이트
+                document.getElementById('program-count-text').textContent = `총 ${total.toLocaleString()}개 프로그램`;
+
+                // 통계 업데이트
+                document.getElementById('stat-total-programs').textContent = total.toLocaleString();
+
+                if (programs.length === 0) {
+                    container.innerHTML = `
+                        <div class="col-span-full text-center py-16">
+                            <svg class="w-16 h-16 text-slate-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <p class="text-slate-400 text-lg">검색 결과가 없습니다</p>
+                            <p class="text-slate-500 text-sm mt-2">다른 조건으로 검색해 보세요</p>
+                        </div>
+                    `;
+                    document.getElementById('programs-pagination').innerHTML = '';
+                    return;
+                }
+
+                // 업종별 아이콘
+                const industryIcons = {
+                    '수영장': '🏊',
+                    '체육관': '🏋️',
+                    '테니스장': '🎾',
+                    '축구장': '⚽',
+                    '골프연습장': '⛳',
+                    '태권도장': '🥋',
+                    '당구장': '🎱',
+                    '볼링장': '🎳',
+                    '스키장': '⛷️',
+                    '빙상장': '⛸️',
+                    '요가': '🧘',
+                    '무용': '💃'
+                };
+
+                // 대상 그룹별 색상
+                function getTargetGroupStyle(targetGroup) {
+                    if (!targetGroup) return { bg: 'bg-slate-500', text: 'text-white', label: '전체' };
+
+                    const tg = targetGroup.toLowerCase();
+
+                    // 초등학생 - 밝은 초록색
+                    if (tg.includes('초등')) {
+                        return { bg: 'bg-emerald-500', text: 'text-white', label: targetGroup };
+                    }
+                    // 중학생 - 파란색
+                    if (tg.includes('중학')) {
+                        return { bg: 'bg-blue-500', text: 'text-white', label: targetGroup };
+                    }
+                    // 고등학생 - 인디고
+                    if (tg.includes('고등')) {
+                        return { bg: 'bg-indigo-500', text: 'text-white', label: targetGroup };
+                    }
+                    // 청소년 (중/고 포함) - 시안
+                    if (tg.includes('청소년')) {
+                        return { bg: 'bg-cyan-500', text: 'text-white', label: targetGroup };
+                    }
+                    // 성인 - 보라색
+                    if (tg.includes('성인')) {
+                        return { bg: 'bg-purple-500', text: 'text-white', label: targetGroup };
+                    }
+                    // 경로/노인 - 주황색
+                    if (tg.includes('경로') || tg.includes('노인') || tg.includes('시니어')) {
+                        return { bg: 'bg-orange-500', text: 'text-white', label: targetGroup };
+                    }
+                    // 유아/어린이 - 핑크
+                    if (tg.includes('유아') || tg.includes('어린이')) {
+                        return { bg: 'bg-pink-400', text: 'text-white', label: targetGroup };
+                    }
+                    // 기본값 (전체, 기타)
+                    return { bg: 'bg-brand-primary', text: 'text-brand-900', label: targetGroup };
+                }
+
+                // 그라데이션 색상
+                const gradients = [
+                    'from-blue-500/20 to-purple-500/20',
+                    'from-green-500/20 to-teal-500/20',
+                    'from-orange-500/20 to-red-500/20',
+                    'from-pink-500/20 to-rose-500/20',
+                    'from-cyan-500/20 to-blue-500/20',
+                    'from-violet-500/20 to-indigo-500/20'
+                ];
+
+                container.innerHTML = programs.map((p, i) => {
+                    const icon = Object.keys(industryIcons).find(k => (p.industry_name || '').includes(k));
+                    const emoji = icon ? industryIcons[icon] : '🏃';
+                    const gradient = gradients[i % gradients.length];
+                    const targetStyle = getTargetGroupStyle(p.target_group);
+                    const isBookmarked = userBookmarks.some(b => b.target_id === p.id);
+
+                    return `
+                    <div class="bg-slate-900 rounded-xl overflow-hidden border border-slate-700 hover:border-brand-primary transition group cursor-pointer relative" onclick="showProgramDetail(${p.id})">
+                        <div class="h-32 bg-gradient-to-br ${gradient} relative flex items-center justify-center">
+                            <span class="text-5xl group-hover:scale-110 transition-transform">${emoji}</span>
+                            <span class="absolute top-3 left-3 ${targetStyle.bg} ${targetStyle.text} text-xs font-bold px-2 py-1 rounded">${targetStyle.label}</span>
+                            <button onclick="event.stopPropagation(); toggleBookmark(${p.id})" class="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full ${isBookmarked ? 'bg-yellow-500 text-white' : 'bg-black/50 text-white hover:bg-yellow-500'} transition" title="${isBookmarked ? '북마크 취소' : '북마크'}">
+                                <svg class="w-4 h-4" fill="${isBookmarked ? 'currentColor' : 'none'}" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path></svg>
+                            </button>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="text-base font-bold text-white mb-1 truncate">${p.program_name || '프로그램'}</h4>
+                            <p class="text-slate-400 text-sm mb-2 truncate">${p.facility_name || ''}</p>
+                            <div class="flex items-center gap-2 text-xs text-slate-500 mb-3">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+                                ${p.region_sido || ''} ${p.region_sigungu || ''}
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-brand-secondary bg-brand-secondary/10 px-2 py-1 rounded">${p.industry_name || '스포츠'}</span>
+                                ${p.price ? `<span class="text-xs text-slate-400">${p.price.toLocaleString()}원</span>` : '<span class="text-xs text-green-400">무료/문의</span>'}
+                            </div>
+                        </div>
+                    </div>
+                `}).join('');
+
+                // 페이지네이션
+                renderProgramPagination(total, response.page, response.limit);
+
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <p class="text-red-400">프로그램 로드 실패: ${error.message}</p>
+                        <button onclick="loadPrograms()" class="mt-4 text-brand-primary hover:underline">다시 시도</button>
+                    </div>
+                `;
+            }
+        }
+
+        function renderProgramPagination(total, currentPage, limit) {
+            const container = document.getElementById('programs-pagination');
+            const totalPages = Math.ceil(total / limit);
+
+            if (totalPages <= 1) {
+                container.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+
+            // 이전 버튼
+            html += `<button onclick="goToProgramPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}
+                class="px-3 py-2 rounded-lg ${currentPage === 1 ? 'bg-slate-800 text-slate-600 cursor-not-allowed' : 'bg-slate-700 text-white hover:bg-slate-600'}">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            </button>`;
+
+            // 페이지 번호
+            const maxVisible = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+
+            if (endPage - startPage + 1 < maxVisible) {
+                startPage = Math.max(1, endPage - maxVisible + 1);
+            }
+
+            if (startPage > 1) {
+                html += `<button onclick="goToProgramPage(1)" class="px-3 py-2 rounded-lg bg-slate-700 text-white hover:bg-slate-600">1</button>`;
+                if (startPage > 2) html += `<span class="text-slate-500 px-2">...</span>`;
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                html += `<button onclick="goToProgramPage(${i})"
+                    class="px-3 py-2 rounded-lg ${i === currentPage ? 'bg-brand-primary text-brand-900 font-bold' : 'bg-slate-700 text-white hover:bg-slate-600'}">
+                    ${i}
+                </button>`;
+            }
+
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) html += `<span class="text-slate-500 px-2">...</span>`;
+                html += `<button onclick="goToProgramPage(${totalPages})" class="px-3 py-2 rounded-lg bg-slate-700 text-white hover:bg-slate-600">${totalPages}</button>`;
+            }
+
+            // 다음 버튼
+            html += `<button onclick="goToProgramPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}
+                class="px-3 py-2 rounded-lg ${currentPage === totalPages ? 'bg-slate-800 text-slate-600 cursor-not-allowed' : 'bg-slate-700 text-white hover:bg-slate-600'}">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>`;
+
+            container.innerHTML = html;
+        }
+
+        function goToProgramPage(page) {
+            currentProgramPage = page;
+            loadPrograms();
+            // 스크롤 상단으로
+            document.getElementById('tab-matching').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        async function showProgramDetail(programId) {
+            currentProgramId = programId;
+            const modal = document.getElementById('program-modal');
+
+            try {
+                const program = await SoominjaeAPI.getProgramDetail(programId);
+
+                // 업종별 아이콘
+                const industryIcons = {
+                    '수영장': '🏊', '체육관': '🏋️', '테니스장': '🎾', '축구장': '⚽',
+                    '골프연습장': '⛳', '태권도장': '🥋', '당구장': '🎱', '볼링장': '🎳'
+                };
+                const icon = Object.keys(industryIcons).find(k => (program.industry_name || '').includes(k));
+                const emoji = icon ? industryIcons[icon] : '🏃';
+
+                document.getElementById('program-modal-header').innerHTML = `<span class="text-7xl">${emoji}</span>`;
+                document.getElementById('modal-program-name').textContent = program.program_name || '프로그램';
+                document.getElementById('modal-facility-name').textContent = program.facility_name || '';
+                document.getElementById('modal-industry').textContent = program.industry_name || '스포츠';
+                document.getElementById('modal-target').textContent = program.target_group || '전체';
+                document.getElementById('modal-type').textContent = program.program_type || '일반';
+                document.getElementById('modal-address').textContent = program.address || `${program.region_sido || ''} ${program.region_sigungu || ''}`;
+
+                // 운영 기간
+                let periodText = '상시 운영';
+                if (program.start_date && program.end_date) {
+                    periodText = `${program.start_date} ~ ${program.end_date}`;
+                } else if (program.start_date) {
+                    periodText = `${program.start_date} ~`;
+                }
+                document.getElementById('modal-period').textContent = periodText;
+
+                // 운영 시간
+                let scheduleText = '문의 필요';
+                if (program.schedule_weekdays && program.schedule_time) {
+                    scheduleText = `${program.schedule_weekdays} ${program.schedule_time}`;
+                } else if (program.schedule_time) {
+                    scheduleText = program.schedule_time;
+                } else if (program.schedule_weekdays) {
+                    scheduleText = program.schedule_weekdays;
+                }
+                document.getElementById('modal-schedule').textContent = scheduleText;
+
+                // 가격
+                document.getElementById('modal-price').textContent = program.price ? `${program.price.toLocaleString()}원` : '무료 또는 문의';
+
+                // 정원
+                document.getElementById('modal-capacity').textContent = program.capacity ? `${program.capacity}명` : '정보 없음';
+
+                // 홈페이지 링크
+                const homepageLink = document.getElementById('modal-homepage-link');
+                if (program.homepage_url) {
+                    homepageLink.href = program.homepage_url;
+                    homepageLink.classList.remove('hidden');
+                } else {
+                    homepageLink.href = '#';
+                    homepageLink.textContent = '홈페이지 정보 없음';
+                    homepageLink.classList.add('opacity-50', 'pointer-events-none');
+                }
+
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+
+            } catch (error) {
+                alert('프로그램 정보를 불러올 수 없습니다.');
+            }
+        }
+
+        function closeProgramModal() {
+            document.getElementById('program-modal').classList.add('hidden');
+            document.body.style.overflow = '';
+            currentProgramId = null;
+        }
+
+        // 북마크 목록 불러오기
+        async function loadUserBookmarks() {
+            if (!SoominjaeAPI.getToken()) {
+                userBookmarks = [];
+                return;
+            }
+            try {
+                const response = await SoominjaeAPI.getMyBookmarks({ limit: 200 });
+                userBookmarks = response.items || [];
+            } catch (error) {
+                console.log('북마크 로드 실패:', error);
+                userBookmarks = [];
+            }
+        }
+
+        // 북마크 토글 (카드에서 사용)
+        async function toggleBookmark(programId) {
+            const token = SoominjaeAPI.getToken();
+            if (!token) {
+                alert('로그인이 필요합니다.');
+                return;
+            }
+
+            const existingBookmark = userBookmarks.find(b => b.target_id === programId);
+
+            try {
+                if (existingBookmark) {
+                    // 북마크 삭제
+                    await SoominjaeAPI.deleteBookmark(existingBookmark.id);
+                    userBookmarks = userBookmarks.filter(b => b.id !== existingBookmark.id);
+                } else {
+                    // 북마크 추가
+                    const newBookmark = await SoominjaeAPI.addBookmark('program', programId);
+                    userBookmarks.push(newBookmark);
+                }
+                // 카드 목록 다시 렌더링
+                loadPrograms();
+            } catch (error) {
+                alert('북마크 처리 실패: ' + error.message);
+            }
+        }
+
+        // 모달에서 북마크 토글
+        async function toggleProgramBookmark() {
+            if (!currentProgramId) return;
+
+            const token = SoominjaeAPI.getToken();
+            if (!token) {
+                alert('로그인이 필요합니다.');
+                return;
+            }
+
+            const existingBookmark = userBookmarks.find(b => b.target_id === currentProgramId);
+            const btn = document.getElementById('modal-bookmark-btn');
+
+            try {
+                if (existingBookmark) {
+                    await SoominjaeAPI.deleteBookmark(existingBookmark.id);
+                    userBookmarks = userBookmarks.filter(b => b.id !== existingBookmark.id);
+                    btn.innerHTML = '⭐ 북마크';
+                    btn.classList.remove('bg-yellow-500', 'text-white');
+                    btn.classList.add('bg-slate-700');
+                } else {
+                    const newBookmark = await SoominjaeAPI.addBookmark('program', currentProgramId);
+                    userBookmarks.push(newBookmark);
+                    btn.innerHTML = '★ 북마크됨';
+                    btn.classList.remove('bg-slate-700');
+                    btn.classList.add('bg-yellow-500', 'text-white');
+                }
+            } catch (error) {
+                alert('북마크 처리 실패: ' + error.message);
+            }
+        }
+
+        // Enter 키로 검색
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('program-search');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        searchPrograms();
+                    }
+                });
+            }
+        });
+
+        // --- 6. Load Dashboard (대시보드 탭) ---
+        async function loadDashboard() {
+            try {
+                const [summary, regions, coaches] = await Promise.all([
+                    SoominjaeAPI.getDashboardSummary(),
+                    SoominjaeAPI.getDashboardRegions(),
+                    SoominjaeAPI.getCoachStats()
+                ]);
+
+                // 기준 날짜 업데이트
+                const baseDate = document.getElementById('dashboard-base-date');
+                if (baseDate && summary.facilities?.base_ym) {
+                    const ym = summary.facilities.base_ym;
+                    baseDate.textContent = `${ym.slice(0,4)}년 ${parseInt(ym.slice(4,6))}월 기준 공공데이터`;
+                }
+
+                // 상단 통계 카드 업데이트
+                document.getElementById('stat-facilities').textContent = (summary.facilities?.total || 0).toLocaleString() + '개';
+                document.getElementById('stat-facilities-regions').textContent = `${summary.facilities?.region_count || 0}개 시군구`;
+                document.getElementById('stat-support').textContent = (summary.support?.total_recipients || 0).toLocaleString() + '명';
+                document.getElementById('stat-support-year').textContent = `${summary.support?.base_year || '-'}년 기준`;
+                document.getElementById('stat-coaches').textContent = (summary.coaches?.total || 0).toLocaleString() + '명';
+                document.getElementById('stat-coaches-year').textContent = `${summary.coaches?.latest_year || '-'}년 기준`;
+                document.getElementById('stat-programs').textContent = (summary.programs?.total || 0).toLocaleString() + '개';
+
+                // 지역별 시설 수 차트
+                const facilityChart = document.getElementById('region-facility-chart');
+                if (facilityChart && regions.regions) {
+                    const sortedByFacility = [...regions.regions].sort((a, b) => (b.facility_count || 0) - (a.facility_count || 0));
+                    const maxFacility = sortedByFacility[0]?.facility_count || 1;
+
+                    facilityChart.innerHTML = sortedByFacility.map(r => {
+                        const count = r.facility_count || 0;
+                        const percentage = (count / maxFacility * 100).toFixed(0);
+                        return `
+                            <div class="flex items-center gap-3">
+                                <span class="text-xs text-slate-400 w-20 truncate">${r.region_sido}</span>
+                                <div class="flex-1 bg-slate-800 h-6 rounded-lg overflow-hidden">
+                                    <div class="bg-gradient-to-r from-brand-primary to-brand-secondary h-full transition-all duration-500" style="width: ${percentage}%"></div>
+                                </div>
+                                <span class="text-xs text-white font-bold w-16 text-right">${count.toLocaleString()}</span>
+                            </div>
+                        `;
+                    }).join('');
+                }
+
+                // 인구 대비 시설 비율 차트
+                const ratioChart = document.getElementById('region-ratio-chart');
+                if (ratioChart && regions.regions) {
+                    const withRatio = regions.regions.map(r => ({
+                        ...r,
+                        ratio: r.population > 0 ? ((r.facility_count || 0) / r.population * 10000) : 0
+                    })).sort((a, b) => b.ratio - a.ratio);
+                    const maxRatio = withRatio[0]?.ratio || 1;
+
+                    ratioChart.innerHTML = withRatio.map(r => {
+                        const percentage = (r.ratio / maxRatio * 100).toFixed(0);
+                        const ratioValue = r.ratio.toFixed(1);
+                        const color = r.ratio > 3 ? 'from-emerald-500 to-green-400' :
+                                      r.ratio > 2 ? 'from-brand-secondary to-cyan-400' :
+                                      r.ratio > 1 ? 'from-yellow-500 to-orange-400' : 'from-red-500 to-rose-400';
+                        return `
+                            <div class="flex items-center gap-3">
+                                <span class="text-xs text-slate-400 w-20 truncate">${r.region_sido}</span>
+                                <div class="flex-1 bg-slate-800 h-6 rounded-lg overflow-hidden">
+                                    <div class="bg-gradient-to-r ${color} h-full transition-all duration-500" style="width: ${percentage}%"></div>
+                                </div>
+                                <span class="text-xs text-white font-bold w-12 text-right">${ratioValue}개</span>
+                            </div>
+                        `;
+                    }).join('');
+                }
+
+                // 스포츠강좌이용권 수혜자 그리드
+                const supportGrid = document.getElementById('support-recipients-grid');
+                if (supportGrid && regions.regions) {
+                    const sortedBySupport = [...regions.regions].sort((a, b) => (b.support_recipients || 0) - (a.support_recipients || 0));
+                    const maxSupport = sortedBySupport[0]?.support_recipients || 1;
+
+                    supportGrid.innerHTML = sortedBySupport.map(r => {
+                        const count = r.support_recipients || 0;
+                        const intensity = Math.min(100, (count / maxSupport * 100));
+                        return `
+                            <div class="bg-slate-800 p-3 rounded-lg border border-slate-700 hover:border-brand-secondary/50 transition">
+                                <p class="text-xs text-slate-400 truncate">${r.region_sido}</p>
+                                <p class="text-lg font-bold text-brand-secondary mt-1">${count.toLocaleString()}</p>
+                                <div class="w-full bg-slate-700 h-1 rounded mt-2">
+                                    <div class="bg-brand-secondary h-full rounded" style="width: ${intensity}%"></div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+
+                // 체육지도자 자격 유형별 현황
+                const coachGrid = document.getElementById('coach-types-grid');
+                if (coachGrid && coaches.items && coaches.items.length > 0) {
+                    const latestCoach = coaches.items[0];
+                    const coachTypes = [
+                        { name: '건강운동관리사', value: latestCoach.health_exercise_manager, color: 'purple' },
+                        { name: '전문스포츠지도사 1급', value: latestCoach.professional_sports_1, color: 'blue' },
+                        { name: '전문스포츠지도사 2급', value: latestCoach.professional_sports_2, color: 'cyan' },
+                        { name: '생활스포츠지도사 1급', value: latestCoach.living_sports_1, color: 'green' },
+                        { name: '생활스포츠지도사 2급', value: latestCoach.living_sports_2, color: 'emerald' },
+                        { name: '유소년스포츠지도사', value: latestCoach.youth_sports, color: 'orange' },
+                        { name: '노인스포츠지도사', value: latestCoach.senior_sports, color: 'amber' },
+                        { name: '장애인스포츠지도사 1급', value: latestCoach.disabled_sports_1, color: 'pink' },
+                        { name: '장애인스포츠지도사 2급', value: latestCoach.disabled_sports_2, color: 'rose' },
+                    ].filter(t => t.value > 0);
+
+                    coachGrid.innerHTML = coachTypes.map(t => `
+                        <div class="bg-slate-800 p-4 rounded-lg border border-slate-700 text-center hover:border-${t.color}-500/50 transition">
+                            <p class="text-xs text-slate-400 mb-2">${t.name}</p>
+                            <p class="text-xl font-bold text-${t.color}-400">${(t.value || 0).toLocaleString()}</p>
+                            <p class="text-xs text-slate-500 mt-1">명</p>
+                        </div>
+                    `).join('');
+                }
+
+                // 인사이트 생성
+                const insightsContainer = document.getElementById('insights-container');
+                if (insightsContainer && regions.regions) {
+                    const totalFacilities = summary.facilities?.total || 0;
+                    const totalSupport = summary.support?.total_recipients || 0;
+                    const totalPrograms = summary.programs?.total || 0;
+
+                    // 인구 대비 시설 최하위 지역 찾기
+                    const withRatio = regions.regions.map(r => ({
+                        name: r.region_sido,
+                        ratio: r.population > 0 ? ((r.facility_count || 0) / r.population * 10000) : 0
+                    })).sort((a, b) => a.ratio - b.ratio);
+                    const lowestRatio = withRatio[0];
+                    const highestRatio = withRatio[withRatio.length - 1];
+
+                    // 프로그램 수 최다 지역
+                    const sortedByProgram = [...regions.regions].sort((a, b) => (b.program_count || 0) - (a.program_count || 0));
+                    const topProgramRegion = sortedByProgram[0];
+
+                    insightsContainer.innerHTML = `
+                        <div class="bg-slate-800/50 p-4 rounded-lg">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-8 h-8 bg-red-500/20 rounded-lg flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                                </div>
+                                <span class="text-sm font-bold text-white">인프라 취약 지역</span>
+                            </div>
+                            <p class="text-slate-400 text-sm"><span class="text-red-400 font-bold">${lowestRatio?.name || '-'}</span>의 인구 대비 체육시설 비율이 가장 낮습니다 (1만명당 ${lowestRatio?.ratio.toFixed(1) || 0}개)</p>
+                        </div>
+                        <div class="bg-slate-800/50 p-4 rounded-lg">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                </div>
+                                <span class="text-sm font-bold text-white">우수 인프라 지역</span>
+                            </div>
+                            <p class="text-slate-400 text-sm"><span class="text-green-400 font-bold">${highestRatio?.name || '-'}</span>의 인구 대비 체육시설 비율이 가장 높습니다 (1만명당 ${highestRatio?.ratio.toFixed(1) || 0}개)</p>
+                        </div>
+                        <div class="bg-slate-800/50 p-4 rounded-lg">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-8 h-8 bg-brand-primary/20 rounded-lg flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                                </div>
+                                <span class="text-sm font-bold text-white">프로그램 활성 지역</span>
+                            </div>
+                            <p class="text-slate-400 text-sm"><span class="text-brand-primary font-bold">${topProgramRegion?.region_sido || '-'}</span>에서 가장 많은 청소년 프로그램이 운영 중입니다 (${(topProgramRegion?.program_count || 0).toLocaleString()}개)</p>
+                        </div>
+                    `;
+                }
+
+            } catch (error) {
+                console.error('Dashboard load error:', error);
+            }
+        }
+
+        // --- 7. Load MyPage ---
+        async function loadMyPage() {
+            if (!isLoggedIn || !currentUser) return;
+
+            try {
+                const [overview, history] = await Promise.all([
+                    SoominjaeAPI.getMyOverview().catch(() => null),
+                    SoominjaeAPI.getTalentHistory().catch(() => ({ items: [] }))
+                ]);
+
+                // 프로필 정보 업데이트
+                const profileName = document.querySelector('#view-mypage h3.text-2xl');
+                if (profileName) profileName.textContent = currentUser.name;
+
+                const profileDetail = document.querySelector('#view-mypage p.text-slate-400.text-sm.mt-1');
+                if (profileDetail) {
+                    const parts = [];
+                    if (currentUser.school_or_org) parts.push(currentUser.school_or_org);
+                    if (currentUser.region_sido) {
+                        parts.push(`${currentUser.region_sido} ${currentUser.region_sigungu || ''}`.trim());
+                    }
+                    profileDetail.textContent = parts.length > 0 ? parts.join(' · ') : '프로필 정보를 등록해주세요';
+                }
+
+                // 통계 업데이트
+                if (overview) {
+                    const statsGrid = document.querySelector('#view-mypage .grid.grid-cols-2.gap-4');
+                    if (statsGrid) {
+                        statsGrid.innerHTML = `
+                            <div class="bg-gradient-to-br from-brand-900 to-slate-900 p-5 rounded-xl border border-slate-700">
+                                <p class="text-slate-400 text-xs">재능 진단 횟수</p>
+                                <p class="text-3xl font-bold text-white mt-2">${overview.talent_tests?.total || 0}<span class="text-sm text-slate-500 font-normal ml-1">회</span></p>
+                            </div>
+                            <div class="bg-gradient-to-br from-brand-900 to-slate-900 p-5 rounded-xl border border-slate-700">
+                                <p class="text-slate-400 text-xs">북마크</p>
+                                <p class="text-3xl font-bold text-white mt-2">${overview.bookmarks?.total || 0}<span class="text-sm text-slate-500 font-normal ml-1">개</span></p>
+                            </div>
+                        `;
+                    }
+                }
+
+                // 진단 히스토리 업데이트
+                const allContainers = document.querySelectorAll('#view-mypage .bg-slate-900.p-6.rounded-xl.border.border-slate-700');
+                allContainers.forEach(container => {
+                    const h4 = container.querySelector('h4');
+                    if (h4 && h4.textContent.includes('진단')) {
+                        let historyHtml = `
+                            <div class="flex justify-between items-center mb-4">
+                                <h4 class="text-white font-bold">최근 진단 리포트</h4>
+                                <button class="text-xs text-slate-400 hover:text-white">전체보기</button>
+                            </div>
+                        `;
+
+                        const tests = history.items || [];
+                        if (tests.length === 0) {
+                            historyHtml += `<p class="text-slate-500 text-sm">아직 진단 기록이 없습니다.</p>`;
+                        } else {
+                            tests.slice(0, 3).forEach(test => {
+                                const date = new Date(test.created_at);
+                                const month = date.getMonth() + 1;
+                                historyHtml += `
+                                    <div class="flex justify-between items-center bg-slate-800 p-4 rounded-lg mb-2 hover:bg-slate-750 transition cursor-pointer border border-transparent hover:border-brand-primary/50">
+                                        <div class="flex items-center gap-4">
+                                            <div class="w-10 h-10 rounded bg-brand-primary/20 flex items-center justify-center text-brand-primary font-bold">${month}월</div>
+                                            <div>
+                                                <p class="text-white font-bold">체력 측정</p>
+                                                <p class="text-xs text-slate-400">${date.toLocaleDateString('ko-KR')}</p>
+                                            </div>
+                                        </div>
+                                        <button onclick="showTestDetail(${test.id})" class="text-brand-primary text-sm font-bold px-3 py-1 rounded bg-brand-primary/10">상세보기</button>
+                                    </div>
+                                `;
+                            });
+                        }
+
+                        container.innerHTML = historyHtml;
+                    }
+                });
+
+                // 북마크 목록 업데이트
+                const bookmarksList = document.getElementById('mypage-bookmarks-list');
+                if (bookmarksList) {
+                    if (userBookmarks.length === 0) {
+                        bookmarksList.innerHTML = `<p class="text-slate-500 text-sm">북마크한 프로그램이 없습니다.</p>`;
+                    } else {
+                        bookmarksList.innerHTML = userBookmarks.slice(0, 5).map(b => `
+                            <div class="flex justify-between items-center bg-slate-800 p-3 rounded-lg border-l-4 border-brand-primary hover:bg-slate-750 transition cursor-pointer" onclick="showProgramDetail(${b.target_id})">
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-slate-200 text-sm font-bold truncate">${b.target_name || '프로그램'}</p>
+                                    <p class="text-xs text-slate-500 truncate">${b.target_detail || ''}</p>
+                                </div>
+                                <button onclick="event.stopPropagation(); removeBookmarkFromMyPage(${b.id})" class="ml-2 text-slate-500 hover:text-red-400 transition" title="북마크 삭제">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                </button>
+                            </div>
+                        `).join('');
+                    }
+                }
+
+            } catch (error) {
+                console.error('MyPage load error:', error);
+            }
+        }
+
+        async function showTestDetail(testId) {
+            try {
+                const detail = await SoominjaeAPI.getTalentDetail(testId);
+                const scores = detail.scores || [];
+
+                // 모달 표시
+                const modal = document.getElementById('test-detail-modal');
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+
+                // 날짜 표시 (테스트 생성일이 있으면 사용)
+                const dateEl = document.getElementById('test-detail-date');
+                dateEl.textContent = new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
+
+                // 점수 렌더링
+                const scoresContainer = document.getElementById('test-detail-scores');
+
+                scoresContainer.innerHTML = scores.map((s, idx) => {
+                    const gradeInfo = GRADE_INFO[s.grade_level] || GRADE_INFO['average'];
+                    const sportInfo = SPORT_INFO[s.sport] || {};
+                    const sportName = SPORT_NAMES_KO[s.sport] || s.sport;
+                    const percentage = Math.min(100, s.score);
+                    const rankLabel = idx === 0 ? '1위 추천' : idx === 1 ? '2위' : idx === 2 ? '3위' : '';
+
+                    // 상위 3개는 더 상세하게
+                    if (idx < 3) {
+                        return `
+                            <div class="${gradeInfo.bgColor} ${gradeInfo.borderColor} border rounded-xl p-4 ${idx === 0 ? 'ring-2 ring-brand-primary/50' : ''}">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center gap-2">
+                                        ${rankLabel ? `<span class="${idx === 0 ? 'bg-brand-primary text-brand-900' : 'bg-slate-700 text-slate-300'} text-xs font-bold px-2 py-0.5 rounded">${rankLabel}</span>` : ''}
+                                        <span class="text-white font-bold">${sportName}</span>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-2xl font-bold ${gradeInfo.color}">${s.score.toFixed(1)}</span>
+                                        <span class="text-slate-400 text-sm">점</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="flex-1 bg-slate-700 h-2 rounded-full overflow-hidden">
+                                        <div class="bg-gradient-to-r from-brand-primary to-lime-400 h-full rounded-full transition-all duration-500" style="width: ${percentage}%"></div>
+                                    </div>
+                                    <span class="text-xs ${gradeInfo.color} font-bold">${gradeInfo.name} (${gradeInfo.percentile})</span>
+                                </div>
+                                <p class="text-slate-400 text-xs">${sportInfo.description || ''}</p>
+                                <p class="text-slate-300 text-xs mt-1">${sportInfo.whyGood || gradeInfo.description}</p>
+                            </div>
+                        `;
+                    } else {
+                        return `
+                            <div class="bg-slate-800/50 rounded-xl p-3 border border-slate-700">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-slate-300 font-medium">${sportName}</span>
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs ${gradeInfo.color}">${gradeInfo.name}</span>
+                                        <span class="text-lg font-bold ${gradeInfo.color}">${s.score.toFixed(1)}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }).join('');
+
+                // AI 코멘트
+                const commentSection = document.getElementById('test-detail-comment-section');
+                const commentEl = document.getElementById('test-detail-comment');
+                if (detail.comment) {
+                    commentSection.classList.remove('hidden');
+                    commentEl.textContent = detail.comment;
+                } else {
+                    commentSection.classList.add('hidden');
+                }
+
+            } catch (error) {
+                alert('상세 정보를 불러올 수 없습니다: ' + error.message);
+            }
+        }
+
+        function closeTestDetailModal() {
+            const modal = document.getElementById('test-detail-modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function goToMatchingFromModal() {
+            closeTestDetailModal();
+            navigateTo('matching');
+        }
+
+        // 마이페이지에서 북마크 삭제
+        async function removeBookmarkFromMyPage(bookmarkId) {
+            try {
+                await SoominjaeAPI.deleteBookmark(bookmarkId);
+                userBookmarks = userBookmarks.filter(b => b.id !== bookmarkId);
+                loadMyPage(); // 마이페이지 새로고침
+            } catch (error) {
+                alert('북마크 삭제 실패: ' + error.message);
+            }
+        }
+
+        // --- 8. Load Regions for Select ---
+        async function loadRegions() {
+            try {
+                const regions = await SoominjaeAPI.getProgramRegions();
+                const select = document.querySelector('#diagnosis-form select:nth-of-type(2)');
+                if (select && regions) {
+                    let options = '';
+                    Object.keys(regions).forEach(sido => {
+                        const sigungus = regions[sido] || [];
+                        if (sigungus.length > 0) {
+                            sigungus.forEach(sigungu => {
+                                options += `<option>${sido} ${sigungu}</option>`;
+                            });
+                        } else {
+                            options += `<option>${sido}</option>`;
+                        }
+                    });
+                    if (options) {
+                        select.innerHTML = options;
+                    }
+                }
+            } catch (error) {
+                console.log('지역 목록 로드 실패 (기본값 사용)');
+            }
+        }
+
+        // --- 9. Navbar Scroll Effect ---
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-lg');
+                navbar.style.background = 'rgba(11, 17, 32, 0.9)';
+            } else {
+                navbar.classList.remove('shadow-lg');
+                navbar.style.background = 'rgba(30, 41, 59, 0.7)';
+            }
+        });
+
+    </script>
+
+    <!-- Profile Edit Modal -->
+    <div id="profile-modal" class="fixed inset-0 z-[100] hidden">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="closeProfileModal()"></div>
+
+        <!-- Modal Content -->
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-md">
+            <div class="bg-slate-900 rounded-2xl border border-slate-700 shadow-2xl p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold text-white">프로필 수정</h3>
+                    <button onclick="closeProfileModal()" class="text-slate-400 hover:text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <form id="form-profile" onsubmit="handleProfileUpdate(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-slate-400 text-xs mb-1">이름</label>
+                        <input type="text" id="profile-name" class="w-full bg-slate-800 border border-slate-600 rounded p-3 text-white focus:ring-1 focus:ring-brand-primary outline-none" required minlength="2">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 text-xs mb-1">학교/소속</label>
+                        <input type="text" id="profile-org" class="w-full bg-slate-800 border border-slate-600 rounded p-3 text-white focus:ring-1 focus:ring-brand-primary outline-none" placeholder="예: OO중학교">
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-slate-400 text-xs mb-1">시/도</label>
+                            <select id="profile-sido" class="w-full bg-slate-800 border border-slate-600 rounded p-3 text-white focus:ring-1 focus:ring-brand-primary outline-none" onchange="loadSigungu()">
+                                <option value="">선택</option>
+                                <option value="서울특별시">서울특별시</option>
+                                <option value="부산광역시">부산광역시</option>
+                                <option value="대구광역시">대구광역시</option>
+                                <option value="인천광역시">인천광역시</option>
+                                <option value="광주광역시">광주광역시</option>
+                                <option value="대전광역시">대전광역시</option>
+                                <option value="울산광역시">울산광역시</option>
+                                <option value="세종특별자치시">세종특별자치시</option>
+                                <option value="경기도">경기도</option>
+                                <option value="강원도">강원도</option>
+                                <option value="충청북도">충청북도</option>
+                                <option value="충청남도">충청남도</option>
+                                <option value="전라북도">전라북도</option>
+                                <option value="전라남도">전라남도</option>
+                                <option value="경상북도">경상북도</option>
+                                <option value="경상남도">경상남도</option>
+                                <option value="제주특별자치도">제주특별자치도</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-slate-400 text-xs mb-1">시/군/구</label>
+                            <input type="text" id="profile-sigungu" class="w-full bg-slate-800 border border-slate-600 rounded p-3 text-white focus:ring-1 focus:ring-brand-primary outline-none" placeholder="예: 강남구">
+                        </div>
+                    </div>
+                    <div class="flex gap-3 pt-4">
+                        <button type="button" onclick="closeProfileModal()" class="flex-1 bg-slate-700 text-white font-bold py-3 rounded hover:bg-slate-600 transition">취소</button>
+                        <button type="submit" class="flex-1 bg-brand-primary text-brand-900 font-bold py-3 rounded hover:bg-lime-400 transition">저장</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<!-- Program Detail Modal - body 바로 아래에 위치해야 fixed가 제대로 작동함 -->
+<div id="program-modal" class="hidden">
+    <div class="fixed inset-0 bg-black/90 z-[9998]" onclick="closeProgramModal()"></div>
+    <div class="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+        <div class="bg-slate-800 rounded-2xl w-full max-w-md shadow-2xl border border-slate-700 max-h-[90vh] overflow-y-auto">
+            <div id="program-modal-header" class="h-24 bg-gradient-to-br from-brand-primary/40 to-brand-secondary/40 flex items-center justify-center rounded-t-2xl relative sticky top-0">
+                <span class="text-4xl">🏃</span>
+                <button onclick="closeProgramModal()" class="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-xl font-bold">×</button>
+            </div>
+            <div class="p-4">
+                <h3 id="modal-program-name" class="text-lg font-bold text-white mb-1">프로그램명</h3>
+                <p id="modal-facility-name" class="text-slate-400 text-sm mb-3">시설명</p>
+                <div class="flex flex-wrap gap-1 mb-3">
+                    <span id="modal-industry" class="bg-brand-primary/20 text-brand-primary px-2 py-0.5 rounded text-xs">업종</span>
+                    <span id="modal-target" class="bg-slate-700 text-slate-300 px-2 py-0.5 rounded text-xs">대상</span>
+                    <span id="modal-type" class="bg-slate-700 text-slate-300 px-2 py-0.5 rounded text-xs">유형</span>
+                </div>
+                <div class="bg-slate-900/50 rounded-lg p-3 mb-3 text-sm space-y-2">
+                    <div class="flex justify-between"><span class="text-slate-500">📍 주소</span><span id="modal-address" class="text-white text-right flex-1 ml-2">-</span></div>
+                    <div class="flex justify-between"><span class="text-slate-500">📅 기간</span><span id="modal-period" class="text-white text-right flex-1 ml-2">-</span></div>
+                    <div class="flex justify-between"><span class="text-slate-500">🕐 시간</span><span id="modal-schedule" class="text-white text-right flex-1 ml-2">-</span></div>
+                    <div class="flex justify-between"><span class="text-slate-500">💰 수강료</span><span id="modal-price" class="text-white">-</span></div>
+                    <div class="flex justify-between"><span class="text-slate-500">👥 정원</span><span id="modal-capacity" class="text-white">-</span></div>
+                </div>
+                <div class="flex gap-2">
+                    <button id="modal-bookmark-btn" onclick="toggleProgramBookmark()" class="px-3 py-2 bg-slate-700 hover:bg-brand-primary/20 border border-slate-600 rounded-lg text-sm">⭐ 북마크</button>
+                    <a id="modal-homepage-link" href="#" target="_blank" class="flex-1 bg-brand-primary text-brand-900 py-2 rounded-lg font-bold text-center text-sm hover:bg-lime-400">홈페이지</a>
+                    <button onclick="closeProgramModal()" class="px-3 py-2 bg-slate-600 text-white rounded-lg text-sm hover:bg-slate-500">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Test Detail Modal (진단 결과 상세) -->
+<div id="test-detail-modal" class="hidden">
+    <div class="fixed inset-0 bg-black/90 z-[9998]" onclick="closeTestDetailModal()"></div>
+    <div class="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+        <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl w-full max-w-lg shadow-2xl border border-slate-700 max-h-[90vh] overflow-y-auto">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-brand-primary/20 to-brand-secondary/20 p-6 rounded-t-2xl border-b border-slate-700">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="text-xl font-bold text-white">재능 진단 결과</h3>
+                        <p id="test-detail-date" class="text-slate-400 text-sm mt-1">2024년 12월 7일</p>
+                    </div>
+                    <button onclick="closeTestDetailModal()" class="text-slate-400 hover:text-white transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="p-6">
+                <!-- 종목별 점수 -->
+                <div class="mb-6">
+                    <h4 class="text-white font-bold mb-4 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                        종목별 재능 점수
+                    </h4>
+                    <div id="test-detail-scores" class="space-y-3">
+                        <!-- 점수들이 여기 들어감 -->
+                    </div>
+                </div>
+
+                <!-- AI 코멘트 -->
+                <div id="test-detail-comment-section" class="hidden">
+                    <h4 class="text-white font-bold mb-3 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-brand-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                        AI 분석 코멘트
+                    </h4>
+                    <div class="bg-slate-800/50 rounded-xl p-4 border border-slate-700">
+                        <p id="test-detail-comment" class="text-slate-300 text-sm leading-relaxed"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="p-4 border-t border-slate-700 flex gap-3">
+                <button onclick="closeTestDetailModal()" class="flex-1 bg-slate-700 text-white py-3 rounded-xl font-bold hover:bg-slate-600 transition">닫기</button>
+                <button onclick="goToMatchingFromModal()" class="flex-1 bg-brand-primary text-brand-900 py-3 rounded-xl font-bold hover:bg-lime-400 transition">프로그램 찾기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>

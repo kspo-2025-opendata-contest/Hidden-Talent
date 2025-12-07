@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+env/
+.venv/
+*.egg-info/
+dist/
+build/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Database
+*.db
+*.sqlite3
+
+# Logs
+*.log
+logs/
+
+# Cache
+.cache/
+*.cache
+
+# Alembic
+alembic/versions/*.pyc
+
+# OS
+Thumbs.db
+
+# Documentation (not used for code)
+메인 지시문.md
+보조문서.md
+진행사항정리.md
+최우선지시사항.md
+*.claude/
+
+# Large data files (exceeds GitHub 100MB limit)
+data/
