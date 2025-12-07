@@ -10,6 +10,13 @@
 >
 > **GitHub**: https://github.com/kspo-2025-opendata-contest/Hidden-Talent
 
+### 테스트 계정
+
+| 구분 | 이메일 | 비밀번호 |
+|------|--------|----------|
+| 일반 사용자 | `user@suminjae.com` | `User1234!` |
+| 관리자 | `admin@suminjae.com` | `Admin1234!` |
+
 ---
 
 ## 공공데이터 활용 현황
