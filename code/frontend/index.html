@@ -827,7 +827,7 @@
                             </ul>
                         </div>
                         <div class="mt-8 text-xs text-slate-500">
-                            &copy; 2024 숨인재 Project.
+                            &copy; 2025 숨인재 Project. <a href="#" onclick="showTermsPage(); return false;" class="text-slate-400 hover:text-brand-primary ml-2">이용약관</a> | <a href="#" onclick="showPrivacyPage(); return false;" class="text-slate-400 hover:text-brand-primary">개인정보처리방침</a> | <a href="#" onclick="showContactPage(); return false;" class="text-slate-400 hover:text-brand-primary">문의하기</a>
                         </div>
                     </div>
 
@@ -3856,6 +3856,151 @@
         </div>
     </div>
 </div>
+
+<!-- Terms of Service Modal -->
+<div id="terms-modal" class="fixed inset-0 bg-black/80 z-[9999] hidden items-center justify-center p-4">
+    <div class="bg-slate-900 rounded-2xl max-w-2xl w-full max-h-[80vh] overflow-hidden">
+        <div class="p-6 border-b border-slate-700 flex justify-between items-center">
+            <h2 class="text-xl font-bold text-white">이용약관</h2>
+            <button onclick="closeTermsModal()" class="text-slate-400 hover:text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <div class="p-6 overflow-y-auto max-h-[60vh] text-slate-300 text-sm space-y-4">
+            <h3 class="text-white font-bold">제1조 (목적)</h3>
+            <p>이 약관은 숨인재 프로젝트(이하 "서비스")가 제공하는 청소년 체육 재능 발굴 서비스의 이용조건 및 절차, 회원과 서비스의 권리, 의무, 책임사항을 규정함을 목적으로 합니다.</p>
+
+            <h3 class="text-white font-bold">제2조 (서비스의 내용)</h3>
+            <p>본 서비스는 다음과 같은 기능을 제공합니다:</p>
+            <ul class="list-disc list-inside ml-4 space-y-1">
+                <li>체력 측정 데이터 기반 운동 재능 분석</li>
+                <li>지역별 체육 시설 및 프로그램 정보 제공</li>
+                <li>맞춤형 스포츠 프로그램 추천</li>
+                <li>장애인 체육 지원 정보 제공</li>
+            </ul>
+
+            <h3 class="text-white font-bold">제3조 (회원가입)</h3>
+            <p>회원가입은 무료이며, 만 14세 이상인 자는 누구나 가입할 수 있습니다. 만 14세 미만의 경우 법정대리인의 동의가 필요합니다.</p>
+
+            <h3 class="text-white font-bold">제4조 (서비스 이용)</h3>
+            <p>본 서비스는 비영리 교육 목적으로 제공되며, 상업적 용도로의 사용은 금지됩니다.</p>
+
+            <h3 class="text-white font-bold">제5조 (면책조항)</h3>
+            <p>본 서비스에서 제공하는 재능 분석 결과는 참고용이며, 전문적인 체육 지도나 의료적 판단을 대체하지 않습니다.</p>
+        </div>
+        <div class="p-4 border-t border-slate-700">
+            <button onclick="closeTermsModal()" class="w-full bg-brand-primary text-brand-900 py-3 rounded-xl font-bold hover:bg-lime-400 transition">확인</button>
+        </div>
+    </div>
+</div>
+
+<!-- Privacy Policy Modal -->
+<div id="privacy-modal" class="fixed inset-0 bg-black/80 z-[9999] hidden items-center justify-center p-4">
+    <div class="bg-slate-900 rounded-2xl max-w-2xl w-full max-h-[80vh] overflow-hidden">
+        <div class="p-6 border-b border-slate-700 flex justify-between items-center">
+            <h2 class="text-xl font-bold text-white">개인정보처리방침</h2>
+            <button onclick="closePrivacyModal()" class="text-slate-400 hover:text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <div class="p-6 overflow-y-auto max-h-[60vh] text-slate-300 text-sm space-y-4">
+            <h3 class="text-white font-bold">1. 수집하는 개인정보 항목</h3>
+            <p>숨인재는 서비스 제공을 위해 다음과 같은 개인정보를 수집합니다:</p>
+            <ul class="list-disc list-inside ml-4 space-y-1">
+                <li>필수항목: 이름, 이메일, 비밀번호</li>
+                <li>선택항목: 학교/소속, 지역(시도/시군구)</li>
+                <li>체력측정 데이터: 악력, 윗몸일으키기, 제자리멀리뛰기, 왕복오래달리기, 앉아윗몸앞으로굽히기, 키, 몸무게</li>
+            </ul>
+
+            <h3 class="text-white font-bold">2. 개인정보의 이용 목적</h3>
+            <ul class="list-disc list-inside ml-4 space-y-1">
+                <li>회원 식별 및 서비스 제공</li>
+                <li>체력 데이터 분석 및 운동 재능 진단</li>
+                <li>맞춤형 프로그램 추천</li>
+            </ul>
+
+            <h3 class="text-white font-bold">3. 개인정보의 보유 및 이용 기간</h3>
+            <p>회원 탈퇴 시까지 보관하며, 탈퇴 즉시 모든 개인정보를 파기합니다.</p>
+
+            <h3 class="text-white font-bold">4. 개인정보의 제3자 제공</h3>
+            <p>수집된 개인정보는 제3자에게 제공되지 않습니다.</p>
+
+            <h3 class="text-white font-bold">5. 개인정보 보호책임자</h3>
+            <p>숨인재 프로젝트팀<br>이메일: hidden.talent.project@gmail.com</p>
+        </div>
+        <div class="p-4 border-t border-slate-700">
+            <button onclick="closePrivacyModal()" class="w-full bg-brand-primary text-brand-900 py-3 rounded-xl font-bold hover:bg-lime-400 transition">확인</button>
+        </div>
+    </div>
+</div>
+
+<!-- Contact Modal -->
+<div id="contact-modal" class="fixed inset-0 bg-black/80 z-[9999] hidden items-center justify-center p-4">
+    <div class="bg-slate-900 rounded-2xl max-w-md w-full overflow-hidden">
+        <div class="p-6 border-b border-slate-700 flex justify-between items-center">
+            <h2 class="text-xl font-bold text-white">문의하기</h2>
+            <button onclick="closeContactModal()" class="text-slate-400 hover:text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <div class="p-6 text-slate-300 space-y-4">
+            <div class="flex items-center gap-4 p-4 bg-slate-800 rounded-xl">
+                <div class="w-12 h-12 bg-brand-primary/20 rounded-full flex items-center justify-center">
+                    <svg class="w-6 h-6 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-400">이메일</p>
+                    <p class="text-white font-medium">hidden.talent.project@gmail.com</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4 p-4 bg-slate-800 rounded-xl">
+                <div class="w-12 h-12 bg-brand-primary/20 rounded-full flex items-center justify-center">
+                    <svg class="w-6 h-6 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"></path></svg>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-400">응답시간</p>
+                    <p class="text-white font-medium">평일 09:00 - 18:00</p>
+                </div>
+            </div>
+
+            <p class="text-sm text-slate-400 text-center">
+                서비스 이용 중 궁금한 점이나 건의사항이 있으시면<br>언제든지 이메일로 문의해 주세요.
+            </p>
+        </div>
+        <div class="p-4 border-t border-slate-700">
+            <button onclick="closeContactModal()" class="w-full bg-brand-primary text-brand-900 py-3 rounded-xl font-bold hover:bg-lime-400 transition">확인</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Terms, Privacy, Contact Modal Functions
+    function showTermsPage() {
+        document.getElementById('terms-modal').classList.remove('hidden');
+        document.getElementById('terms-modal').classList.add('flex');
+    }
+    function closeTermsModal() {
+        document.getElementById('terms-modal').classList.add('hidden');
+        document.getElementById('terms-modal').classList.remove('flex');
+    }
+    function showPrivacyPage() {
+        document.getElementById('privacy-modal').classList.remove('hidden');
+        document.getElementById('privacy-modal').classList.add('flex');
+    }
+    function closePrivacyModal() {
+        document.getElementById('privacy-modal').classList.add('hidden');
+        document.getElementById('privacy-modal').classList.remove('flex');
+    }
+    function showContactPage() {
+        document.getElementById('contact-modal').classList.remove('hidden');
+        document.getElementById('contact-modal').classList.add('flex');
+    }
+    function closeContactModal() {
+        document.getElementById('contact-modal').classList.add('hidden');
+        document.getElementById('contact-modal').classList.remove('flex');
+    }
+</script>
 
 <script type="module" src="/index.tsx"></script>
 </body>
