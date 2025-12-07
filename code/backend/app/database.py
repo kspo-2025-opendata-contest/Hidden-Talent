@@ -4,17 +4,18 @@ from app.config import settings
 
 
 # SQLite와 PostgreSQL 모두 지원
+db_url = settings.database_url_sync
 connect_args = {}
-if settings.DATABASE_URL.startswith("sqlite"):
+if db_url.startswith("sqlite"):
     connect_args = {"check_same_thread": False}
     engine = create_engine(
-        settings.DATABASE_URL,
+        db_url,
         echo=settings.DEBUG,
         connect_args=connect_args
     )
 else:
     engine = create_engine(
-        settings.DATABASE_URL,
+        db_url,
         echo=settings.DEBUG,
         pool_pre_ping=True
     )

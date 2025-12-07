@@ -8,6 +8,15 @@ class Settings(BaseSettings):
     # Database
     DATABASE_URL: str = "postgresql+psycopg://shinjuyong@localhost:5432/suminjae"
 
+    @property
+    def database_url_sync(self) -> str:
+        """SQLAlchemy용 동기 URL 반환 (psycopg2 또는 psycopg)"""
+        url = self.DATABASE_URL
+        # Render는 postgresql:// 형식을 제공하므로 변환
+        if url.startswith("postgresql://"):
+            url = url.replace("postgresql://", "postgresql+psycopg://", 1)
+        return url
+
     # JWT
     JWT_SECRET: str = "your-secret-key-change-in-production"
     JWT_ALGORITHM: str = "HS256"
