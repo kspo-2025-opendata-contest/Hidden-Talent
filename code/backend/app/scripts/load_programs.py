@@ -1,7 +1,7 @@
 """
 청소년 유아동 이용가능 체육시설 프로그램 정보 적재 스크립트
 
-데이터 파일: data/청소년_프로그램_part*.csv (분할된 파일들)
+데이터 파일: data/청소년_프로그램_*.csv (분할된 파일들)
 """
 
 import sys
@@ -56,11 +56,12 @@ def parse_date(date_str):
 
 def load_programs(limit=None):
     """프로그램 데이터 적재"""
-    project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
-    data_dir = os.path.join(project_root, "data")
+    # backend 폴더 기준 (Docker에서는 /app)
+    backend_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    data_dir = os.path.join(backend_root, "data")
 
     # 분할된 파일들 찾기
-    data_files = sorted(glob.glob(os.path.join(data_dir, "청소년_프로그램_part*.csv")))
+    data_files = sorted(glob.glob(os.path.join(data_dir, "청소년_프로그램_*.csv")))
 
     if not data_files:
         print("No data files found!")

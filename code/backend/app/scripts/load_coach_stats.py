@@ -30,9 +30,10 @@ COLUMN_MAP = {
 
 def load_coach_stats():
     """체육지도자 통계 데이터 적재"""
-    project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
+    # backend 폴더 기준 (Docker에서는 /app)
+    backend_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     data_path = os.path.join(
-        project_root,
+        backend_root,
         "data",
         "체육지도자 연도별 자격취득현황 데이터(202508).csv"
     )

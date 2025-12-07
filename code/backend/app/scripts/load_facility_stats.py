@@ -29,10 +29,10 @@ COLUMN_MAP = {
 
 def load_facility_stats():
     """시설 통계 데이터 적재"""
-    # 프로젝트 루트: /Users/shinjuyong/Desktop/25.12.07 대회
-    project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
+    # backend 폴더 기준 (Docker에서는 /app)
+    backend_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     data_path = os.path.join(
-        project_root,
+        backend_root,
         "data",
         "지역별공공체육시설보급현황정보(202507).csv"
     )
