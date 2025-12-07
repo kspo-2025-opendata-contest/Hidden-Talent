@@ -18,8 +18,11 @@ from app.models import *  # 모든 모델 import
 # access to the values within the .ini file in use.
 config = context.config
 
-# DATABASE_URL 설정
-config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
+# DATABASE_URL 설정 (psycopg2 드라이버 사용)
+db_url = settings.DATABASE_URL
+if db_url.startswith("postgresql://"):
+    db_url = db_url.replace("postgresql://", "postgresql+psycopg2://", 1)
+config.set_main_option("sqlalchemy.url", db_url)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
