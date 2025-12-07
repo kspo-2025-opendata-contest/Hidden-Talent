@@ -34,7 +34,8 @@ def create_accounts():
             db.add(user)
             print(f"Created user account: {user_email}")
         else:
-            print(f"User account already exists: {user_email}")
+            existing_user.password_hash = hash_password("User1234!")
+            print(f"Updated user account password: {user_email}")
 
         # 관리자 계정
         admin_email = "admin@suminjae.com"
@@ -52,7 +53,8 @@ def create_accounts():
             db.add(admin)
             print(f"Created admin account: {admin_email}")
         else:
-            print(f"Admin account already exists: {admin_email}")
+            existing_admin.password_hash = hash_password("Admin1234!")
+            print(f"Updated admin account password: {admin_email}")
 
         db.commit()
         print("\n=== Account Information ===")
