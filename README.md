@@ -6,7 +6,162 @@
 
 2025년 국민체육진흥공단 공공데이터 활용 경진대회 출품작입니다.
 
-> GitHub: https://github.com/kspo-2025-opendata-contest/Hidden-Talent
+> **라이브 데모**: https://hidden-talent-web.onrender.com
+>
+> **GitHub**: https://github.com/kspo-2025-opendata-contest/Hidden-Talent
+
+---
+
+## 공공데이터 활용 현황
+
+> **본 프로젝트는 국민체육진흥공단에서 제공하는 5개 핵심 공공데이터셋을 활용하여**
+> **청소년 스포츠 재능 발굴부터 프로그램 매칭, 정책 격차 분석까지 통합 서비스를 구현하였습니다.**
+
+### 활용 데이터셋 상세
+
+| # | 데이터셋명 | 파일명 | 레코드 수 | 활용 기능 |
+|---|-----------|--------|----------|----------|
+| 1 | **체력측정 및 운동처방 종합 데이터** | `체력측정 및 운동처방 종합 데이터(202505).csv` | 약 30,000건 | 재능 진단 알고리즘 |
+| 2 | **청소년·유아동 체육시설 프로그램 정보** | `청소년_프로그램_*.csv` (4개 분할) | 약 200,000건 | 프로그램 매칭·검색 |
+| 3 | **지역별 공공체육시설 보급현황** | `지역별공공체육시설보급현황정보(202507).csv` | 약 3,500건 | 시설 현황 대시보드 |
+| 4 | **지역별 스포츠강좌이용권 활용정보** | `지역별스포츠강좌이용권활용정보(202507).csv` | 약 1,200건 | 정책 격차 분석 |
+| 5 | **체육지도자 연도별 자격취득현황** | `체육지도자 연도별 자격취득현황 데이터(202508).csv` | 약 50건 | 지도자 통계 |
+
+### 데이터셋별 활용 상세
+
+#### 1. 체력측정 및 운동처방 종합 데이터 → **재능 진단 알고리즘**
+
+```
+[활용 컬럼]
+- 악력(GRIP_STRENGTH), 윗몸일으키기(SIT_UPS), 제자리멀리뛰기(STANDING_LONG_JUMP)
+- 20m 왕복달리기(SHUTTLE_RUN_20M), 좌전굴(SIT_AND_REACH)
+- 연령(AGE), 성별(GENDER), 지역(REGION_SIDO, REGION_SIGUNGU)
+
+[활용 방식]
+1. 연령·성별 그룹별 체력 항목 분포 분석
+2. 각 항목을 0~100점으로 정규화 (백분위 기반)
+3. 종목별 가중치 적용하여 재능 점수 산출
+   - 축구: 지구력(30%) + 순발력(25%) + 근력(20%) + 유연성(15%) + 악력(10%)
+   - 농구: 순발력(30%) + 지구력(25%) + 근력(20%) + 유연성(15%) + 악력(15%)
+   - ... (8개 종목 + 장애인 5개 종목)
+
+[구현 파일]
+- code/backend/app/services/scoring_service.py
+- code/backend/app/routers/talent.py
+```
+
+#### 2. 청소년·유아동 체육시설 프로그램 정보 → **프로그램 매칭 시스템**
+
+```
+[활용 컬럼]
+- 시설명(FCLTY_NM), 시설유형(FCLTY_FLAG_NM), 주소(FCLTY_ADDR)
+- 위도/경도(FCLTY_LA, FCLTY_LO)
+- 프로그램명(PROGRM_NM), 프로그램유형(PROGRM_TY_NM)
+- 대상(PROGRM_TRGET_NM), 요일(PROGRM_ESTBL_WKDAY_NM)
+- 가격(PROGRM_PRC), 정원(PROGRM_RCRIT_NMPR_CO)
+- 시작/종료일(PROGRM_BEGIN_DE, PROGRM_END_DE)
+- 지역(CTPRVN_NM, SIGNGU_NM)
+
+[활용 방식]
+1. 재능 진단 결과 상위 종목과 프로그램 유형 매칭
+2. 사용자 지역 기반 단계적 검색:
+   - 1단계: 사용자 등록 시/군/구 내 프로그램
+   - 2단계: 같은 시/도 내 다른 구 프로그램
+   - 3단계: 전국 프로그램
+3. 필터링: 종목, 지역, 대상연령, 가격대, 요일
+
+[구현 파일]
+- code/backend/app/routers/programs.py
+- code/backend/app/scripts/load_programs.py
+```
+
+#### 3. 지역별 공공체육시설 보급현황 → **시설 인프라 대시보드**
+
+```
+[활용 컬럼]
+- 기준년월(BASE_YM), 시도(CTPRVN_NM), 시군구(SIGNGU_NM)
+- 시설수(SIGNGU_ACCTO_FCLTY_CO), 인구수(SIGNGU_ACCTO_POPLTN_CO)
+- 1인당 시설수(PSNBY_FCLTY_CO), 순위(PSNBY_FCL_CO_RANK_CO)
+
+[활용 방식]
+1. 전국 시·군·구별 체육시설 분포 시각화
+2. 인구 대비 시설 보급률 계산 및 순위 표시
+3. 인프라 취약 지역 식별 (정책 대시보드)
+4. 수도권/비수도권 시설 격차 분석
+
+[구현 파일]
+- code/backend/app/routers/facilities.py
+- code/backend/app/routers/dashboard.py
+- code/backend/app/scripts/load_facility_stats.py
+```
+
+#### 4. 지역별 스포츠강좌이용권 활용정보 → **정책 격차 분석**
+
+```
+[활용 컬럼]
+- 기준연도(BASE_YEAR), 시도(CTPRVN_NM), 시군구(SIGNGU_NM)
+- 수혜유형(RECIPT_FLAG_NM): 일반, 장애인, 저소득층 등
+- 대상인원(CRRSPND_FLAG_TRGET_NMPR_CO)
+- 실수혜인원(CRRSPND_FLAG_RECIPT_NMPR_CO)
+
+[활용 방식]
+1. 지역별 스포츠강좌이용권 수혜율 계산
+2. 재능 분포와 지원 수혜율 간 격차 분석
+3. "재능은 많지만 지원이 부족한 지역" 도출
+4. 장애인·저소득층 수혜 현황 분석
+
+[구현 파일]
+- code/backend/app/routers/dashboard.py
+- code/backend/app/scripts/load_support_stats.py
+```
+
+#### 5. 체육지도자 연도별 자격취득현황 → **지도자 현황 통계**
+
+```
+[활용 컬럼]
+- 자격취득연도(QUALF_YEAR)
+- 건강운동관리사(HEALTH_MVM_MNGER_CO)
+- 전문스포츠지도사 1급/2급(SCLS1/2_SPCLTY_SPORTS_INSTOR_CO)
+- 생활스포츠지도사 1급/2급(SCLS1/2_LVLH_SPORTS_INSTOR_CO)
+- 유소년스포츠지도사(YUTH_SPORTS_INSTOR_CO)
+- 노인스포츠지도사(SNCTZ_SPORTS_INSTOR_CO)
+- 장애인스포츠지도사 1급/2급(SCLS1/2_DSPSN_SPORTS_INSTOR_CO)
+
+[활용 방식]
+1. 연도별 체육지도자 자격 취득 추이 분석
+2. 유소년/장애인 스포츠 지도자 비율 계산
+3. 대시보드에서 지도자 공급 현황 표시
+
+[구현 파일]
+- code/backend/app/routers/dashboard.py
+- code/backend/app/scripts/load_coach_stats.py
+```
+
+### 데이터 처리 파이프라인
+
+```
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│  공공데이터 CSV │ ──→ │  ETL 스크립트   │ ──→ │  PostgreSQL DB  │
+│  (5개 데이터셋) │     │  (load_all.py)  │     │  (정규화 테이블) │
+└─────────────────┘     └─────────────────┘     └─────────────────┘
+                                                        │
+        ┌───────────────────────────────────────────────┘
+        ▼
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│  FastAPI 서버   │ ──→ │  재능 스코어링  │ ──→ │  프론트엔드     │
+│  (REST API)     │     │  + Gemini AI    │     │  (사용자 UI)    │
+└─────────────────┘     └─────────────────┘     └─────────────────┘
+```
+
+### 데이터 품질 및 전처리
+
+| 항목 | 처리 내용 |
+|------|----------|
+| **인코딩** | UTF-8-sig (한글 깨짐 방지) |
+| **결측치** | NaN → 기본값(0) 또는 NULL 처리 |
+| **날짜형식** | YYYYMMDD → Python date 변환 |
+| **대용량 처리** | 청소년 프로그램 데이터 4개 파일로 분할 (GitHub 100MB 제한) |
+| **청크 로딩** | 10,000건 단위 배치 삽입 (메모리 효율화) |
 
 ---
 
@@ -171,60 +326,46 @@ DISABILITY_SPORT_WEIGHTS = {
 
 ```bash
 .
-├── README.md
-├── data/                              # 공공데이터 원본 파일(CSV)
-│   ├── 체력측정 및 운동처방 종합 데이터(202505).csv
-│   ├── 체육지도자 연도별 자격취득현황 데이터(202508).csv
-│   ├── 지역별공공체육시설보급현황정보(202507).csv
-│   ├── 청소년 유아동 이용가능 체육시설 프로그램 정보(202510)_part*.csv
-│   └── 지역별 스포츠강좌이용권 활용 정보(202505).csv
-│
+├── README.md                          # 프로젝트 문서 (공공데이터 활용 상세 포함)
 └── code/
-    ├── README.md                      # 이 문서
-    ├── frontend/                      # 프론트엔드 (Vite)
-    │   ├── index.html
-    │   ├── index.css
-    │   ├── logo.jpeg
+    ├── frontend/                      # 프론트엔드 (Vite + Tailwind)
+    │   ├── index.html                # 메인 UI
+    │   ├── public/
+    │   │   ├── api.js                # API 클라이언트
+    │   │   └── logo.jpeg             # 로고 이미지
     │   ├── package.json
     │   └── vite.config.ts
     │
     └── backend/                       # 백엔드 (FastAPI)
+        ├── data/                      # 공공데이터 CSV 파일
+        │   ├── 체력측정 및 운동처방 종합 데이터(202505).csv
+        │   ├── 지역별공공체육시설보급현황정보(202507).csv
+        │   ├── 지역별스포츠강좌이용권활용정보(202507).csv
+        │   ├── 체육지도자 연도별 자격취득현황 데이터(202508).csv
+        │   ├── 청소년_프로그램_aa.csv    # 분할 파일 1/4
+        │   ├── 청소년_프로그램_ab.csv    # 분할 파일 2/4
+        │   ├── 청소년_프로그램_ac.csv    # 분할 파일 3/4
+        │   └── 청소년_프로그램_ad.csv    # 분할 파일 4/4
         ├── app/
         │   ├── main.py               # FastAPI 엔트리포인트
         │   ├── config.py             # 환경변수 설정
         │   ├── database.py           # SQLAlchemy 엔진/세션
         │   ├── dependencies.py       # JWT 인증 의존성
         │   ├── models/               # SQLAlchemy 모델
-        │   │   ├── user.py
-        │   │   ├── talent.py         # 장애 유형 포함
-        │   │   ├── program.py
-        │   │   ├── facility.py
-        │   │   ├── coach.py
-        │   │   ├── support.py
-        │   │   └── bookmark.py
         │   ├── schemas/              # Pydantic 스키마
-        │   │   ├── auth.py
-        │   │   ├── talent.py         # 5단계 등급, 장애 유형
-        │   │   ├── program.py
-        │   │   └── bookmark.py
         │   ├── routers/              # API 라우터
-        │   │   ├── auth.py           # 회원가입/로그인
-        │   │   ├── talent.py         # 재능 진단
-        │   │   ├── programs.py       # 프로그램 검색
-        │   │   ├── facilities.py     # 시설 현황
-        │   │   ├── dashboard.py      # 대시보드 통계
-        │   │   └── me.py             # 마이페이지
         │   ├── services/             # 비즈니스 로직
-        │   │   ├── auth_service.py   # 인증 서비스
         │   │   ├── scoring_service.py # 재능 스코어링 (장애인 종목 포함)
-        │   │   └── gemini_client.py  # Gemini API 연동
+        │   │   └── gemini_client.py  # Gemini AI 연동
         │   └── scripts/              # ETL 스크립트
+        │       ├── load_all.py       # 전체 데이터 로드
         │       ├── load_facility_stats.py
         │       ├── load_programs.py
         │       ├── load_coach_stats.py
-        │       ├── load_support_stats.py
-        │       └── load_all.py
+        │       └── load_support_stats.py
         ├── alembic/                  # DB 마이그레이션
+        ├── Dockerfile                # Docker 빌드 설정
+        ├── start.sh                  # 서버 시작 스크립트 (마이그레이션 + 데이터 로드)
         ├── requirements.txt
         └── .env
 ```
