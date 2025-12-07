@@ -179,7 +179,6 @@
             }
         }
     </style>
-<link rel="stylesheet" href="/index.css">
     <script src="/api.js"></script>
 </head>
 <body class="antialiased overflow-x-hidden min-h-screen flex flex-col">
@@ -889,30 +888,65 @@
         <!-- FAQ -->
         <section id="faq" class="py-20 bg-brand-900">
             <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-3xl font-bold text-white text-center mb-10">자주 묻는 질문</h2>
+                <h2 class="text-3xl font-bold text-white text-center mb-4">자주 묻는 질문</h2>
+                <p class="text-slate-400 text-center mb-10">숨인재 서비스에 대해 궁금한 점을 확인해보세요</p>
                 <div class="space-y-4">
+                    <!-- FAQ 1: 서비스 대상 -->
                     <details class="bg-slate-800 rounded-lg group">
                         <summary class="list-none flex justify-between items-center p-5 cursor-pointer text-white font-medium">
-                            이 서비스는 엘리트 선수를 위한 건가요?
+                            이 서비스는 누구를 위한 건가요?
                             <span class="transition group-open:rotate-180">
                                 <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
                             </span>
                         </summary>
                         <div class="text-slate-400 px-5 pb-5 text-sm leading-relaxed">
-                            아니요, 숨인재는 일반 학생들을 위한 서비스입니다. 학교 체력장(PAPS) 데이터나 간단한 측정만으로도 자신의 숨겨진 운동 재능을 발견하고, 취미나 진로로 발전시킬 수 있도록 돕습니다.
+                            숨인재는 <strong class="text-brand-primary">초·중·고 학생</strong>을 위한 서비스입니다. 학교 체력장(PAPS) 데이터나 간단한 체력 측정만으로도 자신의 숨겨진 운동 재능을 발견하고, 취미나 진로로 발전시킬 수 있도록 돕습니다. 엘리트 선수가 아닌 일반 학생들이 주 대상입니다.
                         </div>
                     </details>
+
+                    <!-- FAQ 2: 등급 시스템 -->
                     <details class="bg-slate-800 rounded-lg group">
                         <summary class="list-none flex justify-between items-center p-5 cursor-pointer text-white font-medium">
-                            데이터는 어떻게 연동되나요?
+                            재능 진단의 등급은 어떻게 산정되나요?
                             <span class="transition group-open:rotate-180">
                                 <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
                             </span>
                         </summary>
                         <div class="text-slate-400 px-5 pb-5 text-sm leading-relaxed">
-                            현재는 직접 데이터를 입력하는 방식이며, 향후 교육행정정보시스템(NEIS) 또는 국민체력100 API와 연동하여 자동으로 데이터를 불러올 수 있도록 개발 중입니다.
+                            전국 청소년 체력 측정 공공데이터를 기반으로 <strong class="text-brand-primary">5단계 등급</strong>을 산정합니다:
+                            <ul class="mt-2 space-y-1 ml-4">
+                                <li>• <span class="text-yellow-400">최우수</span>: 상위 10% 이내</li>
+                                <li>• <span class="text-green-400">우수</span>: 상위 11~25%</li>
+                                <li>• <span class="text-blue-400">평균 이상</span>: 상위 26~50%</li>
+                                <li>• <span class="text-slate-300">평균</span>: 상위 51~75%</li>
+                                <li>• <span class="text-orange-400">평균 이하</span>: 하위 25%</li>
+                            </ul>
+                            각 체력 요소별로 등급을 산정하여 종합적인 운동 재능을 분석합니다.
                         </div>
                     </details>
+
+                    <!-- FAQ 3: 체력 측정 항목 -->
+                    <details class="bg-slate-800 rounded-lg group">
+                        <summary class="list-none flex justify-between items-center p-5 cursor-pointer text-white font-medium">
+                            어떤 체력 측정 항목이 필요한가요?
+                            <span class="transition group-open:rotate-180">
+                                <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                            </span>
+                        </summary>
+                        <div class="text-slate-400 px-5 pb-5 text-sm leading-relaxed">
+                            학교 체력장(PAPS)과 동일한 <strong class="text-brand-primary">5가지 핵심 체력 요소</strong>를 측정합니다:
+                            <ul class="mt-2 space-y-1 ml-4">
+                                <li>• <span class="text-white">악력</span>: 근력 측정 (kg)</li>
+                                <li>• <span class="text-white">윗몸일으키기</span>: 근지구력 측정 (회/분)</li>
+                                <li>• <span class="text-white">앉아윗몸앞으로굽히기</span>: 유연성 측정 (cm)</li>
+                                <li>• <span class="text-white">제자리멀리뛰기</span>: 순발력 측정 (cm)</li>
+                                <li>• <span class="text-white">왕복오래달리기</span>: 심폐지구력 측정 (회)</li>
+                            </ul>
+                            추가로 키, 몸무게를 입력하면 BMI도 함께 분석됩니다.
+                        </div>
+                    </details>
+
+                    <!-- FAQ 4: 장애 학생 -->
                     <details class="bg-slate-800 rounded-lg group">
                         <summary class="list-none flex justify-between items-center p-5 cursor-pointer text-white font-medium">
                             장애 학생도 이용 가능한가요?
@@ -921,7 +955,66 @@
                             </span>
                         </summary>
                         <div class="text-slate-400 px-5 pb-5 text-sm leading-relaxed">
-                            네, 장애 학생을 위한 별도의 체력 측정 기준(장애인 체력인증센터 데이터 기준)을 적용하여, 패럴림픽 종목 등 적합한 운동 프로그램을 매칭해 드립니다.
+                            네! 숨인재는 <strong class="text-brand-primary">장애 학생을 위한 맞춤 서비스</strong>를 제공합니다. 장애인 체력인증센터의 측정 기준을 적용하여 <span class="text-blue-400">골볼, 휠체어농구, 파라수영, 보치아</span> 등 패럴림픽 종목과 장애인 스포츠 프로그램을 추천해 드립니다. 장애 유형(시각장애, 지체장애 등)에 따른 맞춤 분석이 가능합니다.
+                        </div>
+                    </details>
+
+                    <!-- FAQ 5: 프로그램 매칭 -->
+                    <details class="bg-slate-800 rounded-lg group">
+                        <summary class="list-none flex justify-between items-center p-5 cursor-pointer text-white font-medium">
+                            프로그램 매칭은 어떻게 이루어지나요?
+                            <span class="transition group-open:rotate-180">
+                                <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                            </span>
+                        </summary>
+                        <div class="text-slate-400 px-5 pb-5 text-sm leading-relaxed">
+                            재능 진단 결과와 사용자의 <strong class="text-brand-primary">지역 정보(시/도, 시/군/구)</strong>를 기반으로 가까운 체육 시설과 프로그램을 매칭합니다. 전국 공공체육시설 데이터를 활용하여 실제로 참여 가능한 프로그램만 추천하며, 거리, 비용, 프로그램 유형 등 다양한 필터링이 가능합니다.
+                        </div>
+                    </details>
+
+                    <!-- FAQ 6: 데이터 출처 -->
+                    <details class="bg-slate-800 rounded-lg group">
+                        <summary class="list-none flex justify-between items-center p-5 cursor-pointer text-white font-medium">
+                            어떤 공공데이터를 활용하나요?
+                            <span class="transition group-open:rotate-180">
+                                <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                            </span>
+                        </summary>
+                        <div class="text-slate-400 px-5 pb-5 text-sm leading-relaxed">
+                            숨인재는 <strong class="text-brand-primary">국민체육진흥공단</strong>의 공공데이터를 활용합니다:
+                            <ul class="mt-2 space-y-1 ml-4">
+                                <li>• 전국 청소년 체력 측정 통계 데이터 (연령/성별/지역별)</li>
+                                <li>• 전국 공공체육시설 현황 데이터</li>
+                                <li>• 체육 프로그램 운영 현황 데이터</li>
+                                <li>• 장애인 체육 지원 현황 데이터</li>
+                                <li>• 생활체육 지도자 배치 현황 데이터</li>
+                            </ul>
+                        </div>
+                    </details>
+
+                    <!-- FAQ 7: 비용 -->
+                    <details class="bg-slate-800 rounded-lg group">
+                        <summary class="list-none flex justify-between items-center p-5 cursor-pointer text-white font-medium">
+                            서비스 이용 비용이 있나요?
+                            <span class="transition group-open:rotate-180">
+                                <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                            </span>
+                        </summary>
+                        <div class="text-slate-400 px-5 pb-5 text-sm leading-relaxed">
+                            숨인재는 <strong class="text-brand-primary">완전 무료</strong> 서비스입니다. 회원가입, 재능 진단, 프로그램 매칭 등 모든 기능을 무료로 이용할 수 있습니다. 다만, 매칭된 체육 시설이나 프로그램의 실제 참여 비용은 해당 기관의 정책에 따라 별도로 발생할 수 있습니다.
+                        </div>
+                    </details>
+
+                    <!-- FAQ 8: 개인정보 -->
+                    <details class="bg-slate-800 rounded-lg group">
+                        <summary class="list-none flex justify-between items-center p-5 cursor-pointer text-white font-medium">
+                            입력한 체력 데이터는 안전하게 보관되나요?
+                            <span class="transition group-open:rotate-180">
+                                <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                            </span>
+                        </summary>
+                        <div class="text-slate-400 px-5 pb-5 text-sm leading-relaxed">
+                            네, 사용자의 체력 데이터는 <strong class="text-brand-primary">암호화되어 안전하게 보관</strong>됩니다. 입력된 데이터는 재능 분석과 프로그램 매칭 목적으로만 사용되며, 제3자에게 절대 제공되지 않습니다. 회원 탈퇴 시 모든 데이터가 즉시 삭제됩니다. 자세한 내용은 <a href="#" onclick="showPrivacyPage(); return false;" class="text-brand-primary hover:underline">개인정보처리방침</a>을 확인해주세요.
                         </div>
                     </details>
                 </div>
@@ -940,9 +1033,9 @@
                     <p class="text-slate-500 text-sm">공공데이터 기반 청소년 스포츠 재능 발굴 플랫폼</p>
                 </div>
                 <div class="flex gap-6 text-sm text-slate-500">
-                    <a href="#" class="hover:text-white transition">이용약관</a>
-                    <a href="#" class="hover:text-white transition">개인정보처리방침</a>
-                    <a href="#" class="hover:text-white transition">문의하기</a>
+                    <a href="#" onclick="showTermsPage(); return false;" class="hover:text-white transition">이용약관</a>
+                    <a href="#" onclick="showPrivacyPage(); return false;" class="hover:text-white transition">개인정보처리방침</a>
+                    <a href="#" onclick="showContactPage(); return false;" class="hover:text-white transition">문의하기</a>
                 </div>
             </div>
         </footer>
@@ -1968,40 +2061,56 @@
             const prevIndex = currentHeroCard;
             currentHeroCard = index;
 
-            // 현재 카드 페이드 아웃 + 슬라이드
-            cards[prevIndex].style.transition = 'opacity 0.6s ease-in-out, transform 0.6s ease-in-out';
-            cards[prevIndex].style.opacity = '0';
-            cards[prevIndex].style.transform = 'translateX(-30px) scale(0.95)';
+            // 방향 결정 (다음 카드로 가는지, 이전 카드로 가는지)
+            const direction = index > prevIndex ? 1 : -1;
 
-            // 새 카드 준비 (오른쪽에서 시작)
+            // 부드러운 이징 함수
+            const smoothEasing = 'cubic-bezier(0.4, 0, 0.2, 1)';
+            const duration = '0.8s';
+
+            // 새 카드 준비 (방향에 따라 위치 설정)
             cards[index].style.transition = 'none';
             cards[index].style.opacity = '0';
-            cards[index].style.transform = 'translateX(30px) scale(0.95)';
+            cards[index].style.transform = `translateX(${direction * 50}px) scale(0.98)`;
             cards[index].style.position = 'absolute';
+            cards[index].style.zIndex = '10';
             cards[index].classList.remove('pointer-events-none');
 
-            // 약간의 딜레이 후 새 카드 페이드 인 + 슬라이드
-            setTimeout(() => {
-                cards[index].style.transition = 'opacity 0.6s ease-in-out, transform 0.6s ease-in-out';
-                cards[index].style.opacity = '1';
-                cards[index].style.transform = 'translateX(0) scale(1)';
-            }, 50);
+            // 이전 카드 z-index 낮춤
+            cards[prevIndex].style.zIndex = '5';
+
+            // requestAnimationFrame으로 부드러운 시작
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    // 이전 카드 페이드 아웃 + 슬라이드 (반대 방향으로)
+                    cards[prevIndex].style.transition = `opacity ${duration} ${smoothEasing}, transform ${duration} ${smoothEasing}`;
+                    cards[prevIndex].style.opacity = '0';
+                    cards[prevIndex].style.transform = `translateX(${-direction * 30}px) scale(0.96)`;
+
+                    // 새 카드 페이드 인 + 슬라이드 (동시에!)
+                    cards[index].style.transition = `opacity ${duration} ${smoothEasing}, transform ${duration} ${smoothEasing}`;
+                    cards[index].style.opacity = '1';
+                    cards[index].style.transform = 'translateX(0) scale(1)';
+                });
+            });
 
             // 전환 완료 후 처리
             setTimeout(() => {
                 cards[prevIndex].classList.add('pointer-events-none');
                 cards[prevIndex].style.position = 'absolute';
+                cards[prevIndex].style.zIndex = '1';
                 cards[index].style.position = 'relative';
+                cards[index].style.zIndex = '10';
                 isTransitioning = false;
-            }, 650);
+            }, 850);
 
-            // 인디케이터 업데이트
+            // 인디케이터 업데이트 (더 부드러운 전환)
             dots.forEach((dot, i) => {
-                dot.style.transition = 'all 0.3s ease';
+                dot.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
                 if (i === index) {
                     dot.classList.remove('bg-slate-600');
                     dot.classList.add('bg-brand-primary');
-                    dot.style.transform = 'scale(1.3)';
+                    dot.style.transform = 'scale(1.4)';
                 } else {
                     dot.classList.add('bg-slate-600');
                     dot.classList.remove('bg-brand-primary');
