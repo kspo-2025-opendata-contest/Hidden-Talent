@@ -4028,22 +4028,16 @@
         async function loadRegions() {
             try {
                 const regions = await SoominjaeAPI.getProgramRegions();
-                const select = document.querySelector('#diagnosis-form select:nth-of-type(2)');
-                if (select && regions) {
-                    let options = '';
-                    Object.keys(regions).forEach(sido => {
-                        const sigungus = regions[sido] || [];
-                        if (sigungus.length > 0) {
-                            sigungus.forEach(sigungu => {
-                                options += `<option>${sido} ${sigungu}</option>`;
-                            });
-                        } else {
-                            options += `<option>${sido}</option>`;
-                        }
+                // 전역 변수에 저장 (다른 함수에서도 사용)
+                programRegionsData = regions;
+
+                // 진단 폼 시/도 select 채우기
+                const sidoSelect = document.getElementById('diagnosis-sido');
+                if (sidoSelect && regions) {
+                    sidoSelect.innerHTML = '<option value="">선택</option>';
+                    Object.keys(regions).sort().forEach(sido => {
+                        sidoSelect.innerHTML += `<option value="${sido}">${sido}</option>`;
                     });
-                    if (options) {
-                        select.innerHTML = options;
-                    }
                 }
             } catch (error) {
                 console.log('지역 목록 로드 실패 (기본값 사용)');
