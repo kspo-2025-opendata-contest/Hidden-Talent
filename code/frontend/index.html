@@ -325,7 +325,7 @@
                     <!-- Card Carousel Container -->
                     <div class="relative" id="hero-card-carousel">
                         <!-- Card Indicators -->
-                        <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2 z-20">
+                        <div class="absolute -bottom-12 left-1/2 transform -translate-x-1/2 flex gap-2 z-20">
                             <button onclick="showHeroCard(0)" class="hero-card-dot w-2 h-2 rounded-full bg-brand-primary transition-all" data-index="0"></button>
                             <button onclick="showHeroCard(1)" class="hero-card-dot w-2 h-2 rounded-full bg-slate-600 transition-all" data-index="1"></button>
                             <button onclick="showHeroCard(2)" class="hero-card-dot w-2 h-2 rounded-full bg-slate-600 transition-all" data-index="2"></button>
@@ -2283,17 +2283,14 @@
             const prevIndex = currentHeroCard;
             currentHeroCard = index;
 
-            // 방향 결정 (다음 카드로 가는지, 이전 카드로 가는지)
-            const direction = index > prevIndex ? 1 : -1;
+            // 부드러운 페이드 전환
+            const duration = '0.5s';
+            const easing = 'ease-in-out';
 
-            // 부드러운 이징 함수
-            const smoothEasing = 'cubic-bezier(0.4, 0, 0.2, 1)';
-            const duration = '0.8s';
-
-            // 새 카드 준비 (방향에 따라 위치 설정)
+            // 새 카드 준비
             cards[index].style.transition = 'none';
             cards[index].style.opacity = '0';
-            cards[index].style.transform = `translateX(${direction * 50}px) scale(0.98)`;
+            cards[index].style.transform = 'scale(1)';
             cards[index].style.position = 'absolute';
             cards[index].style.zIndex = '10';
             cards[index].classList.remove('pointer-events-none');
@@ -2304,15 +2301,13 @@
             // requestAnimationFrame으로 부드러운 시작
             requestAnimationFrame(() => {
                 requestAnimationFrame(() => {
-                    // 이전 카드 페이드 아웃 + 슬라이드 (반대 방향으로)
-                    cards[prevIndex].style.transition = `opacity ${duration} ${smoothEasing}, transform ${duration} ${smoothEasing}`;
+                    // 이전 카드 페이드 아웃
+                    cards[prevIndex].style.transition = `opacity ${duration} ${easing}`;
                     cards[prevIndex].style.opacity = '0';
-                    cards[prevIndex].style.transform = `translateX(${-direction * 30}px) scale(0.96)`;
 
-                    // 새 카드 페이드 인 + 슬라이드 (동시에!)
-                    cards[index].style.transition = `opacity ${duration} ${smoothEasing}, transform ${duration} ${smoothEasing}`;
+                    // 새 카드 페이드 인
+                    cards[index].style.transition = `opacity ${duration} ${easing}`;
                     cards[index].style.opacity = '1';
-                    cards[index].style.transform = 'translateX(0) scale(1)';
                 });
             });
 
@@ -2324,7 +2319,7 @@
                 cards[index].style.position = 'relative';
                 cards[index].style.zIndex = '10';
                 isTransitioning = false;
-            }, 850);
+            }, 550);
 
             // 인디케이터 업데이트 (더 부드러운 전환)
             dots.forEach((dot, i) => {
