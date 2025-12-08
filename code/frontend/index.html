@@ -1106,12 +1106,19 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div>
-                                    <label class="block text-slate-400 text-xs mb-1">지역 (시/군/구)</label>
-                                    <select class="w-full bg-slate-700 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-brand-primary">
-                                        <option>서울시 송파구</option>
-                                        <option>경기도 성남시</option>
-                                    </select>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-slate-400 text-xs mb-1">시/도</label>
+                                        <select id="diagnosis-sido" onchange="loadDiagnosisSigungu()" class="w-full bg-slate-700 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-brand-primary custom-select">
+                                            <option value="">선택</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-slate-400 text-xs mb-1">시/군/구</label>
+                                        <select id="diagnosis-sigungu" class="w-full bg-slate-700 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-brand-primary custom-select">
+                                            <option value="">선택</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div>
                                     <label class="block text-slate-400 text-xs mb-1">장애 유형 (해당시 선택)</label>
@@ -2544,23 +2551,25 @@
         async function handleDiagnosis(event) {
             event.preventDefault();
             const form = event.target;
-            const inputs = form.querySelectorAll('input, select');
+            const inputs = form.querySelectorAll('input');
 
             // 폼 데이터 추출
             const age = parseInt(inputs[0].value) || 14;
-            const gender = inputs[1].value === '남성' ? 'M' : 'F';
-            const regionSelect = inputs[2];
-            const regionText = regionSelect.value;
-            const [region_sido, region_sigungu] = regionText.split(' ');
+            const genderSelect = form.querySelectorAll('select')[0];
+            const gender = genderSelect.value === '남성' ? 'M' : 'F';
+
+            // 지역 (새로운 분리된 select)
+            const region_sido = document.getElementById('diagnosis-sido').value;
+            const region_sigungu = document.getElementById('diagnosis-sigungu').value;
 
             // 장애 유형
             const disabilitySelect = document.getElementById('disability-type');
             const disability_type = disabilitySelect ? disabilitySelect.value : '';
 
-            const grip_strength = parseFloat(inputs[4].value) || null;
-            const sit_ups = parseInt(inputs[5].value) || null;
-            const standing_long_jump = parseInt(inputs[6].value) || null;
-            const shuttle_run_20m = parseInt(inputs[7].value) || null;
+            const grip_strength = parseFloat(inputs[1].value) || null;
+            const sit_ups = parseInt(inputs[2].value) || null;
+            const standing_long_jump = parseInt(inputs[3].value) || null;
+            const shuttle_run_20m = parseInt(inputs[4].value) || null;
 
             // 최소 하나 이상의 체력 데이터 필요
             if (!grip_strength && !sit_ups && !standing_long_jump && !shuttle_run_20m) {
@@ -3017,6 +3026,9 @@
                 console.error('지역 데이터 로드 실패:', e);
             }
 
+            // 진단 폼 지역도 초기화
+            initDiagnosisRegions();
+
             // 프로그램 로드
             loadPrograms();
         }
@@ -3027,6 +3039,30 @@
             const selectedSido = sidoSelect.value;
 
             sigunguSelect.innerHTML = '<option value="">전체</option>';
+            if (selectedSido && programRegionsData[selectedSido]) {
+                programRegionsData[selectedSido].forEach(sigungu => {
+                    sigunguSelect.innerHTML += `<option value="${sigungu}">${sigungu}</option>`;
+                });
+            }
+        }
+
+        // 진단 폼 지역 초기화
+        function initDiagnosisRegions() {
+            const sidoSelect = document.getElementById('diagnosis-sido');
+            if (sidoSelect && Object.keys(programRegionsData).length > 0) {
+                sidoSelect.innerHTML = '<option value="">선택</option>';
+                Object.keys(programRegionsData).sort().forEach(sido => {
+                    sidoSelect.innerHTML += `<option value="${sido}">${sido}</option>`;
+                });
+            }
+        }
+
+        function loadDiagnosisSigungu() {
+            const sidoSelect = document.getElementById('diagnosis-sido');
+            const sigunguSelect = document.getElementById('diagnosis-sigungu');
+            const selectedSido = sidoSelect.value;
+
+            sigunguSelect.innerHTML = '<option value="">선택</option>';
             if (selectedSido && programRegionsData[selectedSido]) {
                 programRegionsData[selectedSido].forEach(sigungu => {
                     sigunguSelect.innerHTML += `<option value="${sigungu}">${sigungu}</option>`;
