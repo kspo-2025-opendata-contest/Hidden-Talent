@@ -8,8 +8,26 @@
 from typing import Dict, Tuple, Optional
 
 
-# 체력 항목별 정규화 기준 (min, max)
-# 중학생 기준, 추후 연령/성별별 세분화 가능
+# 체력 항목별 정규화 기준 (min, max) - 성별에 따라 분리
+# 실제 체력측정 데이터 기반 (청소년 기준)
+NORMALIZATION_RANGES_BY_GENDER = {
+    "M": {  # 남성
+        "grip_strength": (15.0, 50.0),      # 악력 (kg) - 남성 청소년 기준
+        "sit_ups": (15, 65),                # 윗몸일으키기 (회/분)
+        "standing_long_jump": (140.0, 280.0),  # 제자리멀리뛰기 (cm)
+        "shuttle_run_20m": (20, 100),       # 왕복오래달리기 (회)
+        "sit_and_reach": (-10.0, 25.0),     # 좌전굴 (cm) - 남성은 유연성이 낮음
+    },
+    "F": {  # 여성
+        "grip_strength": (10.0, 35.0),      # 악력 (kg) - 여성 청소년 기준
+        "sit_ups": (8, 45),                 # 윗몸일으키기 (회/분)
+        "standing_long_jump": (100.0, 220.0),  # 제자리멀리뛰기 (cm)
+        "shuttle_run_20m": (15, 80),        # 왕복오래달리기 (회)
+        "sit_and_reach": (-5.0, 35.0),      # 좌전굴 (cm) - 여성은 유연성이 높음
+    },
+}
+
+# 기본 정규화 기준 (성별 미지정시 사용)
 NORMALIZATION_RANGES = {
     "grip_strength": (10.0, 45.0),      # 악력 (kg)
     "sit_ups": (10, 60),                # 윗몸일으키기 (회/분)
@@ -254,28 +272,35 @@ def normalize_all_metrics(
     standing_long_jump: Optional[float] = None,
     shuttle_run_20m: Optional[int] = None,
     sit_and_reach: Optional[float] = None,
+    gender: Optional[str] = None,
 ) -> Dict[str, float]:
-    """모든 체력 항목을 정규화"""
+    """모든 체력 항목을 정규화 (성별에 따른 기준 적용)"""
+    # 성별에 따른 정규화 기준 선택
+    if gender and gender in NORMALIZATION_RANGES_BY_GENDER:
+        ranges = NORMALIZATION_RANGES_BY_GENDER[gender]
+    else:
+        ranges = NORMALIZATION_RANGES
+
     return {
         "grip_strength": normalize_score(
             grip_strength,
-            *NORMALIZATION_RANGES["grip_strength"]
+            *ranges["grip_strength"]
         ),
         "sit_ups": normalize_score(
             float(sit_ups) if sit_ups is not None else None,
-            *NORMALIZATION_RANGES["sit_ups"]
+            *ranges["sit_ups"]
         ),
         "standing_long_jump": normalize_score(
             standing_long_jump,
-            *NORMALIZATION_RANGES["standing_long_jump"]
+            *ranges["standing_long_jump"]
         ),
         "shuttle_run_20m": normalize_score(
             float(shuttle_run_20m) if shuttle_run_20m is not None else None,
-            *NORMALIZATION_RANGES["shuttle_run_20m"]
+            *ranges["shuttle_run_20m"]
         ),
         "sit_and_reach": normalize_score(
             sit_and_reach,
-            *NORMALIZATION_RANGES["sit_and_reach"]
+            *ranges["sit_and_reach"]
         ),
     }
 
@@ -321,15 +346,17 @@ def calculate_all_sport_scores(
     shuttle_run_20m: Optional[int] = None,
     sit_and_reach: Optional[float] = None,
     disability_type: Optional[str] = None,
+    gender: Optional[str] = None,
 ) -> list:
-    """모든 종목에 대한 재능 점수 계산 (장애 유형 지원)"""
-    # 체력 항목 정규화
+    """모든 종목에 대한 재능 점수 계산 (장애 유형 및 성별 지원)"""
+    # 체력 항목 정규화 (성별에 따른 기준 적용)
     norm_scores = normalize_all_metrics(
         grip_strength=grip_strength,
         sit_ups=sit_ups,
         standing_long_jump=standing_long_jump,
         shuttle_run_20m=shuttle_run_20m,
         sit_and_reach=sit_and_reach,
+        gender=gender,
     )
 
     results = []

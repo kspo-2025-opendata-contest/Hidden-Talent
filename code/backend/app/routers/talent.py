@@ -59,7 +59,7 @@ async def create_talent_score(
     db.commit()
     db.refresh(talent_test)
 
-    # 종목별 점수 계산 (장애 유형 포함)
+    # 종목별 점수 계산 (장애 유형 및 성별 포함)
     sport_scores = calculate_all_sport_scores(
         grip_strength=request.grip_strength,
         sit_ups=request.sit_ups,
@@ -67,6 +67,7 @@ async def create_talent_score(
         shuttle_run_20m=request.shuttle_run_20m,
         sit_and_reach=request.sit_and_reach,
         disability_type=request.disability_type.value if request.disability_type else None,
+        gender=request.gender.value,
     )
 
     # TalentScore 레코드들 생성
