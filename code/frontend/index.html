@@ -1503,6 +1503,207 @@
                                 <div class="text-center py-4 text-slate-500 col-span-full">데이터 분석 중...</div>
                             </div>
                         </div>
+
+                        <!-- 데이터 심층 분석: 시도별 시설 수 격차 원인 분석 -->
+                        <div class="bg-slate-900 p-6 rounded-xl border border-slate-700">
+                            <h4 class="text-white font-bold mb-4 flex items-center gap-2">
+                                <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                                데이터 심층 분석: 시도별 시설 수 격차 원인
+                            </h4>
+                            <p class="text-slate-400 text-xs mb-6">경상북도가 서울보다 공공체육시설이 많은 이유와 데이터 해석 가이드</p>
+
+                            <!-- 핵심 인사이트 -->
+                            <div class="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4 mb-6">
+                                <div class="flex items-start gap-3">
+                                    <div class="w-8 h-8 bg-blue-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                        <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    </div>
+                                    <div>
+                                        <h5 class="text-blue-400 font-bold text-sm mb-2">핵심 인사이트</h5>
+                                        <p class="text-slate-300 text-sm leading-relaxed">
+                                            전국 공공체육시설의 <span class="text-blue-400 font-bold">75.5%</span>가 <span class="text-white font-bold">"간이운동장(마을체육시설)"</span>입니다.
+                                            이는 농어촌 지역의 마을(리) 단위로 설치되는 소규모 운동장으로, 마을 수가 많은 지역일수록 시설 수가 많아집니다.
+                                            경상북도는 대한민국에서 가장 넓은 광역자치단체로서 수천 개의 마을을 보유하고 있어 시설 수가 많습니다.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 시설 유형별 비중 -->
+                            <div class="mb-6">
+                                <h5 class="text-white font-bold text-sm mb-4 flex items-center gap-2">
+                                    <span class="w-2 h-2 bg-brand-primary rounded-full"></span>
+                                    전국 공공체육시설 유형별 비중 (2020년 기준)
+                                </h5>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                    <div class="bg-slate-800 p-4 rounded-lg text-center">
+                                        <div class="text-2xl font-bold text-brand-primary">75.5%</div>
+                                        <div class="text-xs text-slate-400 mt-1">간이운동장</div>
+                                        <div class="text-xs text-slate-500">(마을체육시설)</div>
+                                        <div class="text-xs text-brand-primary mt-1">23,834개</div>
+                                    </div>
+                                    <div class="bg-slate-800 p-4 rounded-lg text-center">
+                                        <div class="text-2xl font-bold text-slate-300">5.5%</div>
+                                        <div class="text-xs text-slate-400 mt-1">게이트볼장</div>
+                                        <div class="text-xs text-slate-500">(주로 농촌)</div>
+                                        <div class="text-xs text-slate-400 mt-1">1,742개</div>
+                                    </div>
+                                    <div class="bg-slate-800 p-4 rounded-lg text-center">
+                                        <div class="text-2xl font-bold text-slate-300">3.8%</div>
+                                        <div class="text-xs text-slate-400 mt-1">체육관</div>
+                                        <div class="text-xs text-slate-500">(대형시설)</div>
+                                        <div class="text-xs text-slate-400 mt-1">1,194개</div>
+                                    </div>
+                                    <div class="bg-slate-800 p-4 rounded-lg text-center">
+                                        <div class="text-2xl font-bold text-slate-300">15.2%</div>
+                                        <div class="text-xs text-slate-400 mt-1">기타</div>
+                                        <div class="text-xs text-slate-500">(축구장, 테니스장 등)</div>
+                                        <div class="text-xs text-slate-400 mt-1">4,784개</div>
+                                    </div>
+                                </div>
+                                <p class="text-slate-500 text-xs mt-3 text-right">
+                                    출처: <a href="https://narasallim.net/wiki/108" target="_blank" class="text-blue-400 hover:underline">나라살림연구소</a>,
+                                    <a href="https://www.mcst.go.kr/kor/s_policy/dept/deptView.jsp?pSeq=1965" target="_blank" class="text-blue-400 hover:underline">문화체육관광부 전국 공공체육시설 현황</a>
+                                </p>
+                            </div>
+
+                            <!-- 경상북도 vs 서울 비교 -->
+                            <div class="mb-6">
+                                <h5 class="text-white font-bold text-sm mb-4 flex items-center gap-2">
+                                    <span class="w-2 h-2 bg-brand-secondary rounded-full"></span>
+                                    경상북도 vs 서울 비교 분석
+                                </h5>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-sm">
+                                        <thead>
+                                            <tr class="border-b border-slate-700">
+                                                <th class="text-left py-3 px-4 text-slate-400 font-medium">비교 항목</th>
+                                                <th class="text-center py-3 px-4 text-brand-primary font-medium">경상북도</th>
+                                                <th class="text-center py-3 px-4 text-brand-secondary font-medium">서울특별시</th>
+                                                <th class="text-center py-3 px-4 text-slate-400 font-medium">비고</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="border-b border-slate-800">
+                                                <td class="py-3 px-4 text-slate-300">면적</td>
+                                                <td class="py-3 px-4 text-center text-white font-bold">19,036 km2</td>
+                                                <td class="py-3 px-4 text-center text-white">605 km2</td>
+                                                <td class="py-3 px-4 text-center text-slate-400 text-xs">경북이 31배 넓음</td>
+                                            </tr>
+                                            <tr class="border-b border-slate-800">
+                                                <td class="py-3 px-4 text-slate-300">인구</td>
+                                                <td class="py-3 px-4 text-center text-white">252만명</td>
+                                                <td class="py-3 px-4 text-center text-white font-bold">932만명</td>
+                                                <td class="py-3 px-4 text-center text-slate-400 text-xs">서울이 3.7배 많음</td>
+                                            </tr>
+                                            <tr class="border-b border-slate-800">
+                                                <td class="py-3 px-4 text-slate-300">시군구 수</td>
+                                                <td class="py-3 px-4 text-center text-white font-bold">23개</td>
+                                                <td class="py-3 px-4 text-center text-white">25개</td>
+                                                <td class="py-3 px-4 text-center text-slate-400 text-xs">비슷함</td>
+                                            </tr>
+                                            <tr class="border-b border-slate-800">
+                                                <td class="py-3 px-4 text-slate-300">읍/면 수</td>
+                                                <td class="py-3 px-4 text-center text-white font-bold">38읍 + 수백 면</td>
+                                                <td class="py-3 px-4 text-center text-white">없음 (동 단위)</td>
+                                                <td class="py-3 px-4 text-center text-slate-400 text-xs">읍 수 전국 1위</td>
+                                            </tr>
+                                            <tr class="border-b border-slate-800">
+                                                <td class="py-3 px-4 text-slate-300">마을(리) 수</td>
+                                                <td class="py-3 px-4 text-center text-white font-bold">수천 개</td>
+                                                <td class="py-3 px-4 text-center text-white">없음</td>
+                                                <td class="py-3 px-4 text-center text-slate-400 text-xs">마을체육시설 설치 대상</td>
+                                            </tr>
+                                            <tr class="border-b border-slate-800">
+                                                <td class="py-3 px-4 text-slate-300">공공체육시설 수</td>
+                                                <td class="py-3 px-4 text-center text-brand-primary font-bold">9,691개</td>
+                                                <td class="py-3 px-4 text-center text-brand-secondary font-bold">1,707개</td>
+                                                <td class="py-3 px-4 text-center text-slate-400 text-xs">경북이 5.7배 많음</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-3 px-4 text-slate-300">1만명당 시설 수</td>
+                                                <td class="py-3 px-4 text-center text-brand-primary font-bold">38.46개</td>
+                                                <td class="py-3 px-4 text-center text-brand-secondary">1.83개</td>
+                                                <td class="py-3 px-4 text-center text-slate-400 text-xs">경북 1위, 서울 최하위</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <p class="text-slate-500 text-xs mt-3 text-right">
+                                    출처: <a href="https://www.ecojournal.co.kr/m/view.php?idx=141536" target="_blank" class="text-blue-400 hover:underline">에코저널 광역자치단체 면적 분석</a>,
+                                    <a href="https://www.data.go.kr/data/15086638/fileData.do" target="_blank" class="text-blue-400 hover:underline">경상북도 행정구역현황 공공데이터</a>
+                                </p>
+                            </div>
+
+                            <!-- 경상북도 상위 시군 시설 현황 -->
+                            <div class="mb-6">
+                                <h5 class="text-white font-bold text-sm mb-4 flex items-center gap-2">
+                                    <span class="w-2 h-2 bg-green-400 rounded-full"></span>
+                                    경상북도 시군별 시설 수 상위 5개 지역 (2025년 6월 기준)
+                                </h5>
+                                <div class="grid grid-cols-1 md:grid-cols-5 gap-3">
+                                    <div class="bg-gradient-to-br from-green-500/20 to-green-600/10 p-4 rounded-lg border border-green-500/30 text-center">
+                                        <div class="text-xs text-green-400 font-bold mb-1">1위</div>
+                                        <div class="text-white font-bold">상주시</div>
+                                        <div class="text-2xl font-bold text-green-400">1,002</div>
+                                        <div class="text-xs text-slate-400 mt-1">면적 1,255km2</div>
+                                    </div>
+                                    <div class="bg-slate-800 p-4 rounded-lg text-center">
+                                        <div class="text-xs text-slate-400 font-bold mb-1">2위</div>
+                                        <div class="text-white font-bold">경주시</div>
+                                        <div class="text-2xl font-bold text-slate-300">790</div>
+                                        <div class="text-xs text-slate-400 mt-1">면적 1,325km2</div>
+                                    </div>
+                                    <div class="bg-slate-800 p-4 rounded-lg text-center">
+                                        <div class="text-xs text-slate-400 font-bold mb-1">3위</div>
+                                        <div class="text-white font-bold">의성군</div>
+                                        <div class="text-2xl font-bold text-slate-300">760</div>
+                                        <div class="text-xs text-slate-400 mt-1">농촌 지역</div>
+                                    </div>
+                                    <div class="bg-slate-800 p-4 rounded-lg text-center">
+                                        <div class="text-xs text-slate-400 font-bold mb-1">4위</div>
+                                        <div class="text-white font-bold">안동시</div>
+                                        <div class="text-2xl font-bold text-slate-300">724</div>
+                                        <div class="text-xs text-slate-400 mt-1">면적 1,522km2</div>
+                                    </div>
+                                    <div class="bg-slate-800 p-4 rounded-lg text-center">
+                                        <div class="text-xs text-slate-400 font-bold mb-1">5위</div>
+                                        <div class="text-white font-bold">영주시</div>
+                                        <div class="text-2xl font-bold text-slate-300">720</div>
+                                        <div class="text-xs text-slate-400 mt-1">산간 지역</div>
+                                    </div>
+                                </div>
+                                <p class="text-slate-400 text-xs mt-3">
+                                    경상북도의 시군은 대부분 1,000km2 이상의 넓은 면적을 보유하고 있으며, 각 읍면의 마을마다 간이운동장이 설치되어 있습니다.
+                                </p>
+                            </div>
+
+                            <!-- 데이터 해석 시 주의사항 -->
+                            <div class="bg-amber-500/10 border border-amber-500/30 rounded-xl p-4">
+                                <div class="flex items-start gap-3">
+                                    <div class="w-8 h-8 bg-amber-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                        <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                                    </div>
+                                    <div>
+                                        <h5 class="text-amber-400 font-bold text-sm mb-2">데이터 해석 시 주의사항</h5>
+                                        <ul class="text-slate-300 text-sm space-y-2">
+                                            <li class="flex items-start gap-2">
+                                                <span class="text-amber-400 mt-1">1.</span>
+                                                <span><b class="text-white">시설 수 자체보다 "인구 대비 시설 수"가 더 중요한 지표입니다.</b> 서울은 시설 수는 적지만 인구밀도가 높아 시설 접근성이 낮습니다.</span>
+                                            </li>
+                                            <li class="flex items-start gap-2">
+                                                <span class="text-amber-400 mt-1">2.</span>
+                                                <span><b class="text-white">시설의 "규모"와 "품질"은 반영되지 않습니다.</b> 대형 체육관 1개와 소규모 간이운동장 1개가 동일하게 1개로 집계됩니다.</span>
+                                            </li>
+                                            <li class="flex items-start gap-2">
+                                                <span class="text-amber-400 mt-1">3.</span>
+                                                <span><b class="text-white">농어촌 시설의 노후화 문제가 있습니다.</b> 문화체육관광부 자료에 따르면 경상북도의 10년 이상 노후 시설 비율은 12.82%로 서울(2%)보다 훨씬 높습니다.</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
