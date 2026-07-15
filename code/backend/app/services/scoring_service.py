@@ -9,31 +9,35 @@ from typing import Dict, Tuple, Optional
 
 
 # 체력 항목별 정규화 기준 (min, max) - 성별에 따라 분리
-# 실제 체력측정 데이터 기반 (청소년 기준)
+# 출처: 국민체력100 「체력측정 및 운동처방 종합 데이터」 2025.06~2026.03 (문화빅데이터플랫폼)
+#   - 청소년(AGRDE_FLAG_NM='청소년') 35,522명 실측 표본의 성별 5~95 백분위(p5~p95)로 산출
+#   - 항목 매핑(공식 컬럼정의서): 악력=IEM_007/008(좌우 최대), 윗몸일으키기=IEM_009(윗몸말아올리기),
+#     제자리멀리뛰기=IEM_022, 왕복오래달리기=IEM_020, 좌전굴=IEM_012(앉아윗몸앞으로굽히기)
+#   - 재산출 스크립트: app/scripts/recompute_norms.py (재현 가능)
 NORMALIZATION_RANGES_BY_GENDER = {
-    "M": {  # 남성
-        "grip_strength": (15.0, 50.0),      # 악력 (kg) - 남성 청소년 기준
-        "sit_ups": (15, 65),                # 윗몸일으키기 (회/분)
-        "standing_long_jump": (140.0, 280.0),  # 제자리멀리뛰기 (cm)
-        "shuttle_run_20m": (20, 100),       # 왕복오래달리기 (회)
-        "sit_and_reach": (-10.0, 25.0),     # 좌전굴 (cm) - 남성은 유연성이 낮음
+    "M": {  # 남성 청소년 (n=22,864)
+        "grip_strength": (26.0, 55.0),      # 악력 (kg)
+        "sit_ups": (10, 80),                # 윗몸일으키기(윗몸말아올리기) (회)
+        "standing_long_jump": (138.0, 250.0),  # 제자리멀리뛰기 (cm)
+        "shuttle_run_20m": (11, 77),        # 20m 왕복오래달리기 (회)
+        "sit_and_reach": (-10.0, 22.0),     # 좌전굴 (cm)
     },
-    "F": {  # 여성
-        "grip_strength": (10.0, 35.0),      # 악력 (kg) - 여성 청소년 기준
-        "sit_ups": (8, 45),                 # 윗몸일으키기 (회/분)
-        "standing_long_jump": (100.0, 220.0),  # 제자리멀리뛰기 (cm)
-        "shuttle_run_20m": (15, 80),        # 왕복오래달리기 (회)
-        "sit_and_reach": (-5.0, 35.0),      # 좌전굴 (cm) - 여성은 유연성이 높음
+    "F": {  # 여성 청소년 (n=12,658)
+        "grip_strength": (18.0, 35.0),      # 악력 (kg)
+        "sit_ups": (2, 68),                 # 윗몸일으키기(윗몸말아올리기) (회)
+        "standing_long_jump": (101.0, 190.0),  # 제자리멀리뛰기 (cm)
+        "shuttle_run_20m": (7, 46),         # 20m 왕복오래달리기 (회)
+        "sit_and_reach": (-5.0, 27.0),      # 좌전굴 (cm)
     },
 }
 
-# 기본 정규화 기준 (성별 미지정시 사용)
+# 기본 정규화 기준 (성별 미지정시 사용) - 남녀 통합 청소년 p5~p95
 NORMALIZATION_RANGES = {
-    "grip_strength": (10.0, 45.0),      # 악력 (kg)
-    "sit_ups": (10, 60),                # 윗몸일으키기 (회/분)
-    "standing_long_jump": (100.0, 260.0),  # 제자리멀리뛰기 (cm)
-    "shuttle_run_20m": (5, 100),        # 왕복오래달리기 (회)
-    "sit_and_reach": (-5.0, 30.0),      # 좌전굴 (cm)
+    "grip_strength": (20.0, 53.0),      # 악력 (kg)
+    "sit_ups": (6, 80),                 # 윗몸일으키기(윗몸말아올리기) (회)
+    "standing_long_jump": (110.0, 240.0),  # 제자리멀리뛰기 (cm)
+    "shuttle_run_20m": (9, 72),         # 20m 왕복오래달리기 (회)
+    "sit_and_reach": (-9.0, 25.0),      # 좌전굴 (cm)
 }
 
 
@@ -318,14 +322,18 @@ def compute_sport_score(norm_scores: Dict[str, float], sport: str) -> float:
 
 
 def estimate_percentile_and_grade(score: float) -> Tuple[float, str]:
-    """점수를 기반으로 백분위와 등급 추정 (5단계)"""
-    if score >= 85:
+    """점수를 기반으로 백분위와 등급 추정 (5단계)
+
+    임계값은 국민체력100 청소년 실측 표본(2025.06~2026.03, 완전측정 6,272명)의
+    실제 점수 분포로 보정하여 각 등급의 백분위 주장이 실제 비율과 일치하도록 설정.
+    """
+    if score >= 82:
         return (95.0, "excellent")  # 최우수 - 상위 5%
-    elif score >= 70:
+    elif score >= 69:
         return (85.0, "high")  # 우수 - 상위 15%
-    elif score >= 55:
+    elif score >= 54:
         return (65.0, "above_average")  # 평균 이상 - 상위 35%
-    elif score >= 40:
+    elif score >= 43:
         return (45.0, "average")  # 평균 - 상위 55%
     else:
         return (25.0, "below_average")  # 평균 이하 - 하위

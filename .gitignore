@@ -17,6 +17,12 @@ build/
 .env.local
 .env.*.local
 
+# Secrets / credentials (NEVER commit)
+SECRETS.local.md
+*.secrets
+secrets/
+*_credentials.*
+
 # IDE
 .idea/
 .vscode/
@@ -56,3 +62,14 @@ Thumbs.db
 
 # Large data files (exceeds GitHub 100MB limit)
 data/청소년 유아동 이용가능 체육시설 프로그램 정보(202510).csv
+
+# 국민체력100 원본 월별 데이터 (재산출 소스, 대용량 87MB) - 재산출 스크립트로 재현
+code/backend/data/국민체력100_202506-202603/
+
+# OMC 운영 아티팩트
+.omc/
+
+# 내부 문서/스크립트 (공개 repo에 올리지 않음)
+발표 Q&A 예상 질문 및 답변.md
+DB_보안_분석_보고서.md
+code/backend/check_db_security.py
