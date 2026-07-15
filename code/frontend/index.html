@@ -3327,40 +3327,55 @@
             'para_table_tennis': '탁구'
         };
 
+        // 장애인 스포츠 종목 (진단 결과가 이 종목이면 장애 학생 → 장애인 체육 프로그램만 추천)
+        const DISABILITY_SPORTS = new Set([
+            'para_swimming', 'para_athletics', 'boccia', 'goalball',
+            'sitting_volleyball', 'wheelchair_basketball', 'wheelchair_tennis', 'para_table_tennis'
+        ]);
+
         async function loadRecommendedPrograms(regionSido, regionSigungu, sport) {
             const container = document.getElementById('recommended-programs-container');
             if (!container) return;
 
             try {
                 const keyword = SPORT_SEARCH_KEYWORDS[sport] || '';
+                // 장애 학생이면 장애인 체육 프로그램으로만 한정 (일반 프로그램 추천 금지)
+                const isDisability = DISABILITY_SPORTS.has(sport);
+                const dis = isDisability ? { disability: true } : {};
 
                 // 1차: 지역 + 종목으로 검색
                 let programs = await SoominjaeAPI.getPrograms({
                     region_sido: regionSido,
                     region_sigungu: regionSigungu,
                     keyword: keyword,
+                    ...dis,
                     limit: 5
                 });
 
-                // 결과 없으면 지역만으로 검색
+                // 결과 없으면 지역(시/도)만으로 검색 (장애 학생은 disability 범위 유지)
                 if (programs.items.length === 0) {
                     programs = await SoominjaeAPI.getPrograms({
                         region_sido: regionSido,
-                        keyword: keyword,
+                        ...dis,
                         limit: 5
                     });
                 }
 
-                // 여전히 없으면 전국에서 종목으로 검색
+                // 여전히 없으면 전국에서 검색 (장애 학생은 전국 장애인 프로그램)
                 if (programs.items.length === 0) {
                     programs = await SoominjaeAPI.getPrograms({
-                        keyword: keyword,
+                        ...(isDisability ? dis : { keyword: keyword }),
                         limit: 5
                     });
                 }
 
                 if (programs.items.length === 0) {
-                    container.innerHTML = `
+                    container.innerHTML = isDisability ? `
+                        <div class="text-center py-4">
+                            <p class="text-slate-400 text-sm">현재 등록된 장애인 체육 프로그램을 찾지 못했습니다.</p>
+                            <p class="text-slate-500 text-xs mt-1">가까운 <span class="text-brand-primary">지역 장애인체육회</span>에 문의하시면 맞춤 프로그램을 안내받으실 수 있습니다.</p>
+                        </div>
+                    ` : `
                         <div class="text-center py-4">
                             <p class="text-slate-400 text-sm">해당 지역에 관련 프로그램이 없습니다.</p>
                             <p class="text-slate-500 text-xs mt-1">다른 지역의 프로그램을 확인해보세요.</p>
@@ -3421,6 +3436,10 @@
 
             const keyword = SPORT_SEARCH_KEYWORDS[sport] || '';
             const sportName = SPORT_NAMES_KO[sport] || sport;
+            // 장애 학생이면 장애인 체육 프로그램으로만 한정
+            const isDisability = DISABILITY_SPORTS.has(sport);
+            const dis = isDisability ? { disability: true } : {};
+            const progLabel = isDisability ? '장애인 체육' : sportName;
             let searchInfo = '';
             let foundInUserRegion = false;
 
@@ -3433,25 +3452,29 @@
                         region_sido: regionSido,
                         region_sigungu: regionSigungu || undefined,
                         keyword: keyword,
+                        ...dis,
                         limit: 5
                     });
 
                     if (programs.items.length > 0) {
                         foundInUserRegion = true;
-                        searchInfo = `${regionSido} ${regionSigungu || ''} 지역의 ${sportName} 관련 프로그램`;
+                        searchInfo = `${regionSido} ${regionSigungu || ''} 지역의 ${progLabel} 관련 프로그램`;
                     }
                 }
 
-                // 2단계: 사용자 지역에서 종목 제외하고 검색
+                // 2단계: 사용자 지역에서 종목 제외하고 검색 (장애 학생은 disability 범위 유지)
                 if (programs.items.length === 0 && regionSido) {
                     programs = await SoominjaeAPI.getPrograms({
                         region_sido: regionSido,
+                        ...dis,
                         limit: 5
                     });
 
                     if (programs.items.length > 0) {
                         foundInUserRegion = true;
-                        searchInfo = `${regionSido} ${regionSigungu || ''} 지역의 체육 프로그램 (${sportName} 프로그램은 없음)`;
+                        searchInfo = isDisability
+                            ? `${regionSido} ${regionSigungu || ''} 지역의 장애인 체육 프로그램`
+                            : `${regionSido} ${regionSigungu || ''} 지역의 체육 프로그램 (${sportName} 프로그램은 없음)`;
                     }
                 }
 
@@ -3460,24 +3483,25 @@
                     programs = await SoominjaeAPI.getPrograms({
                         region_sido: regionSido,
                         keyword: keyword,
+                        ...dis,
                         limit: 5
                     });
 
                     if (programs.items.length > 0) {
-                        searchInfo = `${regionSido} 내 다른 지역의 ${sportName} 프로그램 (${regionSigungu || '해당 지역'}에는 없음)`;
+                        searchInfo = `${regionSido} 내 다른 지역의 ${progLabel} 프로그램 (${regionSigungu || '해당 지역'}에는 없음)`;
                     }
                 }
 
-                // 4단계: 전국에서 종목으로 검색
+                // 4단계: 전국에서 검색 (장애 학생은 전국 장애인 프로그램)
                 if (programs.items.length === 0) {
                     programs = await SoominjaeAPI.getPrograms({
-                        keyword: keyword,
+                        ...(isDisability ? dis : { keyword: keyword }),
                         limit: 5
                     });
 
                     if (programs.items.length > 0) {
                         const userRegionText = regionSido ? `${regionSido} ${regionSigungu || ''}` : '등록된 지역';
-                        searchInfo = `${userRegionText}에 ${sportName} 프로그램이 없어 전국에서 검색한 결과`;
+                        searchInfo = `${userRegionText}에 ${progLabel} 프로그램이 없어 전국에서 검색한 결과`;
                     }
                 }
 
@@ -3499,7 +3523,12 @@
 
                 // 결과 없음
                 if (programs.items.length === 0) {
-                    container.innerHTML = `
+                    container.innerHTML = isDisability ? `
+                        <div class="text-center py-4">
+                            <p class="text-slate-400 text-sm">현재 등록된 장애인 체육 프로그램을 찾지 못했습니다.</p>
+                            <p class="text-slate-500 text-xs mt-1">가까운 <span class="text-brand-primary">지역 장애인체육회</span>에 문의하시면 맞춤 프로그램을 안내받으실 수 있습니다.</p>
+                        </div>
+                    ` : `
                         <div class="text-center py-4">
                             <p class="text-slate-400 text-sm">관련 프로그램을 찾을 수 없습니다.</p>
                             <button onclick="goToMatchingFromModal()" class="mt-2 text-brand-primary text-sm underline">프로그램 검색하기</button>

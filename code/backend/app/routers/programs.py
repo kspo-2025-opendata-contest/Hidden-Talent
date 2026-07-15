@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
+from sqlalchemy import or_
 from typing import Optional, List
 from app.database import get_db
 from app.schemas.program import ProgramResponse, ProgramListResponse
@@ -7,6 +8,9 @@ from app.models.program import Program
 
 
 router = APIRouter()
+
+# 장애인 체육 프로그램 식별 키워드 (프로그램명/시설명/대상 그룹)
+DISABILITY_KEYWORDS = ["장애", "파라", "휠체어", "보치아", "골볼"]
 
 
 @router.get("", response_model=ProgramListResponse)
@@ -18,6 +22,7 @@ async def get_programs(
     target_group: Optional[str] = Query(None, description="대상 그룹 필터 (청소년, 성인 등)"),
     industry_name: Optional[str] = Query(None, description="업종명 필터 (수영장, 체육관 등)"),
     keyword: Optional[str] = Query(None, description="프로그램명 또는 시설명 검색"),
+    disability: Optional[bool] = Query(None, description="장애인 체육 프로그램만 조회 (True 시 장애인/파라 등 접근성 프로그램으로 한정)"),
     page: int = Query(1, ge=1, description="페이지 번호"),
     limit: int = Query(20, ge=1, le=100, description="페이지당 개수"),
 ):
@@ -44,6 +49,15 @@ async def get_programs(
             (Program.program_name.ilike(f"%{keyword}%")) |
             (Program.facility_name.ilike(f"%{keyword}%"))
         )
+    # 장애인 체육 프로그램으로 한정 (장애 학생 맞춤 추천용)
+    if disability:
+        dis_conds = []
+        for kw in DISABILITY_KEYWORDS:
+            like = f"%{kw}%"
+            dis_conds.append(Program.program_name.ilike(like))
+            dis_conds.append(Program.facility_name.ilike(like))
+            dis_conds.append(Program.target_group.ilike(like))
+        query = query.filter(or_(*dis_conds))
 
     # 총 개수
     total = query.count()
