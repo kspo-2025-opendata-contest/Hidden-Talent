@@ -13,7 +13,7 @@ from app.models.talent import TalentTest, TalentScore, GradeLevel, Gender, Disab
 from app.models.user import User
 from app.dependencies import get_current_user, get_current_user_optional
 from app.services.scoring_service import calculate_all_sport_scores
-from app.services.gemini_client import generate_talent_comment
+from app.services.llm_client import generate_talent_comment
 
 
 router = APIRouter()
