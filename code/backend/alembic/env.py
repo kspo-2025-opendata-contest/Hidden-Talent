@@ -18,10 +18,14 @@ from app.models import *  # 모든 모델 import
 # access to the values within the .ini file in use.
 config = context.config
 
-# DATABASE_URL 설정 (psycopg2 드라이버 사용)
+# DATABASE_URL 설정 (psycopg 드라이버 사용)
 db_url = settings.DATABASE_URL
 if db_url.startswith("postgresql://"):
-    db_url = db_url.replace("postgresql://", "postgresql+psycopg2://", 1)
+    db_url = db_url.replace("postgresql://", "postgresql+psycopg://", 1)
+elif db_url.startswith("postgresql+psycopg2://"):
+    db_url = db_url.replace("postgresql+psycopg2://", "postgresql+psycopg://", 1)
+# ConfigParser의 % 인터폴레이션 문제 회피
+db_url = db_url.replace("%", "%%")
 config.set_main_option("sqlalchemy.url", db_url)
 
 # Interpret the config file for Python logging.
