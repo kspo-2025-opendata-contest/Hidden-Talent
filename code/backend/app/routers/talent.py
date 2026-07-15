@@ -12,7 +12,8 @@ from app.schemas.talent import (
 from app.models.talent import TalentTest, TalentScore, GradeLevel, Gender, DisabilityType
 from app.models.user import User
 from app.dependencies import get_current_user, get_current_user_optional
-from app.services.scoring_service import calculate_all_sport_scores
+from app.services.scoring_service import calculate_all_sport_scores, normalize_all_metrics
+from app.services.llm_client import METRIC_KO
 from app.services.llm_client import generate_talent_comment
 
 
@@ -90,15 +91,32 @@ async def create_talent_score(
 
     db.commit()
 
-    # Gemini로 코멘트 생성 (비동기, 실패해도 무시)
+    # 생성형 AI 코멘트 생성 (비동기, 실패해도 무시)
     overall_comment = None
     try:
+        # 상대적으로 두드러진 체력 요소(대표 역량) 추출
+        norm = normalize_all_metrics(
+            grip_strength=request.grip_strength,
+            sit_ups=request.sit_ups,
+            standing_long_jump=request.standing_long_jump,
+            shuttle_run_20m=request.shuttle_run_20m,
+            sit_and_reach=request.sit_and_reach,
+            gender=request.gender.value,
+        )
+        ranked = sorted(norm.items(), key=lambda kv: kv[1], reverse=True)
+        metric_strengths = [
+            METRIC_KO[m][1] for m, v in ranked[:2]
+            if v >= 60 and m in METRIC_KO
+        ]
+
         overall_comment = await generate_talent_comment(
             scores=sport_scores,
             user_profile={
                 "age": request.age,
                 "gender": request.gender.value,
                 "region_sido": request.region_sido,
+                "disability_type": request.disability_type.value if request.disability_type else None,
+                "metric_strengths": metric_strengths,
             }
         )
     except Exception:
