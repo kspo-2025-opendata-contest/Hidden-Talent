@@ -73,3 +73,6 @@ code/backend/data/국민체력100_202506-202603/
 발표 Q&A 예상 질문 및 답변.md
 DB_보안_분석_보고서.md
 code/backend/check_db_security.py
+
+# 엔지니어링 세션 로그 (내부 문서)
+엔지니어링_세션로그_*.md
